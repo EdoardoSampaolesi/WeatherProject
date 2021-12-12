@@ -4,11 +4,14 @@ import java.util.Vector;
 
 import it.project.weather.interfaces.CitiesManager;
 import it.project.weather.interfaces.City;
+import it.project.weather.interfaces.WeatherService;
 import it.project.weather.model.CityImpl;
+import it.project.weather.services.WeatherServiceImpl;
 
 public abstract class CitiesManagerImpl implements CitiesManager
 {
     protected static Vector<City> cityList;
+    protected static WeatherService wService = new WeatherServiceImpl("example");
 
     @Override
     public void add(Vector<String> citiesNames)
@@ -22,6 +25,7 @@ public abstract class CitiesManagerImpl implements CitiesManager
     public void add(String city)
     {
         City tempCity = new CityImpl(city);
+        tempCity.createFromJSON(wService.GeocodingAPI(city));
         cityList.add(tempCity);
     }
 
