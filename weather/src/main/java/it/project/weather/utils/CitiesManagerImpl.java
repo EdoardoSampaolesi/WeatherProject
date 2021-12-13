@@ -49,6 +49,17 @@ public abstract class CitiesManagerImpl implements CitiesManager
     protected abstract String getJSONString(City city);
 
     @Override
+    public String remove(Vector<String> citiesNames)
+    {
+        String response = "";
+        for (String name : citiesNames)
+        {
+            response += this.remove(name) + "\n";
+        }
+        return response;
+    }
+
+    @Override
     public String remove(String city)
     {
         if(cityList.remove(new City(city)))

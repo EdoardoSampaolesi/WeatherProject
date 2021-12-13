@@ -57,9 +57,10 @@ public class WeatherController
     }
 
     @DeleteMapping
-    public String deleteCity(@RequestBody String[] city)
+    public String deleteCity(@RequestBody String[] cities)
     {
-        return "example";
+        manager = new CitiesManagerCurrent();
+        return manager.remove(Vector.class.cast(cities));
     }
  
 }
