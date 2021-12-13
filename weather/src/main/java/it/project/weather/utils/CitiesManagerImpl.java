@@ -3,9 +3,8 @@ package it.project.weather.utils;
 import java.util.Vector;
 
 import it.project.weather.interfaces.CitiesManager;
-import it.project.weather.interfaces.City;
 import it.project.weather.interfaces.WeatherService;
-import it.project.weather.model.CityImpl;
+import it.project.weather.model.City;
 import it.project.weather.services.WeatherServiceImpl;
 
 public abstract class CitiesManagerImpl implements CitiesManager
@@ -16,7 +15,8 @@ public abstract class CitiesManagerImpl implements CitiesManager
     @Override
     public void add(Vector<String> citiesNames)
     {
-        for (String name : citiesNames) {
+        for (String name : citiesNames)
+        {
             this.add(name);
         }
     }
@@ -24,7 +24,7 @@ public abstract class CitiesManagerImpl implements CitiesManager
     @Override
     public void add(String city)
     {
-        City tempCity = new CityImpl(city);
+        City tempCity = new City(city);
         tempCity.createFromJSON(wService.GeocodingAPI(city));
         cityList.add(tempCity);
     }
@@ -38,8 +38,8 @@ public abstract class CitiesManagerImpl implements CitiesManager
     @Override
     public String remove(String city)
     {
-        if(cityList.remove(new CityImpl(city)))
+        if(cityList.remove(new City(city)))
             return "Succesful removed " + city + " from the list";
-        return "Fail";
+        return city + " wasn't part of the list";
     }
 }

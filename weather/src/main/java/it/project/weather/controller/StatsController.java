@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class StatsController {
-
+public class StatsController 
+{
     @GetMapping("/stats")
     public String createStats(@RequestParam(value="example") String[] cities ) //incomplete method
     {

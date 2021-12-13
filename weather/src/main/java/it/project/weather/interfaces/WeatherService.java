@@ -2,6 +2,8 @@ package it.project.weather.interfaces;
 
 import org.json.simple.JSONObject;
 
+import it.project.weather.model.City;
+
 public interface WeatherService 
 {
     public JSONObject OneCallAPI(City city);

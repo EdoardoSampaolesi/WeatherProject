@@ -2,10 +2,9 @@ package it.project.weather.services;
 
 import org.json.simple.JSONObject;
 
-import it.project.weather.interfaces.City;
+import it.project.weather.model.City;
 import it.project.weather.interfaces.Coord;
 import it.project.weather.interfaces.WeatherService;
-import netscape.javascript.JSObject;
 
 public class WeatherServiceImpl implements WeatherService
 {

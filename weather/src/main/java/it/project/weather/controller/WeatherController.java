@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class WeatherController 
 {
-
     @PostMapping
-    public String addCity(@RequestBody String city)
+    public String addCity(@RequestBody String[] city)
     {
         return "example";
     }
