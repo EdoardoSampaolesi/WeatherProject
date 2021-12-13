@@ -2,6 +2,7 @@ package it.project.weather.model;
 
 import org.json.simple.JSONObject;
 
+import it.project.weather.interfaces.WeatherService;
 import it.project.weather.utils.Forecast;
 
 public class ForecastMorDayEveNight extends Forecast
@@ -13,7 +14,7 @@ public class ForecastMorDayEveNight extends Forecast
     }
 
     @Override
-    public void createFromJSON(JSONObject jObject) 
+    public void createFromJSON(WeatherService wService) 
     {
         // TODO Auto-generated method stub
         
