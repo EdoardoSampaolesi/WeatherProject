@@ -57,36 +57,25 @@ public class WeatherServiceImpl implements WeatherService
     }
 
     @Override
-    public JSONObject geocodingAPI(String name) throws CityNotFoundException 
+    public JSONObject geocodingAPI(String name) throws CityNotFoundException, IOException
     {
         JSONParser parser = new JSONParser();
         String url = createGeocodingAPILink(name);
         JSONObject jObject;
-        try 
-        {
-            BufferedReader reader = new BufferedReader(
-                new InputStreamReader(
-                    new URL(url)
-                        .openConnection()
-                        .getInputStream()
-                )
-            );
-            String inputLine,finalString = "";
-            while ((inputLine = reader.readLine()) != null)            
-                finalString += inputLine;
-            if(finalString.equals("[]"));
-                throw new CityNotFoundException();
-            else
-                jObject = (JSONObject) parser.parse(finalString);
-            return jObject;
-        } 
-        catch (IOException e) 
-        {
-            e.printStackTrace();
-            jObject = new JSONObject();
-            jObject.put("error", e.getMessage());
-            return jObject;
-        }
+        BufferedReader reader = new BufferedReader(
+            new InputStreamReader(
+                new URL(url)
+                    .openConnection()
+                    .getInputStream()
+            )
+        );
+        String inputLine,finalString = "";
+        while ((inputLine = reader.readLine()) != null)            
+            finalString += inputLine;
+        if(finalString.equals("[]"));
+            throw new CityNotFoundException(name);
+        jObject = (JSONObject) parser.parse(finalString);
+        return jObject;
     }
 
     @Override

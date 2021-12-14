@@ -29,10 +29,8 @@ public class WeatherController
         manager = new CitiesManagerCurrent();
         try {
             manager.add(Vector.class.cast(cities));
-        } catch (CityNotFoundException e) {
-            return new ResponseEntity<String>(
-                e.getErrorJSONObject().toJSONString()
-                ,HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<String>(HttpStatus.CREATED);
     }

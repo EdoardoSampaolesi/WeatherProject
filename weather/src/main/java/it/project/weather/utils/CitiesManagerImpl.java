@@ -50,6 +50,10 @@ public abstract class CitiesManagerImpl implements CitiesManager
             {
                 array.add(e.getErrorJSONObject().toJSONString());
             }
+            catch(Exception e)
+            {
+                throw e;
+            }
         }
         return array.toJSONString();
     }
