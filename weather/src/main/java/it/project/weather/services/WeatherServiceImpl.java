@@ -1,8 +1,15 @@
 package it.project.weather.services;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Vector;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import it.project.weather.interfaces.Coord;
 import it.project.weather.interfaces.WeatherService;
@@ -23,8 +30,33 @@ public class WeatherServiceImpl implements WeatherService
     @Override
     public JSONObject OneCallAPI(City city,Vector<String> exclude) 
     {
+        JSONParser parser = new JSONParser();
         String url = CreateOneCallAPILink(city.getName(),exclude);
-        return null;
+        JSONObject jObject;
+
+        try 
+        {
+            BufferedReader reader = new BufferedReader(
+                new InputStreamReader(
+                    new URL(url)
+                        .openConnection()
+                        .getInputStream()
+                )
+            );
+            String inputLine;
+            JSONArray jArray = new JSONArray();
+            while ((inputLine = reader.readLine()) != null) {              
+                jArray.add((JSONArray) parser.parse(inputLine));
+            }
+            jObject = JSONObject.class.cast(jArray);
+            return jObject;
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+            jObject = (JSONObject) parser.parse(e.getMessage());
+            return jObject;
+        }
     }
 
     private String CreateOneCallAPILink(String cityName,Vector<String> exclusions)
