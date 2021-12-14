@@ -31,7 +31,7 @@ public class WeatherServiceImpl implements WeatherService
     {
         String link = oneCallAPILink;
         link += "q="+cityName;
-        link += "&units=imperial";
+        link += "&appid=" + apikey;
         if(exclusions.size() > 0)
         {
             link += "&exclude=";
@@ -42,7 +42,7 @@ public class WeatherServiceImpl implements WeatherService
                     link += ",";
             }while(check);
         }
-        link += "&appid=" + apikey;
+        link += "&units=imperial";
         return link;
     }
 
