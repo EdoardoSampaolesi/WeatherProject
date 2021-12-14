@@ -32,7 +32,6 @@ public class WeatherServiceImpl implements WeatherService
     {
         JSONParser parser = new JSONParser();
         String url = createOneCallAPILink(city.getCoords(),exclude);
-        JSONObject jObject;
 
         try 
         {
@@ -43,19 +42,15 @@ public class WeatherServiceImpl implements WeatherService
                         .getInputStream()
                 )
             );
-            String inputLine;
-            JSONArray jArray = new JSONArray();
-            while ((inputLine = reader.readLine()) != null) {              
-                jArray.add((JSONArray) parser.parse(inputLine));
-            }
-            jObject = JSONObject.class.cast(jArray);
-            return jObject;
+            String inputLine,finalString = "";
+            while ((inputLine = reader.readLine()) != null)            
+                finalString += inputLine;
+            return JSONObject.class.cast(parser.parse(finalString));
         } 
         catch (IOException e) 
         {
             e.printStackTrace();
-            jObject = (JSONObject) parser.parse(e.getMessage());
-            return jObject;
+            return JSONObject.class.cast(parser.parse(e.getMessage())); //to do with exception
         }
     }
 
