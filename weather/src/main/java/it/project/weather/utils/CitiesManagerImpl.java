@@ -12,7 +12,7 @@ import it.project.weather.services.WeatherServiceImpl;
 public abstract class CitiesManagerImpl implements CitiesManager
 {
     protected static Vector<City> cityList;
-    protected WeatherService wService = new WeatherServiceImpl("example");
+    protected WeatherService wService = new WeatherServiceImpl("d6a4e0d799239c1f85eaf82a5088ddfe");
 
     @Override
     public boolean add(Vector<String> citiesNames)
