@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.services.CitiesManagerCurrent;
 import it.project.weather.services.CitiesManagerDaily;
 import it.project.weather.services.CitiesManagerHourly;
@@ -26,8 +27,14 @@ public class WeatherController
     public ResponseEntity<String> addCity(@RequestBody String[] cities)
     {
         manager = new CitiesManagerCurrent();
-        manager.add(Vector.class.cast(cities));
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            manager.add(Vector.class.cast(cities));
+        } catch (CityNotFoundException e) {
+            return new ResponseEntity<String>(
+                e.getErrorJSONObject().toJSONString()
+                ,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<String>(HttpStatus.CREATED);
     }
 
     @GetMapping("/current")

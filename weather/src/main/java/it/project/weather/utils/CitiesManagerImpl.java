@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.json.simple.JSONArray;
 
+import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.interfaces.CitiesManager;
 import it.project.weather.interfaces.WeatherService;
 import it.project.weather.model.City;
@@ -15,17 +16,16 @@ public abstract class CitiesManagerImpl implements CitiesManager
     protected WeatherService wService = new WeatherServiceImpl("d6a4e0d799239c1f85eaf82a5088ddfe");
 
     @Override
-    public boolean add(Vector<String> citiesNames)
+    public void add(Vector<String> citiesNames) throws CityNotFoundException
     {
         for (String name : citiesNames)
         {
             this.add(name);
         }
-        return true;
     }
 
     @Override
-    public void add(String city)
+    public void add(String city) throws CityNotFoundException
     {
         City tempCity = new City(city);
         tempCity.createFromJSON(wService);
@@ -38,10 +38,18 @@ public abstract class CitiesManagerImpl implements CitiesManager
         JSONArray array = new JSONArray();
         for(String name : cities) 
         {
-            City city  = new City(name);
-            if(!cityList.contains(city))
-                cityList.add(city);
-            array.add(getJSONString(city));
+            try
+            {
+                City city  = new City(name);
+                city.createFromJSON(wService);
+                if(!cityList.contains(city))
+                    cityList.add(city);
+                array.add(getJSONString(city));
+            }
+            catch(CityNotFoundException e)
+            {
+                array.add(e.getErrorJSONObject().toJSONString());
+            }
         }
         return array.toJSONString();
     }

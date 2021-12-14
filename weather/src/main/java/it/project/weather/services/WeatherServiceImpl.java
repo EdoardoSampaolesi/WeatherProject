@@ -10,7 +10,9 @@ import java.util.Vector;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.interfaces.Coord;
 import it.project.weather.interfaces.WeatherService;
 import it.project.weather.model.City;
@@ -54,6 +56,66 @@ public class WeatherServiceImpl implements WeatherService
         }
     }
 
+    @Override
+    public JSONObject geocodingAPI(String name) throws CityNotFoundException 
+    {
+        JSONParser parser = new JSONParser();
+        String url = createGeocodingAPILink(name);
+        JSONObject jObject;
+        try 
+        {
+            BufferedReader reader = new BufferedReader(
+                new InputStreamReader(
+                    new URL(url)
+                        .openConnection()
+                        .getInputStream()
+                )
+            );
+            String inputLine,finalString = "";
+            while ((inputLine = reader.readLine()) != null)            
+                finalString += inputLine;
+            if(finalString.equals("[]"));
+                throw new CityNotFoundException();
+            else
+                jObject = (JSONObject) parser.parse(finalString);
+            return jObject;
+        } 
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+            jObject = new JSONObject();
+            jObject.put("error", e.getMessage());
+            return jObject;
+        }
+    }
+
+    @Override
+    public JSONObject historicalWeatherAPI(City city) 
+    {
+        String url = createHistoricalWeatherAPILink(city.getCoords());
+        JSONParser parser = new JSONParser();
+
+        try 
+        {
+            BufferedReader reader = new BufferedReader(
+                new InputStreamReader(
+                    new URL(url)
+                        .openConnection()
+                        .getInputStream()
+                )
+            );
+            String inputLine,finalString = "";
+            while ((inputLine = reader.readLine()) != null)            
+                finalString += inputLine;
+            return JSONObject.class.cast(parser.parse(finalString));
+        } 
+        catch (IOException | ParseException e) 
+        {
+            e.printStackTrace();
+            return JSONObject.class.cast(parser.parse(e.getMessage())); //to do with exception
+        }
+    }
+
     private String createOneCallAPILink(Coord coords,Vector<String> exclusions)
     {
         String link = oneCallAPILink;
@@ -73,14 +135,6 @@ public class WeatherServiceImpl implements WeatherService
         return link;
     }
 
-    @Override
-    public JSONObject geocodingAPI(String name) 
-    {
-        String link = createGeocodingAPILink(name);
-        //to do
-        return null;
-    }
-
     private String createGeocodingAPILink(String cityName)
     {
         String link = GeocodingAPILink;
@@ -88,14 +142,6 @@ public class WeatherServiceImpl implements WeatherService
         link += "&limit=1";
         link += "&appid=" + apikey;
         return link;
-    }
-
-    @Override
-    public JSONObject historicalWeatherAPI(City city) 
-    {
-        String link = createHistoricalWeatherAPILink(city.getCoords());
-        //to do
-        return null;
     }
 
     private String createHistoricalWeatherAPILink(Coord coords)
