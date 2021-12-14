@@ -18,7 +18,7 @@ import it.project.weather.model.City;
 public class WeatherServiceImpl implements WeatherService
 {
     private String apikey = null;
-    private final String oneCallAPILink = "http://api.openweathermap.org/geo/1.0/direct?";
+    private final String oneCallAPILink = "https://api.openweathermap.org/data/2.5/onecall?";
     private final String GeocodingAPILink = "http://api.openweathermap.org/geo/1.0/direct?";
     private final String HistoricalWeatherAPILink = "https://api.openweathermap.org/data/2.5/onecall/timemachine?";
 
@@ -28,10 +28,10 @@ public class WeatherServiceImpl implements WeatherService
     }
 
     @Override
-    public JSONObject OneCallAPI(City city,Vector<String> exclude) 
+    public JSONObject oneCallAPI(City city,Vector<String> exclude) 
     {
         JSONParser parser = new JSONParser();
-        String url = CreateOneCallAPILink(city.getName(),exclude);
+        String url = createOneCallAPILink(city.getCoords(),exclude);
         JSONObject jObject;
 
         try 
@@ -59,10 +59,10 @@ public class WeatherServiceImpl implements WeatherService
         }
     }
 
-    private String CreateOneCallAPILink(String cityName,Vector<String> exclusions)
+    private String createOneCallAPILink(Coord coords,Vector<String> exclusions)
     {
         String link = oneCallAPILink;
-        link += "q="+cityName;
+        link += coords.toString();
         link += "&appid=" + apikey;
         if(exclusions.size() > 0)
         {
@@ -79,30 +79,31 @@ public class WeatherServiceImpl implements WeatherService
     }
 
     @Override
-    public JSONObject GeocodingAPI(String name) 
+    public JSONObject geocodingAPI(String name) 
     {
-        String link = CreateGeocodingAPILink(name);
+        String link = createGeocodingAPILink(name);
         //to do
         return null;
     }
 
-    private String CreateGeocodingAPILink(String cityName)
+    private String createGeocodingAPILink(String cityName)
     {
         String link = GeocodingAPILink;
         link += "q="+cityName;
+        link += "&limit=1";
         link += "&appid=" + apikey;
         return link;
     }
 
     @Override
-    public JSONObject HistoricalWeatherAPI(City city) 
+    public JSONObject historicalWeatherAPI(City city) 
     {
-        String link = CreateHistoricalWeatherAPILink(city.getCoords());
+        String link = createHistoricalWeatherAPILink(city.getCoords());
         //to do
         return null;
     }
 
-    private String CreateHistoricalWeatherAPILink(Coord coords)
+    private String createHistoricalWeatherAPILink(Coord coords)
     {
         String link = HistoricalWeatherAPILink;
         link += coords.toString();

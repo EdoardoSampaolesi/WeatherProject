@@ -8,10 +8,10 @@ import it.project.weather.model.City;
 
 public interface WeatherService 
 {
-    public JSONObject OneCallAPI(City city,Vector<String> exclude);
-    //private String CreateOneCallAPILink(String cityName,Vector<String> exclusions);
-    public JSONObject GeocodingAPI(String name);
+    public JSONObject oneCallAPI(City city,Vector<String> exclude);
+    //private String CreateOneCallAPILink(Coord coords,Vector<String> exclusions);
+    public JSONObject geocodingAPI(String name);
     //private String CreateGeocodingAPILink(String cityName);
-    public JSONObject HistoricalWeatherAPI(City city);
+    public JSONObject historicalWeatherAPI(City city);
     //private String CreateHistoricalWeatherAPILink(Coord coords);
 }
