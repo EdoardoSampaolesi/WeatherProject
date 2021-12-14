@@ -2,6 +2,8 @@ package it.project.weather.controller;
 
 import java.util.Vector;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,46 +23,46 @@ public class WeatherController
     CitiesManagerImpl manager;
 
     @PostMapping
-    public String addCity(@RequestBody String[] cities)
+    public ResponseEntity<String> addCity(@RequestBody String[] cities)
     {
         manager = new CitiesManagerCurrent();
         manager.add(Vector.class.cast(cities));
-        return "successful operation!";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/current")
-    public String currentWeather(@RequestParam(value="cities") String[] cities)
+    public ResponseEntity<String> currentWeather(@RequestParam(value="cities") String[] cities)
     {
         manager = new CitiesManagerCurrent();
-        return manager.getWeather(Vector.class.cast(cities));
+        return new ResponseEntity<String>(manager.getWeather(Vector.class.cast(cities)),HttpStatus.OK);
     }
 
     @GetMapping("/hourly")
-    public String hourlyWeather(@RequestParam(value="cities") String[] cities)
+    public ResponseEntity<String> hourlyWeather(@RequestParam(value="cities") String[] cities)
     {
         manager = new CitiesManagerHourly();
-        return manager.getWeather(Vector.class.cast(cities));
+        return new ResponseEntity<String>(manager.getWeather(Vector.class.cast(cities)),HttpStatus.OK);
     }
 
     @GetMapping("/daily")
-    public String dailyWeather(@RequestParam(value="cities") String[] cities)
+    public ResponseEntity<String> dailyWeather(@RequestParam(value="cities") String[] cities)
     {
         manager = new CitiesManagerDaily();
-        return manager.getWeather(Vector.class.cast(cities));
+        return new ResponseEntity<String>(manager.getWeather(Vector.class.cast(cities)),HttpStatus.OK);
     }
 
     @GetMapping("/dayslot")
-    public String morningDayEveNightWeather(@RequestParam(value="cities") String[] cities)
+    public ResponseEntity<String> morningDayEveNightWeather(@RequestParam(value="cities") String[] cities)
     {
         manager = new CitiesManagerMorDayEveNight();
-        return manager.getWeather(Vector.class.cast(cities));
+        return new ResponseEntity<String>(manager.getWeather(Vector.class.cast(cities)),HttpStatus.OK);
     }
 
     @DeleteMapping
-    public String deleteCity(@RequestBody String[] cities)
+    public ResponseEntity<String> deleteCity(@RequestBody String[] cities)
     {
         manager = new CitiesManagerCurrent();
-        return manager.remove(Vector.class.cast(cities));
+        return new ResponseEntity<String>(manager.remove(Vector.class.cast(cities)),HttpStatus.OK);
     }
  
 }
