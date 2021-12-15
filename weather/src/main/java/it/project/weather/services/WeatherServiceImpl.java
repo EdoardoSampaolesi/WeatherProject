@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import ch.qos.logback.core.joran.conditional.ElseAction;
 import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.interfaces.Coord;
 import it.project.weather.interfaces.WeatherService;
@@ -51,7 +52,6 @@ public class WeatherServiceImpl implements WeatherService
         } 
         catch (IOException e) 
         {
-            e.printStackTrace();
             return JSONObject.class.cast(parser.parse(e.getMessage())); //to do with exception
         }
     }
@@ -61,7 +61,6 @@ public class WeatherServiceImpl implements WeatherService
     {
         JSONParser parser = new JSONParser();
         String url = createGeocodingAPILink(name);
-        JSONObject jObject;
         BufferedReader reader = new BufferedReader(
             new InputStreamReader(
                 new URL(url)
@@ -70,12 +69,19 @@ public class WeatherServiceImpl implements WeatherService
             )
         );
         String inputLine,finalString = "";
-        while ((inputLine = reader.readLine()) != null)            
+        while ((inputLine = reader.readLine()) != null)           
             finalString += inputLine;
-        if(finalString.equals("[]"));
+        if(finalString.equals("[]"))
             throw new CityNotFoundException(name);
-        jObject = (JSONObject) parser.parse(finalString);
-        return jObject;
+        JSONObject jObject;
+        try {
+            jObject = JSONObject.class.cast(parser.parse(finalString));
+            return jObject;
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -100,7 +106,6 @@ public class WeatherServiceImpl implements WeatherService
         } 
         catch (IOException | ParseException e) 
         {
-            e.printStackTrace();
             return JSONObject.class.cast(parser.parse(e.getMessage())); //to do with exception
         }
     }

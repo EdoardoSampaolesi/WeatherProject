@@ -3,8 +3,10 @@ package it.project.weather.utils;
 import java.util.Vector;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import it.project.weather.exeptions.CityNotFoundException;
+import it.project.weather.exeptions.NotRemovedCity;
 import it.project.weather.interfaces.CitiesManager;
 import it.project.weather.interfaces.WeatherService;
 import it.project.weather.model.City;
@@ -61,21 +63,34 @@ public abstract class CitiesManagerImpl implements CitiesManager
     protected abstract String getJSONString(City city);
 
     @Override
-    public String remove(Vector<String> citiesNames)
+    public JSONObject remove(Vector<String> citiesNames)
     {
-        String response = "";
+        JSONArray response = new JSONArray();
         for (String name : citiesNames)
         {
-            response += this.remove(name) + "\n";
+            try
+            {
+                this.remove(name);
+            }
+            catch(NotRemovedCity e)
+            {
+                response.add(e.getErrorJSONObject());
+            }
         }
-        return response;
+        return JSONObject.class.cast(response);
     }
 
     @Override
-    public String remove(String city)
+    public void remove(String city) throws NotRemovedCity
     {
-        if(cityList.remove(new City(city)))
-            return "Succesful removed " + city + " from the list";
-        return city + " wasn't part of the list";
+        try
+        {
+            if(!cityList.remove(new City(city)))
+            throw new NotRemovedCity(city);
+        }
+        catch(CityNotFoundException e)
+        {
+            throw new NotRemovedCity(city);
+        }
     }
 }
