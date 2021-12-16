@@ -7,8 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +21,7 @@ import it.project.weather.services.CitiesManagerMorDayEveNight;
 import it.project.weather.utils.CitiesManagerImpl;
 
 @RestController
+@RequestMapping("/weather")
 public class WeatherController 
 {
     CitiesManagerImpl manager;
@@ -91,8 +94,8 @@ public class WeatherController
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<String> deleteCity(@RequestBody String[] cities)
+    @DeleteMapping("/{cities}")
+    public ResponseEntity<String> deleteCity(@PathVariable(value = "cities") String[] cities)
     {
         manager = new CitiesManagerCurrent();
         ResponseEntity<String> response;
