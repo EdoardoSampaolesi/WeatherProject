@@ -29,7 +29,37 @@ public class City implements WeatherModelEntity
     @Override
     public JSONObject toJSON() 
     {
-        // to do
-        return null;
+    	JSONObject att = new JSONObject();
+    	att.put("name", this.name);
+    	att.put("latitude and longitude", this.coordimpl);
+    	att.put("time zone", this.offset);
+        return att;
     }    
+    
+    public String getNamecity() 
+    {
+		return name;
+	}
+    public void setNamecity(String name) 
+    {
+		this.name = name;
+	}
+    
+    public CoordImpl getCoord() 
+    {
+		return coordimpl;
+	}
+    public void setCoord(CoordImpl coordimpl) 
+    {
+		this.coordimpl = coordimpl;
+	}
+    
+    public Date getOffset() 
+    {
+		return offset;
+	}
+    public void setOffset(Date offset) 
+    {
+		this.offset = offset;
+	}
 }
