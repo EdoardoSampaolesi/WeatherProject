@@ -16,6 +16,6 @@ public interface WeatherService
     //private String createOneCallAPILink(Coord coords,Vector<String> exclusions);
     public JSONObject geocodingAPI(String name) throws CityNotFoundException, IOException, ParseException;
     //private String createGeocodingAPILink(String cityName);
-    public JSONObject historicalWeatherAPI(City city, Date start, int count) throws IOException, ParseException;
+    public JSONObject historicalWeatherAPI(City city, Date start) throws IOException, ParseException;
     //private String createHistoricalWeatherAPILink(Coord coords);
 }
