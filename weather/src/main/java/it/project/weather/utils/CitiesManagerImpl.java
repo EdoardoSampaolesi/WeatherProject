@@ -3,7 +3,10 @@ package it.project.weather.utils;
 import java.util.Vector;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
+import it.project.weather.exeptions.CityNotFoundException;
+import it.project.weather.exeptions.NotRemovedCity;
 import it.project.weather.interfaces.CitiesManager;
 import it.project.weather.interfaces.WeatherService;
 import it.project.weather.model.City;
@@ -15,17 +18,16 @@ public abstract class CitiesManagerImpl implements CitiesManager
     protected WeatherService wService = new WeatherServiceImpl("d6a4e0d799239c1f85eaf82a5088ddfe");
 
     @Override
-    public boolean add(Vector<String> citiesNames)
+    public void add(Vector<String> citiesNames) throws CityNotFoundException
     {
         for (String name : citiesNames)
         {
             this.add(name);
         }
-        return true;
     }
 
     @Override
-    public void add(String city)
+    public void add(String city) throws CityNotFoundException
     {
         City tempCity = new City(city);
         tempCity.createFromJSON(wService);
@@ -38,10 +40,22 @@ public abstract class CitiesManagerImpl implements CitiesManager
         JSONArray array = new JSONArray();
         for(String name : cities) 
         {
-            City city  = new City(name);
-            if(!cityList.contains(city))
-                cityList.add(city);
-            array.add(getJSONString(city));
+            try
+            {
+                City city  = new City(name);
+                city.createFromJSON(wService);
+                if(!cityList.contains(city))
+                    cityList.add(city);
+                array.add(getJSONString(city));
+            }
+            catch(CityNotFoundException e)
+            {
+                array.add(e.getErrorJSONObject().toJSONString());
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
         }
         return array.toJSONString();
     }
@@ -49,21 +63,34 @@ public abstract class CitiesManagerImpl implements CitiesManager
     protected abstract String getJSONString(City city);
 
     @Override
-    public String remove(Vector<String> citiesNames)
+    public JSONObject remove(Vector<String> citiesNames)
     {
-        String response = "";
+        JSONArray response = new JSONArray();
         for (String name : citiesNames)
         {
-            response += this.remove(name) + "\n";
+            try
+            {
+                this.remove(name);
+            }
+            catch(NotRemovedCity e)
+            {
+                response.add(e.getErrorJSONObject());
+            }
         }
-        return response;
+        return JSONObject.class.cast(response);
     }
 
     @Override
-    public String remove(String city)
+    public void remove(String city) throws NotRemovedCity
     {
-        if(cityList.remove(new City(city)))
-            return "Succesful removed " + city + " from the list";
-        return city + " wasn't part of the list";
+        try
+        {
+            if(!cityList.remove(new City(city)))
+            throw new NotRemovedCity(city);
+        }
+        catch(CityNotFoundException e)
+        {
+            throw new NotRemovedCity(city);
+        }
     }
 }
