@@ -117,19 +117,21 @@ public class WeatherServiceImpl implements WeatherService
     private String createOneCallAPILink(Coord coords,Vector<String> exclusions)
     {
         String link = oneCallAPILink;
-        link += coords.toString(); //lat={[(-)00.00]}&lon={[(-)00.00]}
+        //link += coords.toString(); //lat={[(-)00.00]}&lon={[(-)00.00]}
+        link += "lat=41.87&lon=-87.62";
         link += "&appid=" + apikey;
         if(exclusions.size() > 0)
         {
             link += "&exclude=";
-            boolean check = false;
-            do{
-                link += exclusions.iterator().next();
-                if(check = exclusions.iterator().hasNext())
+            for(String s : exclusions)
+            {
+                link += s;
+                if(!exclusions.elementAt(exclusions.size()-1).equals(s))
                     link += ",";
-            }while(check);
+            }
         }
         link += "&units=imperial";
+        System.out.println(link);
         return link;
     }
    
