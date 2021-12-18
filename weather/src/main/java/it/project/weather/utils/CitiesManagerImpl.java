@@ -1,5 +1,9 @@
 package it.project.weather.utils;
 
+/**
+ * @author @EdoardoSampaolesi
+ */
+
 import java.util.Vector;
 
 import org.json.simple.JSONArray;

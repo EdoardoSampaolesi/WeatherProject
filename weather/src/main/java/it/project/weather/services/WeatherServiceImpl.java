@@ -8,16 +8,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.Date;
 import java.util.Vector;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import ch.qos.logback.core.joran.conditional.ElseAction;
 import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.interfaces.Coord;
 import it.project.weather.interfaces.WeatherService;
@@ -35,7 +32,6 @@ public class WeatherServiceImpl implements WeatherService
         this.apikey = apikey;
     }
 
-    
     /** 
      * @param city this parameter is the whole city object,it is used to get needed informations(coordinates) to compute the API
      * @param exclude this vector contains the strings of which parts of the API have to be ignored, key words are: Current ( for current weather),
@@ -61,8 +57,7 @@ public class WeatherServiceImpl implements WeatherService
             finalString += inputLine;
         return JSONObject.class.cast(parser.parse(finalString));
     }
-
-    
+ 
     /** 
      * @param name the only input parameter is a name of city
      * @return JSONObject the API return a JSONObject which contains informations about the city ( name in different languages, latitude, longitude , country)
@@ -90,8 +85,7 @@ public class WeatherServiceImpl implements WeatherService
         JSONObject jObject = JSONObject.class.cast(parser.parse(finalString));
         return jObject;
     }
-
-    
+ 
     /** 
      * this API returns weather hour by hour only for the day in start parameter
      * @param city this parameter is the whole city object,it is used to get needed informations(coordinates) to compute the API
@@ -103,7 +97,7 @@ public class WeatherServiceImpl implements WeatherService
     @Override
     public JSONObject historicalWeatherAPI(City city, Date start)  throws IOException, ParseException
     {
-        String url = createHistoricalWeatherAPILink(city.getCoord());
+        String url = createHistoricalWeatherAPILink(city.getCoord(), start);
         JSONParser parser = new JSONParser();
         BufferedReader reader = new BufferedReader(
             new InputStreamReader(
@@ -117,8 +111,7 @@ public class WeatherServiceImpl implements WeatherService
             finalString += inputLine;
         return JSONObject.class.cast(parser.parse(finalString));
     }
-
-    
+  
     /** 
      * Creates the link of OneCall Api
      */
@@ -140,8 +133,7 @@ public class WeatherServiceImpl implements WeatherService
         link += "&units=imperial";
         return link;
     }
-
-    
+   
     /** 
      * Creates the link of Geocoding Api
      */
@@ -153,8 +145,7 @@ public class WeatherServiceImpl implements WeatherService
         link += "&appid=" + apikey;
         return link;
     }
-
-    
+   
     /** 
      * Creates the link of HsitoricalWeather Api
      */
@@ -166,7 +157,5 @@ public class WeatherServiceImpl implements WeatherService
         link += "&appid=" + apikey;
         link += "&units=imperial";
         return link;
-    }
-    
-    
+    }   
 }
