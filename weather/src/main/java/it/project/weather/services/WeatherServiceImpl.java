@@ -18,7 +18,6 @@ import org.json.simple.parser.ParseException;
 import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.interfaces.Coord;
 import it.project.weather.interfaces.WeatherService;
-import it.project.weather.model.City;
 
 public class WeatherServiceImpl implements WeatherService
 {
@@ -33,7 +32,7 @@ public class WeatherServiceImpl implements WeatherService
     }
 
     /** 
-     * @param city this parameter is the whole city object,it is used to get needed informations(coordinates) to compute the API
+     * @param coord this parameter is the coordinates parameter, lat and lon are needed to compute the API
      * @param exclude this vector contains the strings of which parts of the API have to be ignored, key words are: Current ( for current weather),
      * Hourly ( weather hour by hour), Daily ( weather day by day ), Alerts ( national weather alerts, in our routes it isn't used )
      * @return JSONObject the API return a JSONObject which contains all weather informations required for the routes
@@ -41,10 +40,10 @@ public class WeatherServiceImpl implements WeatherService
      * @throws ParseException if the class that call this method get this exception, it has to rethrow its.
      */
     @Override
-    public JSONObject oneCallAPI(City city,Vector<String> exclude) throws IOException, ParseException
+    public JSONObject oneCallAPI(Coord coord,Vector<String> exclude) throws IOException, ParseException
     {
         JSONParser parser = new JSONParser();
-        String url = createOneCallAPILink(city.getCoord(),exclude);
+        String url = createOneCallAPILink(coord,exclude);
         BufferedReader reader = new BufferedReader(
             new InputStreamReader(
                 new URL(url)
@@ -88,16 +87,16 @@ public class WeatherServiceImpl implements WeatherService
  
     /** 
      * this API returns weather hour by hour only for the day in start parameter
-     * @param city this parameter is the whole city object,it is used to get needed informations(coordinates) to compute the API
+     * @param coord this parameter is the coordinates parameter, lat and lon are needed to compute the API
      * @param start that represents the datetime where the API starts to return weather informations hour by hour and it does up to the midnight of variable's day
      * @return JSONObject the return object contains informations on the weather hour by hour 
      * @throws IOException if the class that call this method get this exception, it has to rethrow its.
      * @throws ParseException if the class that call this method get this exception, it has to rethrow its.
      */
     @Override
-    public JSONObject historicalWeatherAPI(City city, Date start)  throws IOException, ParseException
+    public JSONObject historicalWeatherAPI(Coord coord, Date start)  throws IOException, ParseException
     {
-        String url = createHistoricalWeatherAPILink(city.getCoord(), start);
+        String url = createHistoricalWeatherAPILink(coord, start);
         JSONParser parser = new JSONParser();
         BufferedReader reader = new BufferedReader(
             new InputStreamReader(
