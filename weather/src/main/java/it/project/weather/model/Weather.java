@@ -2,16 +2,17 @@ package it.project.weather.model;
 
 import org.json.simple.JSONObject; 
 
-import it.project.weather.exeptions.CityNotFoundException;
+
+
 import it.project.weather.interfaces.WeatherInterface;
-import it.project.weather.interfaces.WeatherModelEntity;
-import it.project.weather.interfaces.WeatherService;
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.TimeZone;
 
 public class Weather implements WeatherInterface
 {
-	private Date date= new Date();
+	//private Date date= new Date();
+	private String date;
 	private String main_weather;
 	private String description;
 	private double humidity; //%
@@ -25,9 +26,8 @@ public class Weather implements WeatherInterface
 	private double temp_current;
 	private double temp_feelslike;
 	private double pop_rain; // %
-	private Weather_complete t; // temp_max e temp_min
 	
-	public Weather(Date date, String main_weather, String description, double humidity, double clouds, double wind_speed, short wind_deg, String wind_type, double rain, double snow, short visibility, double temp_current, double temp_feelslike, double pop_rain, Weather_complete t )
+	public Weather(String date, String main_weather, String description, double humidity, double clouds, double wind_speed, short wind_deg, String wind_type, double rain, double snow, short visibility, double temp_current, double temp_feelslike, double pop_rain)
 	{
 		this.date = date;
 		this.main_weather = main_weather;
@@ -43,7 +43,6 @@ public class Weather implements WeatherInterface
 		this.temp_current = temp_current;
 		this.temp_feelslike=temp_feelslike;
 		this.pop_rain = pop_rain;
-		this.t = t;
 	}
 	
 	public Weather() 
@@ -54,9 +53,11 @@ public class Weather implements WeatherInterface
     @Override
     public void createFromJSON(JSONObject jobj, TimeZone offset) 
     {
-    	 
-     	//Date date = (Date)(jobj.get("dt")-offset.getOffset());
-     	this.date = date;
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.setTimeInMillis(Integer.parseInt((String) jobj.get("dt"))*1000);
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+    	sdf.setTimeZone(offset); 	 
+     	this.date =sdf.format(calendar.getTime());
     	String main=(String) jobj.get("main");
     	this.main_weather=main;
     	String description=(String) jobj.get("description");
@@ -69,7 +70,7 @@ public class Weather implements WeatherInterface
      	this.wind_speed = wind_speed;
      	short wind_deg=(short) jobj.get("wind_deg");
      	this.wind_deg = wind_deg;
-     	//String wind_type=(String) jobj.get("main");
+     	//String wind_type=(String) jobj.get("");
     	//this.wind_type=wind_type;
      	double rain=(double) jobj.get("rain");
      	this.rain = rain;
@@ -83,10 +84,6 @@ public class Weather implements WeatherInterface
      	this.temp_feelslike = temp_feelslike;
      	double pop_rain=(double) jobj.get("pop");
      	this.pop_rain = pop_rain;
-     	double max=(double) jobj.get("max");
-     	double min=(double) jobj.get("min");
-     	this.t = new Weather_complete(max, min);
-     	
     }
     
 
@@ -108,15 +105,14 @@ public class Weather implements WeatherInterface
     	att.put("current temperature", this.temp_current);
     	att.put("feels like temperature", this.temp_feelslike);
     	att.put("probability percipitation", this.pop_rain);
-    	//att.put(" ", this.t);
         return att;
     }
     
-    public Date getDate() 
+    public String getDate() 
     {
 		return date;
 	}
-    public void setDate(Date date) 
+    public void setDate(String date) 
     {
 		this.date = date;
 	}
@@ -216,15 +212,5 @@ public class Weather implements WeatherInterface
 	}
 	public void setPop_rain(double pop_rain) {
 		this.pop_rain = pop_rain;
-	}
-
-	public Weather_complete getT() {
-		return t;
-	}
-	public void setT(Weather_complete t) {
-		this.t = t;
-	}
-    
-    
-    
+	}  
 }
