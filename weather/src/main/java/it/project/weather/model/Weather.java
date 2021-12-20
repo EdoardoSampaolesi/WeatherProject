@@ -14,20 +14,20 @@ public class Weather implements WeatherInterface
 	private Date date= new Date();
 	private String main_weather;
 	private String description;
-	private double humidity;
-	private short clouds; //nuvolosità %
+	private double humidity; //%
+	private double clouds; //nuvolosità %
 	private double wind_speed;
-	private short wind_deg;
+	private short wind_deg; //gradi
 	private String wind_type;
-	private short rain;
-	private short snow;
+	private double rain;
+	private double snow;
 	private short visibility;
 	private double temp_current;
 	private double temp_feelslike;
-	private short pop_rain; // %
+	private double pop_rain; // %
 	private Weather_complete t; // temp_max e temp_min
 	
-	public Weather(Date date, String main_weather, String description, double humidity, short clouds, double wind_speed, short wind_deg, String wind_type, short rain, short snow, short visibility, double temp_current, double temp_feelslike, short pop_rain, Weather_complete t )
+	public Weather(Date date, String main_weather, String description, double humidity, double clouds, double wind_speed, short wind_deg, String wind_type, double rain, double snow, short visibility, double temp_current, double temp_feelslike, double pop_rain, Weather_complete t )
 	{
 		this.date = date;
 		this.main_weather = main_weather;
@@ -54,10 +54,39 @@ public class Weather implements WeatherInterface
     @Override
     public void createFromJSON(JSONObject jobj, TimeZone offset) 
     {
-    	double temp=(double) jobj.get("temp");
-     	this.temp_current = temp; 
+    	 
      	//Date date = (Date)(jobj.get("dt")-offset.getOffset());
      	this.date = date;
+    	String main=(String) jobj.get("main");
+    	this.main_weather=main;
+    	String description=(String) jobj.get("description");
+    	this.description=description;
+    	double humidity=(double) jobj.get("humidity");
+    	this.humidity=humidity;
+    	double clouds=(double) jobj.get("clouds");
+    	this.clouds=clouds;
+    	double wind_speed=(double) jobj.get("wind_speed");
+     	this.wind_speed = wind_speed;
+     	short wind_deg=(short) jobj.get("wind_deg");
+     	this.wind_deg = wind_deg;
+     	//String wind_type=(String) jobj.get("main");
+    	//this.wind_type=wind_type;
+     	double rain=(double) jobj.get("rain");
+     	this.rain = rain;
+     	double snow=(double) jobj.get("snow");
+     	this.rain = snow;
+     	short visibility=(short) jobj.get("visibility");
+     	this.visibility = visibility;    	
+     	double temp=(double) jobj.get("temp");
+     	this.temp_current = temp;
+     	double temp_feelslike=(double) jobj.get("feels_like");
+     	this.temp_feelslike = temp_feelslike;
+     	double pop_rain=(double) jobj.get("pop");
+     	this.pop_rain = pop_rain;
+     	double max=(double) jobj.get("max");
+     	double min=(double) jobj.get("min");
+     	this.t = new Weather_complete(max, min);
+     	
     }
     
 
@@ -110,19 +139,19 @@ public class Weather implements WeatherInterface
 		this.description = description;
 	}
     
-    public Double getHumidity() 
+    public double getHumidity() 
     {
 		return humidity;
 	}
-    public void setDescription(Double humidity) 
+    public void setDescription(double humidity) 
     {
 		this.humidity = humidity;
 	}
 
-	public short getClouds() {
+	public double getClouds() {
 		return clouds;
 	}
-	public void setClouds(short clouds) {
+	public void setClouds(double clouds) {
 		this.clouds = clouds;
 	}
 	
@@ -147,17 +176,17 @@ public class Weather implements WeatherInterface
 		this.wind_type = wind_type;
 	}
 
-	public short getRain() {
+	public double getRain() {
 		return rain;
 	}
-	public void setRain(short rain) {
+	public void setRain(double rain) {
 		this.rain = rain;
 	}
 
-	public short getSnow() {
+	public double getSnow() {
 		return snow;
 	}
-	public void setSnow(short snow) {
+	public void setSnow(double snow) {
 		this.snow = snow;
 	}
 
@@ -182,10 +211,10 @@ public class Weather implements WeatherInterface
 		this.temp_feelslike = temp_feelslike;
 	}
 
-	public short getPop_rain() {
+	public double getPop_rain() {
 		return pop_rain;
 	}
-	public void setPop_rain(short pop_rain) {
+	public void setPop_rain(double pop_rain) {
 		this.pop_rain = pop_rain;
 	}
 
