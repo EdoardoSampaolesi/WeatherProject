@@ -18,11 +18,11 @@ import it.project.weather.services.WeatherServiceImpl;
 
 public abstract class CitiesManagerImpl implements CitiesManager
 {
-    protected static Vector<City> cityList;
+    protected static Vector<City> cityList = new Vector<City>();
     protected WeatherService wService = new WeatherServiceImpl("d6a4e0d799239c1f85eaf82a5088ddfe");
 
     @Override
-    public void add(Vector<String> citiesNames) throws CityNotFoundException, Exception
+    public void add(String[] citiesNames) throws CityNotFoundException, Exception
     {
         for (String name : citiesNames)
         {
@@ -39,7 +39,7 @@ public abstract class CitiesManagerImpl implements CitiesManager
     }
 
     @Override
-    public String getWeather(Vector<String> cities) throws Exception
+    public String getWeather(String[] cities) throws Exception
     {
         JSONArray array = new JSONArray();
         for(String name : cities) 
@@ -63,7 +63,7 @@ public abstract class CitiesManagerImpl implements CitiesManager
     protected abstract String getJSONString(City city) throws Exception;
 
     @Override
-    public JSONObject remove(Vector<String> citiesNames)
+    public JSONObject remove(String[] citiesNames)
     {
         JSONArray response = new JSONArray();
         for (String name : citiesNames)

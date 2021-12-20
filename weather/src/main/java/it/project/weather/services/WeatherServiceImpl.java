@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.Vector;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -81,8 +82,8 @@ public class WeatherServiceImpl implements WeatherService
             finalString += inputLine;
         if(finalString.equals("[]"))
             throw new CityNotFoundException(name);
-        JSONObject jObject = JSONObject.class.cast(parser.parse(finalString));
-        return jObject;
+        JSONArray jObject = JSONArray.class.cast(parser.parse(finalString));
+        return (JSONObject) jObject.get(0);
     }
  
     /** 

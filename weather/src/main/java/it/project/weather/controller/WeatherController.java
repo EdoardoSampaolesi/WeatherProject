@@ -31,7 +31,7 @@ public class WeatherController
     {
         manager = new CitiesManagerCurrent();
         try {
-            manager.add(Vector.class.cast(cities));
+            manager.add(cities);
         } catch (Exception e) {
             return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -44,7 +44,7 @@ public class WeatherController
         manager = new CitiesManagerCurrent();
         try
         {
-            return new ResponseEntity<String>(manager.getWeather(Vector.class.cast(cities)),HttpStatus.OK);
+            return new ResponseEntity<String>(manager.getWeather(cities),HttpStatus.OK);
         }
         catch(Exception e)
         {
@@ -58,7 +58,7 @@ public class WeatherController
         manager = new CitiesManagerHourly();
         try
         {
-            return new ResponseEntity<String>(manager.getWeather(Vector.class.cast(cities)),HttpStatus.OK);
+            return new ResponseEntity<String>(manager.getWeather(cities),HttpStatus.OK);
         }
         catch(Exception e)
         {
@@ -72,7 +72,7 @@ public class WeatherController
         manager = new CitiesManagerDaily();
         try
         {
-            return new ResponseEntity<String>(manager.getWeather(Vector.class.cast(cities)),HttpStatus.OK);
+            return new ResponseEntity<String>(manager.getWeather(cities),HttpStatus.OK);
         }
         catch(Exception e)
         {
@@ -86,7 +86,7 @@ public class WeatherController
         manager = new CitiesManagerMorDayEveNight();
         try
         {
-            return new ResponseEntity<String>(manager.getWeather(Vector.class.cast(cities)),HttpStatus.OK);
+            return new ResponseEntity<String>(manager.getWeather(cities),HttpStatus.OK);
         }
         catch(Exception e)
         {
@@ -101,7 +101,7 @@ public class WeatherController
         ResponseEntity<String> response;
         try
         {
-            JSONObject jObjectRemovedError = manager.remove(Vector.class.cast(cities));
+            JSONObject jObjectRemovedError = manager.remove(cities);
             if(jObjectRemovedError != null)
                 response = new ResponseEntity<String>(HttpStatus.OK);
             else
