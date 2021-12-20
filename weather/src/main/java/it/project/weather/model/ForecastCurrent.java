@@ -3,7 +3,7 @@ package it.project.weather.model;
 import java.util.TimeZone;
 import java.util.Vector;
 
-
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 
@@ -31,7 +31,7 @@ public class ForecastCurrent extends Forecast
     	Weather weather;
        try 
 	   {
-    	   JSONObject obj= wService.oneCallAPI(city, exclude);
+    	   JSONObject obj= wService.oneCallAPI(city.getCoord(), exclude);
     	   TimeZone offset = TimeZone.getTimeZone((String) obj.get("timezone"));
     	   this.city.setOffset(offset); 
     	   weather = new Weather();
@@ -47,8 +47,14 @@ public class ForecastCurrent extends Forecast
     @Override
     public JSONObject toJSON() 
     {
-        
-        return null;
+    	JSONArray arrayobj = new JSONArray();
+    	for(Weather w: weatherList) 
+    	{
+    		arrayobj.add(w.toJSON());
+    	}
+    	JSONObject obj= new JSONObject();
+        obj.put("City", city.getNamecity());
+        obj.put("Current weather", arrayobj);
+        return obj;
     }
-    
 }
