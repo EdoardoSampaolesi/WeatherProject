@@ -36,5 +36,4 @@ public class CoordImpl implements Coord {
 		this.lon = lon;
 	}
 	
-
 }

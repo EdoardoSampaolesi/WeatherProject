@@ -16,7 +16,7 @@ public class ForecastMorDayEveNight extends Forecast
     @Override
     public void createFromJSON(WeatherService wService) 
     {
-        // TODO Auto-generated method stub
+        
         
     }
 

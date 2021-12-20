@@ -10,13 +10,14 @@ import it.project.weather.interfaces.CityInterface;
 import it.project.weather.interfaces.WeatherModelEntity;
 import it.project.weather.interfaces.WeatherService;
 import java.util.Date;
+import java.util.TimeZone;
 
 
 public class City implements WeatherModelEntity
 {
 	private String name;
 	private CoordImpl coord;
-	private int offset;
+	private TimeZone offset;
 	
 	public City(String name)
     {
@@ -28,12 +29,10 @@ public class City implements WeatherModelEntity
     {
     	try 
     	{
-    		wService.geocodingAPI(name);
     		JSONObject obj= wService.geocodingAPI(name);
     		double lat=(double) obj.get("lat");
     		double lon=(double) obj.get("lon");
     		this.coord = new CoordImpl(lat, lon); 
-    		offset=(int) obj.get("timezone_offeset");
     	}
     	catch(CityNotFoundException e) 
     	{
@@ -73,14 +72,13 @@ public class City implements WeatherModelEntity
 		this.coord = coord;
 	}
     
-    public int getOffset() 
+    public TimeZone getOffset() 
     {
 		return offset;
 	}
-    public void setOffset(int offset) 
+    public void setOffset(TimeZone offset) 
     {
 		this.offset = offset;
 	}
    
-    //metodo toString?
 }

@@ -1,12 +1,15 @@
 package it.project.weather.model;
 
-import org.json.simple.JSONObject;
+import org.json.simple.JSONObject; 
 
+import it.project.weather.exeptions.CityNotFoundException;
+import it.project.weather.interfaces.WeatherInterface;
 import it.project.weather.interfaces.WeatherModelEntity;
 import it.project.weather.interfaces.WeatherService;
 import java.util.Date;
+import java.util.TimeZone;
 
-public class Weather implements WeatherModelEntity 
+public class Weather implements WeatherInterface
 {
 	private Date date= new Date();
 	private String main_weather;
@@ -22,7 +25,7 @@ public class Weather implements WeatherModelEntity
 	private double temp_current;
 	private double temp_feelslike;
 	private short pop_rain; // %
-	private Weather_complete t = new Weather_complete(); // temp_max e temp_min
+	private Weather_complete t; // temp_max e temp_min
 	
 	public Weather(Date date, String main_weather, String description, double humidity, short clouds, double wind_speed, short wind_deg, String wind_type, short rain, short snow, short visibility, double temp_current, double temp_feelslike, short pop_rain, Weather_complete t )
 	{
@@ -42,12 +45,21 @@ public class Weather implements WeatherModelEntity
 		this.pop_rain = pop_rain;
 		this.t = t;
 	}
+	
+	public Weather() 
+	{
+		
+	}
 
     @Override
-    public void createFromJSON(WeatherService wService) 
+    public void createFromJSON(JSONObject jobj, TimeZone offset) 
     {
-        // TODO Auto-generated method stub
+    	double temp=(double) jobj.get("temp");
+     	this.temp_current = temp; 
+     	//Date date = (Date)(jobj.get("dt")-offset.getOffset());
+     	this.date = date;
     }
+    
 
     @Override
     public JSONObject toJSON() 
@@ -67,8 +79,7 @@ public class Weather implements WeatherModelEntity
     	att.put("current temperature", this.temp_current);
     	att.put("feels like temperature", this.temp_feelslike);
     	att.put("probability percipitation", this.pop_rain);
-    	att.put(" ", this.t);
-    	
+    	//att.put(" ", this.t);
         return att;
     }
     
