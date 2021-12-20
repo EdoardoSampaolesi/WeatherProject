@@ -22,7 +22,7 @@ public abstract class CitiesManagerImpl implements CitiesManager
     protected WeatherService wService = new WeatherServiceImpl("d6a4e0d799239c1f85eaf82a5088ddfe");
 
     @Override
-    public void add(Vector<String> citiesNames) throws CityNotFoundException
+    public void add(Vector<String> citiesNames) throws CityNotFoundException, Exception
     {
         for (String name : citiesNames)
         {
@@ -31,7 +31,7 @@ public abstract class CitiesManagerImpl implements CitiesManager
     }
 
     @Override
-    public void add(String city) throws CityNotFoundException
+    public void add(String city) throws CityNotFoundException, Exception
     {
         City tempCity = new City(city);
         tempCity.createFromJSON(wService);
@@ -39,7 +39,7 @@ public abstract class CitiesManagerImpl implements CitiesManager
     }
 
     @Override
-    public String getWeather(Vector<String> cities) 
+    public String getWeather(Vector<String> cities) throws Exception
     {
         JSONArray array = new JSONArray();
         for(String name : cities) 
@@ -56,15 +56,11 @@ public abstract class CitiesManagerImpl implements CitiesManager
             {
                 array.add(e.getErrorJSONObject().toJSONString());
             }
-            catch(Exception e)
-            {
-                throw e;
-            }
         }
         return array.toJSONString();
     }
 
-    protected abstract String getJSONString(City city);
+    protected abstract String getJSONString(City city) throws Exception;
 
     @Override
     public JSONObject remove(Vector<String> citiesNames)
