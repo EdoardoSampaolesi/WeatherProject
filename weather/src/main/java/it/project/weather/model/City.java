@@ -32,7 +32,7 @@ public class City implements WeatherModelEntity
     		JSONObject obj= wService.geocodingAPI(name);
     		double lat=(double) obj.get("lat");
     		double lon=(double) obj.get("lon");
-    		this.coord = new CoordImpl(lat, lon); 
+    		this.coord = new CoordImpl(lat,lon); 
     	}
     	catch(CityNotFoundException e) 
     	{
