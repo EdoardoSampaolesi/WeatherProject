@@ -8,7 +8,7 @@ import it.project.weather.utils.Forecast;
 public class CitiesManagerMorDayEveNight extends CitiesManagerImpl 
 {
     @Override
-    protected String getJSONString(City city) 
+    protected String getJSONString(City city) throws Exception
     {
         Forecast forecast = new ForecastMorDayEveNight(city);
         forecast.createFromJSON(wService);

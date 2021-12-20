@@ -8,7 +8,7 @@ import it.project.weather.model.ForecastCurrent;
 public class CitiesManagerCurrent extends CitiesManagerImpl 
 {
     @Override
-    protected String getJSONString(City city) 
+    protected String getJSONString(City city) throws Exception
     {
         Forecast forecast = new ForecastCurrent(city);
         forecast.createFromJSON(wService);
