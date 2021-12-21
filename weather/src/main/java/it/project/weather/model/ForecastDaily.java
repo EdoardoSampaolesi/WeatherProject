@@ -1,6 +1,7 @@
 package it.project.weather.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import org.json.simple.JSONArray;
@@ -26,7 +27,7 @@ public class ForecastDaily extends Forecast
     @Override
     public void createFromJSON(WeatherService wService) 
     {
-    	Weather weather;
+    	Weather_complete weather;
  	    JSONArray obj;
 	    try 
 	    {
@@ -35,7 +36,7 @@ public class ForecastDaily extends Forecast
 	 	    for(int i=0; i<7;i++)
 	 	    {
 	 		    o = (JSONObject) obj.get(i);
-	 		    weather = new Weather();
+	 		    weather = new Weather_complete();
 	 		   
 	 		    String main=(String) o.get("main");
 	 		    weather.setMainweather(main);
@@ -56,17 +57,12 @@ public class ForecastDaily extends Forecast
 	 	 	    double snow=(double) o.get("snow");
 	 	 	    weather.setSnow(snow);
 	 	 	    double pop_rain=(double) o.get("pop");
-	 	 	    weather.setPop_rain(pop_rain);
-	 	 	    //short vis=(short) o.get("visibility"); non presente
-	 	 	    //weather.setWind_deg(vis);
-	 	 	    /*
-	 	 	    double temp=(double) o.get("temp");
-	 	 	    weather.setTemp_current(temp);
-	 	 	    double temp_feels=(double) o.get("feels_like");
-	 	 	    weather.setTemp_feelslike(temp_feels);
+	 	 	    weather.setPop_rain(pop_rain);	 	  	 	    
+	 	 	    double temp_max=(double) ((JSONObject) o.get("temp")).get("max");
+	 	 	    weather.setTemp_max(temp_max);
+	 	 	    double temp_min=(double) ((JSONObject) o.get("temp")).get("min");
+	 	 	    weather.setTemp_min(temp_min);
 	 	 	    
-	 	 	    */
-	 	 	   
 	 	 	    weatherList.add(weather);
 	 	   }
 	   } 
@@ -87,6 +83,7 @@ public class ForecastDaily extends Forecast
     		
     	}
     	JSONObject obj= new JSONObject();
+    	obj.put("City", city.getNamecity());
         obj.put("Daily weather", arrayobj);
         return obj;     	
     }
