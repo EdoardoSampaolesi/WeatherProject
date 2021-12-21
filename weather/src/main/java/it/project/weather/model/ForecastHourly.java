@@ -79,9 +79,14 @@ public class ForecastHourly extends Forecast
     @Override
     public JSONObject toJSON() 
     {
-    	
-        
-        return null;
+    	JSONArray arrayobj = new JSONArray();
+    	for(Weather w: weatherList) 
+    	{
+    		arrayobj.add(w.toJSON());
+    	}
+    	JSONObject obj= new JSONObject();
+        obj.put("Hourly weather", arrayobj);
+        return obj;    	        
     }
     
 }
