@@ -80,9 +80,15 @@ public class ForecastDaily extends Forecast
     @Override
     public JSONObject toJSON() 
     {
-    	
-        
-        return null;
+    	JSONArray arrayobj = new JSONArray();
+    	for(Weather w: weatherList) 
+    	{
+    		arrayobj.add(w.toJSON());
+    		
+    	}
+    	JSONObject obj= new JSONObject();
+        obj.put("Daily weather", arrayobj);
+        return obj;     	
     }
     
 }
