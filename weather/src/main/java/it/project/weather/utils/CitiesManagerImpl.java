@@ -35,7 +35,8 @@ public abstract class CitiesManagerImpl implements CitiesManager
     {
         City tempCity = new City(city);
         tempCity.createFromJSON(wService);
-        cityList.add(tempCity);
+        if(!cityList.contains(tempCity))
+            cityList.add(tempCity);
     }
 
     @Override

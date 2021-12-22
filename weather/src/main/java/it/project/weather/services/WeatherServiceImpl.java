@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
 
@@ -153,9 +154,11 @@ public class WeatherServiceImpl implements WeatherService
      */
     private String createHistoricalWeatherAPILink(Coord coords, Date start)
     {
+        Calendar UTCDate = Calendar.getInstance();
+        UTCDate.setTime(start);
         String link = HistoricalWeatherAPILink;
         link += coords.toString();
-        link += "&start" + start.toString(); // maybe conversion needed
+        link += "&dt=" + (UTCDate.getTimeInMillis()/1000);
         link += "&appid=" + apikey;
         link += "&units=imperial";
         return link;

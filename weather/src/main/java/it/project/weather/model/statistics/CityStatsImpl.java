@@ -38,7 +38,7 @@ public class CityStatsImpl implements CityStats
     public void createStats(WeatherService wService, Calendar startDate, Calendar endDate) throws IOException, ParseException 
     {
         statsList.clear();
-        int i;
+        int i=0;
         String dt = null;
         JSONArray weatherEveryHour = new JSONArray();
         Calendar endHourEveryDay = endDate, today = Calendar.getInstance(), weatherDate = Calendar.getInstance();
@@ -50,16 +50,18 @@ public class CityStatsImpl implements CityStats
             JSONArray jarray = (JSONArray) jobj.get("hourly");
 
             for(i = 0; i < jarray.size(); i++)
-                dt = (String) ((JSONObject) jarray.get(i)).get("dt");
-                weatherDate.setTimeInMillis(Integer.parseInt(dt)*1000);
+            {
+                dt = ""+((JSONObject) jarray.get(i)).get("dt");
+                weatherDate.setTimeInMillis(Long.parseLong(dt)*1000);
                 if(weatherDate.compareTo(endHourEveryDay) <= 0)
                     weatherEveryHour.add((JSONObject) jarray.get(i));
                 else
                     break;
+            }
             endHourEveryDay.add(Calendar.DAY_OF_MONTH, 1);
             startDate.add(Calendar.DAY_OF_MONTH, 1);
         }
-        while(endHourEveryDay.compareTo(endDate) <= 0)
+        if(endHourEveryDay.compareTo(endDate) <= 0)
         {
             Vector<String> exclude = new Vector<String>();
             exclude.add("current");
@@ -68,15 +70,20 @@ public class CityStatsImpl implements CityStats
             exclude.add("alerts");
             JSONObject jobj = wService.oneCallAPI(city.getCoord(), exclude);
             JSONArray jarray = (JSONArray) jobj.get("hourly");
-
-            for(i = 0; i < jarray.size(); i++)
-                dt = (String) ((JSONObject) jarray.get(i)).get("dt");
-                weatherDate.setTimeInMillis(Integer.parseInt(dt)*1000);
-                if(weatherDate.compareTo(endHourEveryDay) <= 0)
-                    weatherEveryHour.add((JSONObject) jarray.get(i));
-                else
-                    break;
-            endHourEveryDay.add(Calendar.DAY_OF_MONTH, 1);
+            i=0;
+            while(endHourEveryDay.compareTo(endDate) <= 0)
+            {
+                for(; i < jarray.size(); i++)
+                {
+                    dt = ""+((JSONObject) jarray.get(i)).get("dt");
+                    weatherDate.setTimeInMillis(Long.parseLong(dt)*1000);
+                    if(weatherDate.compareTo(endHourEveryDay) <= 0)
+                        weatherEveryHour.add((JSONObject) jarray.get(i));
+                    else
+                        break;
+                }
+                endHourEveryDay.add(Calendar.DAY_OF_MONTH, 1);
+            }
         }
 
        for(String statName : StatisticNames)

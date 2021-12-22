@@ -1,7 +1,6 @@
 package it.project.weather.controller;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -77,7 +76,11 @@ public class StatsController
             }
             if(startDate.before(endDate))
             {
-                StatisticsFilter filter = new StatisticsFilter(cities,startDate,endDate);
+                StatisticsFilter filter;
+                if(cities != null)
+                    filter = new StatisticsFilter(cities,startDate,endDate);
+                else
+                    filter = new StatisticsFilter(startDate,endDate);
                 return new ResponseEntity<String>(filter.getWeather(),HttpStatus.OK);
             }
             else

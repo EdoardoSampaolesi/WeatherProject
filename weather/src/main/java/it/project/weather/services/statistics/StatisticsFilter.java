@@ -36,6 +36,12 @@ public class StatisticsFilter extends CitiesManagerImpl
         this.endDate = endDate;
     }
 
+    public StatisticsFilter(Calendar startDate, Calendar endDate)
+    {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public String getWeather() throws Exception
     {
         JSONArray array = new JSONArray();
