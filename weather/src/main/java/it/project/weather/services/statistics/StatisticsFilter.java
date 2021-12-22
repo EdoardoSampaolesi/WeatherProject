@@ -1,5 +1,6 @@
 package it.project.weather.services.statistics;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
 
@@ -14,9 +15,9 @@ import it.project.weather.utils.CitiesManagerImpl;
 public class StatisticsFilter extends CitiesManagerImpl
 {
     Vector<City> citiesToExclude = new Vector<City>();
-    Date startDate = null,endDate = null,startTime = null,endTime = null;
+    Calendar startDate = null,endDate = null;
 
-    public StatisticsFilter(String[] cities, Date startDate, Date endDate, Date startTime, Date endTime) throws Exception
+    public StatisticsFilter(String[] cities, Calendar startDate, Calendar endDate) throws Exception
     {
         for(String stringCityExclude : cities)
         {
@@ -33,8 +34,6 @@ public class StatisticsFilter extends CitiesManagerImpl
         }
         this.startDate = startDate;
         this.endDate = endDate;
-        this.startTime = startTime;
-        this.endTime = endTime;
     }
 
     public String getWeather() throws Exception
@@ -54,7 +53,7 @@ public class StatisticsFilter extends CitiesManagerImpl
     protected String getJSONString(City city) throws Exception 
     {
         CityStats stats = new CityStatsImpl(city);
-        stats.createStats(super.wService,startDate,endDate,startTime,endTime);
+        stats.createStats(super.wService,startDate,endDate);
         return stats.toJSON().toJSONString();
     }
     
