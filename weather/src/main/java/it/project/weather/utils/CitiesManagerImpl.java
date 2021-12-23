@@ -61,7 +61,7 @@ public abstract class CitiesManagerImpl implements CitiesManager
         return array.toJSONString();
     }
 
-    protected abstract String getJSONString(City city) throws Exception;
+    protected abstract JSONObject getJSONString(City city) throws Exception;
 
     @Override
     public JSONObject remove(String[] citiesNames)

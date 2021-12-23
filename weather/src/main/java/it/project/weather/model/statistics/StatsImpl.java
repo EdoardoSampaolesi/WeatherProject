@@ -25,20 +25,17 @@ public class StatsImpl implements Stats {
     @Override
     public void createFromJSON(JSONArray jarray)
     {
-        double sum = 0,
-        max = Double.MAX_VALUE,  // this correspond to maximum value for a double variable so every number will be greater
-        min = Double.MIN_VALUE, // this correspond to minimum value for a double variable so every number will be lower
-        val;
+        double sum = 0, value = 0,
+        max = Double.MIN_VALUE,  // this correspond to minimum value for a double variable so every number will be greater
+        min = Double.MAX_VALUE; // this correspond to maximum value for a double variable so every number will be lower
         for(int i = 0; i < jarray.size(); i++)
         {
-            val = Integer.parseInt(
-                (String) ((JSONObject) jarray.get(i)).get(this.statName)
-                );
-            sum += val;
-            if(val > max)
-                max = val;
-            if(val < min)
-                min = val;
+            value = Double.parseDouble(((JSONObject) jarray.get(i)).get(this.statName) + "");
+            sum += value;
+            if(value > max)
+                max = value;
+            if(value < min)
+                min = value;
         }
         this.max = max;
         this.min = min;
@@ -47,11 +44,9 @@ public class StatsImpl implements Stats {
         //variance
         for(int i = 0; i < jarray.size(); i++)
         {
-            val = Integer.parseInt(
-                (String) ((JSONObject) jarray.get(i)).get(this.statName)
-                );
-            val = val - this.av;
-            sum += Math.pow(val, 2);
+            value = Double.parseDouble(((JSONObject) jarray.get(i)).get(this.statName) + "");
+            value = value - this.av;
+            sum += Math.pow(value, 2);
         }
         this.var = sum/jarray.size();
     }
@@ -60,9 +55,9 @@ public class StatsImpl implements Stats {
     public JSONObject toJSON() {
         JSONObject jobj = new JSONObject();
         jobj.put("max", this.max);
-        jobj.put("min", this.max);
+        jobj.put("min", this.min);
         jobj.put("variance", this.var);
-        jobj.put("average", this.max);
+        jobj.put("average", this.av);
         JSONObject returnObj = new JSONObject();
         returnObj.put(this.statName,jobj);
         return returnObj;

@@ -133,7 +133,6 @@ public class WeatherServiceImpl implements WeatherService
             }
         }
         link += "&units=imperial";
-        System.out.println(link);
         return link;
     }
    

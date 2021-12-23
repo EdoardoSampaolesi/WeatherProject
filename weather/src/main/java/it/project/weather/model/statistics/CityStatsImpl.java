@@ -41,7 +41,7 @@ public class CityStatsImpl implements CityStats
         int i=0;
         String dt = null;
         JSONArray weatherEveryHour = new JSONArray();
-        Calendar endHourEveryDay = endDate, today = Calendar.getInstance(), weatherDate = Calendar.getInstance();
+        Calendar endHourEveryDay = (Calendar) endDate.clone(), today = Calendar.getInstance(), weatherDate = Calendar.getInstance();
         today.setTime(new Date());
         endHourEveryDay.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), startDate.get(Calendar.DAY_OF_MONTH));
         while(startDate.before(today) && endHourEveryDay.compareTo(endDate) <= 0)
