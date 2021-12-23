@@ -1,10 +1,10 @@
 package it.project.weather.services.statistics;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Vector;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.interfaces.statistics.CityStats;
@@ -56,11 +56,11 @@ public class StatisticsFilter extends CitiesManagerImpl
     }
 
     @Override
-    protected String getJSONString(City city) throws Exception 
+    protected JSONObject getJSONString(City city) throws Exception 
     {
         CityStats stats = new CityStatsImpl(city);
         stats.createStats(super.wService,startDate,endDate);
-        return stats.toJSON().toJSONString();
+        return stats.toJSON();
     }
     
 }
