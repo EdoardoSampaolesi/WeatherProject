@@ -68,11 +68,11 @@ public class StatsController
                 startDate.setTime(
                     sdf.parse( sdf.format(today) + " " + tstart )
                     );
-                startDate.add(Calendar.DAY_OF_MONTH, -5);
+                startDate.add(Calendar.DAY_OF_MONTH, -4);
                 endDate.setTime(
                     sdf.parse( sdf.format(today) + " " + tend )
                     );
-                endDate.add(Calendar.DAY_OF_MONTH, +6);
+                endDate.add(Calendar.DAY_OF_MONTH, +1);
             }
             if(startDate.before(endDate))
             {

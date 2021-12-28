@@ -1,6 +1,8 @@
 package it.project.weather.services.statistics;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.Vector;
 
 import org.json.simple.JSONArray;
@@ -59,6 +61,21 @@ public class StatisticsFilter extends CitiesManagerImpl
     protected JSONObject getJSONString(City city) throws Exception 
     {
         CityStats stats = new CityStatsImpl(city);
+        //this will be a method in city class ->
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+		sdf.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
+        parser.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Calendar startDate = Calendar.getInstance();
+        startDate.setTime(
+            sdf.parse( parser.format(this.startDate.getTime()).toString() )
+            );
+        Calendar endDate = Calendar.getInstance();
+        endDate.setTime(
+                sdf.parse( parser.format(this.endDate.getTime()).toString() )
+                );
+        
+        // <-
         stats.createStats(super.wService,startDate,endDate);
         return stats.toJSON();
     }
