@@ -3,12 +3,17 @@ package it.project.weather.model;
 import org.json.simple.JSONObject;
 
 
+
 import it.project.weather.exeptions.CityNotFoundException;
 
 import it.project.weather.interfaces.CityInterface;
 
 import it.project.weather.interfaces.WeatherModelEntity;
 import it.project.weather.interfaces.WeatherService;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -32,7 +37,12 @@ public class City implements WeatherModelEntity
     		JSONObject obj= wService.geocodingAPI(name);
     		double lat=(double) obj.get("lat");
     		double lon=(double) obj.get("lon");
-    		this.coord = new CoordImpl(lat,lon); 
+    		this.coord = new CoordImpl(lat,lon);
+    		JSONObject o= wService.geocodingAPI(name);
+    		TimeZone offset = TimeZone.getTimeZone((String) o.get("timezone"));
+    	    this.offset=offset; 
+    	    
+    	
     	}
     	catch(CityNotFoundException e) 
     	{
@@ -42,6 +52,7 @@ public class City implements WeatherModelEntity
     	{
     		throw e;
     	}
+    	//eccezzione superfluea, la gestisce già
     }
 
     @Override
@@ -80,5 +91,15 @@ public class City implements WeatherModelEntity
     {
 		this.offset = offset;
 	}
+    public Calendar fromCityOffsetToGMT(Calendar date) throws ParseException 
+    {
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+        sdf.setTimeZone(this.offset);
+        parser.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Calendar mydate = Calendar.getInstance();
+        mydate.setTime(sdf.parse( parser.format(date.getTime()).toString() ));
+        return mydate;
+    }
    
 }
