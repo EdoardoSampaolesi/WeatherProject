@@ -91,12 +91,12 @@ public class City implements WeatherModelEntity
     {
 		this.offset = offset;
 	}
-    public Calendar fromCityOffsetToGMT(Calendar date) throws ParseException 
+    public Calendar fromCityOffsetToMyDate(Calendar date) throws ParseException 
     {
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
         sdf.setTimeZone(this.offset);
-        parser.setTimeZone(TimeZone.getTimeZone("GMT"));
+        //parser.setTimeZone(TimeZone.getTimeZone("GMT"));
         Calendar mydate = Calendar.getInstance();
         mydate.setTime(sdf.parse( parser.format(date.getTime()).toString() ));
         return mydate;

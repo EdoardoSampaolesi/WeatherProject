@@ -11,5 +11,5 @@ public interface WeatherModelEntity
 {
     public void createFromJSON(WeatherService wService) throws CityNotFoundException, Exception;
     public JSONObject toJSON();
-    public Calendar fromCityOffsetToGMT(Calendar date) throws ParseException;
+    public Calendar fromCityOffsetToMyDate(Calendar date) throws ParseException;
 }
