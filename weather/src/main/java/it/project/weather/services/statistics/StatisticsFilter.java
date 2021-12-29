@@ -65,7 +65,7 @@ public class StatisticsFilter extends CitiesManagerImpl
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 		sdf.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
-        parser.setTimeZone(TimeZone.getTimeZone("GMT"));
+        parser.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
         Calendar startDate = Calendar.getInstance();
         startDate.setTime(
             sdf.parse( parser.format(this.startDate.getTime()).toString() )
