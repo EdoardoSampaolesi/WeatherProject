@@ -54,10 +54,10 @@ public class StatsImpl implements Stats {
     @Override
     public JSONObject toJSON() {
         JSONObject jobj = new JSONObject();
-        jobj.put("max", this.max);
-        jobj.put("min", this.min);
-        jobj.put("variance", this.var);
-        jobj.put("average", this.av);
+        jobj.put("max", Math.round(this.max*100.0)/100.0);
+        jobj.put("min", Math.round(this.min*100.0)/100.0);
+        jobj.put("variance", Math.round(this.var*100.0)/100.0);
+        jobj.put("average", Math.round(this.av*100.0)/100.0);
         JSONObject returnObj = new JSONObject();
         returnObj.put(this.statName,jobj);
         return returnObj;

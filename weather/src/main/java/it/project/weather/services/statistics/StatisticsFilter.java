@@ -8,6 +8,7 @@ import java.util.Vector;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import it.project.weather.exeptions.CityNotAddedException;
 import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.interfaces.statistics.CityStats;
 import it.project.weather.model.City;
@@ -48,12 +49,8 @@ public class StatisticsFilter extends CitiesManagerImpl
     {
         JSONArray array = new JSONArray();
         for(City city : cityList) 
-        {
                 if(!citiesToExclude.contains(city))
-                {
-                    array.add(this.getJSONString(city));
-                }
-        }        
+                    array.add(this.getJSONString(city));     
         return array.toJSONString();
     }
 

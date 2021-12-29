@@ -9,6 +9,7 @@ import java.util.Vector;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import it.project.weather.exeptions.CityNotAddedException;
 import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.exeptions.NotRemovedCity;
 import it.project.weather.interfaces.CitiesManager;
@@ -22,34 +23,49 @@ public abstract class CitiesManagerImpl implements CitiesManager
     protected WeatherService wService = new WeatherServiceImpl("d6a4e0d799239c1f85eaf82a5088ddfe");
 
     @Override
-    public void add(String[] citiesNames) throws CityNotFoundException, Exception
+    public JSONObject add(String[] citiesNames) throws CityNotFoundException, Exception
     {
+        JSONArray response = new JSONArray();
         for (String name : citiesNames)
         {
-            this.add(name);
+            try {
+                this.add(name);
+            } 
+            catch (CityNotAddedException e) 
+            {
+                response.add(e.getErrorJSONObject());
+            }
         }
+        return JSONObject.class.cast(response);
     }
 
     @Override
-    public void add(String city) throws CityNotFoundException, Exception
+    public void add(String city) throws CityNotFoundException, Exception, CityNotAddedException
     {
+        for(City c : cityList)
+            if(c.getNamecity().equals(city))
+                throw new CityNotAddedException(city);
         City tempCity = new City(city);
         tempCity.createFromJSON(wService);
-        if(!cityList.contains(tempCity))
-            cityList.add(tempCity);
+        cityList.add(tempCity);
     }
 
     @Override
     public String getWeather(String[] cities) throws Exception
     {
         JSONArray array = new JSONArray();
+        boolean check;
         for(String name : cities) 
         {
+            check = false;
             try
             {
+                for(City c : cityList)
+                    if(check = c.getNamecity().equals(name))
+                        break;
                 City city  = new City(name);
                 city.createFromJSON(wService);
-                if(!cityList.contains(city))
+                if(!check)
                     cityList.add(city);
                 array.add(getJSONString(city));
             }

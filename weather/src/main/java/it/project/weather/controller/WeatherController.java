@@ -26,12 +26,20 @@ public class WeatherController
     public ResponseEntity<String> addCity(@RequestParam(value="cities") String[] cities)
     {
         manager = new CitiesManagerCurrent();
-        try {
-            manager.add(cities);
-        } catch (Exception e) {
+        ResponseEntity<String> response;
+        try 
+        {
+            JSONObject jObjectAddedError = manager.add(cities);
+            if(jObjectAddedError != null)
+                response = new ResponseEntity<String>(HttpStatus.OK);
+            else
+                response = new ResponseEntity<String>(jObjectAddedError.toJSONString(),HttpStatus.BAD_REQUEST);
+        } 
+        catch (Exception e) 
+        {
             return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<String>(HttpStatus.CREATED);
+        return response;
     }
 
     @GetMapping("/current")

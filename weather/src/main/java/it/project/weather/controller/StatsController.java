@@ -1,5 +1,6 @@
 package it.project.weather.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,6 +39,8 @@ public class StatsController
                     bthour.indexOf(",") + 1
                     ,bthour.indexOf("]")
                     );
+                if(tend.equals(tstart))
+                return new ResponseEntity<String>("Start time must be different from end time!",HttpStatus.BAD_REQUEST);
             }
             else
             {
@@ -59,7 +62,14 @@ public class StatsController
                 dstart = dstart + " " + tstart;
                 dend = dend + " " + tend;
                 startDate.setTime(new SimpleDateFormat(this.DATEFORMAT + " " +this.HOURFORMAT).parse(dstart));   
-                endDate.setTime(new SimpleDateFormat(this.DATEFORMAT + " " +this.HOURFORMAT).parse(dend));     
+                endDate.setTime(new SimpleDateFormat(this.DATEFORMAT + " " +this.HOURFORMAT).parse(dend)); 
+                Calendar today = Calendar.getInstance(); 
+                today.setTime(new Date());
+                if((today.getTimeInMillis() - startDate.getTimeInMillis()) > 363599000) //363599000 corresponds to 5 days 4 hours 59 minutes and 59 seconds
+                    return new ResponseEntity<String>("Time exceeded!",HttpStatus.BAD_REQUEST);   
+                if((endDate.getTimeInMillis() - today.getTimeInMillis()) > 104399000) //104399000 corresponds to 2 days 4 hours 59 minutes and 59 seconds
+                    return new ResponseEntity<String>("Time exceeded!",HttpStatus.BAD_REQUEST);   
+
             }
             else
             {
@@ -80,17 +90,21 @@ public class StatsController
                 if(cities != null)
                     filter = new StatisticsFilter(cities,startDate,endDate);
                 else
-                    filter = new StatisticsFilter(startDate,endDate);
-                return new ResponseEntity<String>(filter.getWeather(),HttpStatus.OK);
+                    filter = new StatisticsFilter(startDate,endDate); 
+                return new ResponseEntity<String>(filter.getWeather(),HttpStatus.CREATED);
             }
             else
-                return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<String>("End must be after start!",HttpStatus.BAD_REQUEST);
 
         }
-        catch(Exception e)
+        catch(ParseException e)
         {
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-        }           
+        }     
+        catch(Exception e)
+        {
+            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }      
     }
     
 }
