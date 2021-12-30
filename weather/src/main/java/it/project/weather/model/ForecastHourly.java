@@ -36,32 +36,42 @@ public class ForecastHourly extends Forecast
 	 	    {
 	 		    o = (JSONObject) obj.get(i);
 	 		    weather = new Weather();
-	 		   
-	 		    String main=(String) o.get("main");
+	 		    String main=(String) ((JSONObject)((JSONArray) o.get("weather")).get(0)).get("main");	 
 	 		    weather.setMainweather(main);
-	 		    String description=(String) o.get("description");
+	 		    String description=(String) ((JSONObject)((JSONArray) o.get("weather")).get(0)).get("description");
 	 		    weather.setDescription(description);
-	 		    double humidity=(double) o.get("humidity");
+	 		    long humidity=(long) o.get("humidity");
 	 	 	    weather.setHumidity(humidity);
-	 	 	    double cloudiness=(double) o.get("clouds");
+	 	 	    long cloudiness=(long) o.get("clouds");
 	 	 	    weather.setClouds(cloudiness);
 	 	 	    double wind_speed=(double) o.get("wind_speed");
 	 	 	    weather.setWind_speed(wind_speed);
-	 	 	    short wind_deg=(short) o.get("wind_deg");
-	 	 	    weather.setWind_deg(wind_deg); 	 	    
-	 	 	    double rain=(double) o.get("rain");
-	 	 	    weather.setRain(rain);
-	 	 	    double snow=(double) o.get("snow");
-	 	 	    weather.setSnow(snow);
-	 	 	    short vis=(short) o.get("visibility");
+	 	 	    long wind_deg=(long) o.get("wind_deg");
+	 	 	    weather.setWind_deg(wind_deg); 
+	 	 	    double rain=0;
+	 	 	    if(o.get("rain")!=null) 
+	 	 	    {
+	 	 	    	rain=(double) o.get("rain");
+		 	 	    weather.setRain(rain);
+	 	 	    }	 	 	    
+	 	 	    double snow=0;
+	 	 	    if(o.get("snow")!=null) 
+	 	 	    {
+	 	 	    	snow=(double) o.get("snow");
+		 	 	    weather.setSnow(snow);
+	 	 	    }
+	 	 	    long pop_rain=0;
+	 	 	    if(o.get("pop")!=null) 
+	 	 	    {
+	 	 	    	pop_rain=(long) o.get("pop");
+	 	 	 	    weather.setPop_rain(pop_rain);
+	 	 	    }
+	 	 	    long vis=(long) o.get("visibility");
 	 	 	    weather.setWind_deg(vis);
 	 	 	    double temp=(double) o.get("temp");
 	 	 	    weather.setTemp_current(temp);
 	 	 	    double temp_feels=(double) o.get("feels_like");
 	 	 	    weather.setTemp_feelslike(temp_feels);
-	 	 	    double pop_rain=(double) o.get("pop");
-	 	 	    weather.setPop_rain(pop_rain);	 	 	
-	 	 	   
 	 	 	    weatherList.add(weather);
 	 	   }
 	   } 

@@ -1,5 +1,6 @@
 package it.project.weather.model;
 
+import java.util.ArrayList;
 import java.util.TimeZone;
 
 import org.json.simple.JSONArray;
@@ -9,22 +10,21 @@ import it.project.weather.interfaces.WeatherInterface;
 
 public class Weather implements WeatherInterface
 {
-	//private Date date= new Date();
 	private String date;
 	private String main_weather;
 	private String description;
-	private double humidity; //%
-	private double clouds; //nuvolosità %
+	private long humidity; // %
+	private long clouds; //nuvolosità %
 	private double wind_speed;
-	private short wind_deg; //gradi
+	private long wind_deg; //gradi
 	private double rain;
 	private double snow;
-	private short visibility;
+	private long visibility;
 	private double temp_current;
 	private double temp_feelslike;
-	private double pop_rain; // %
+	private long pop_rain; // %
 	
-	public Weather(String date, String main_weather, String description, double humidity, double clouds, double wind_speed, short wind_deg, double rain, double snow, short visibility, double temp_current, double temp_feelslike, double pop_rain)
+	public Weather(String date, String main_weather, String description, long humidity, long clouds, double wind_speed, long wind_deg, double rain, double snow, long visibility, double temp_current, double temp_feelslike, long pop_rain)
 	{
 		this.date = date;
 		this.main_weather = main_weather;
@@ -43,7 +43,7 @@ public class Weather implements WeatherInterface
 	
 	public Weather() 
 	{
-		this(null, null, null, 0, 0, 0,(short) 0, 0, 0,(short) 0, 0, 0, 0);
+		this(null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 
     @Override
@@ -55,31 +55,40 @@ public class Weather implements WeatherInterface
     	sdf.setTimeZone(offset); 	 
      	this.date =sdf.format(calendar.getTime()); */
      	jobj = (JSONObject) jobj.get("current");
-
     	String main=(String) ((JSONObject)((JSONArray) jobj.get("weather")).get(0)).get("main");
     	this.main_weather=main;
 		String description=(String) ((JSONObject)((JSONArray) jobj.get("weather")).get(0)).get("description");
     	this.description=description;
-    	double humidity=(double) jobj.get("humidity");//Long
+    	long humidity=(long) jobj.get("humidity");
     	this.humidity=humidity;
-    	double clouds=(double) jobj.get("clouds");//Long
+    	long clouds=(long) jobj.get("clouds");
     	this.clouds=clouds;
     	double wind_speed=(double) jobj.get("wind_speed");
      	this.wind_speed = wind_speed;
-     	short wind_deg=(short) jobj.get("wind_deg");//Long
-     	this.wind_deg = wind_deg;   	
-     	double rain=(double) jobj.get("rain"); //if not null
-     	this.rain = rain;
-     	double snow=(double) jobj.get("snow");//if not null
-     	this.rain = snow;
-     	short visibility=(short) jobj.get("visibility");//long
+     	long wind_deg=(long) jobj.get("wind_deg");
+     	this.wind_deg = wind_deg;   
+     	if(((JSONObject) jobj.get("rain")).get("1h")!=null) 
+     	{
+     		double rain=(double)((JSONObject) jobj.get("rain")).get("1h"); 
+         	this.rain = rain;
+     	}
+     	if(jobj.get("snow")!=null)
+     	{
+     		double snow=(double) jobj.get("snow");
+         	this.snow = snow;
+     	}
+     	if(jobj.get("pop")!=null)
+     	{
+     		long pop_rain=(long) jobj.get("pop");
+         	this.pop_rain = pop_rain;
+     	}
+     	long visibility=(short) jobj.get("visibility");
      	this.visibility = visibility;    	
      	double temp=(double) jobj.get("temp");
      	this.temp_current = temp;
      	double temp_feelslike=(double) jobj.get("feels_like");
      	this.temp_feelslike = temp_feelslike;
-     	double pop_rain=(double) jobj.get("pop"); //Long if not null
-     	this.pop_rain = pop_rain;
+     	
     }
     
 
@@ -130,19 +139,19 @@ public class Weather implements WeatherInterface
 		this.description = description;
 	}
     
-    public double getHumidity() 
+    public long getHumidity() 
     {
 		return humidity;
 	}
-    public void setHumidity(double humidity) 
+    public void setHumidity(long humidity) 
     {
 		this.humidity = humidity;
 	}
 
-	public double getClouds() {
+	public long getClouds() {
 		return clouds;
 	}
-	public void setClouds(double clouds) {
+	public void setClouds(long clouds) {
 		this.clouds = clouds;
 	}
 	
@@ -153,12 +162,13 @@ public class Weather implements WeatherInterface
 		this.wind_speed = wind_speed;
 	}
 
-	public short getWind_deg() {
+	public long getWind_deg() {
 		return wind_deg;
 	}
-	public void setWind_deg(short wind_deg) {
+	public void setWind_deg(long wind_deg) {
 		this.wind_deg = wind_deg;
 	}
+	
 	public double getRain() {
 		return rain;
 	}
@@ -173,10 +183,10 @@ public class Weather implements WeatherInterface
 		this.snow = snow;
 	}
 
-	public short getVisibility() {
+	public long getVisibility() {
 		return visibility;
 	}
-	public void setVisibility(short visibility) {
+	public void setVisibility(long visibility) {
 		this.visibility = visibility;
 	}
 
@@ -194,10 +204,10 @@ public class Weather implements WeatherInterface
 		this.temp_feelslike = temp_feelslike;
 	}
 
-	public double getPop_rain() {
+	public long getPop_rain() {
 		return pop_rain;
 	}
-	public void setPop_rain(double pop_rain) {
+	public void setPop_rain(long pop_rain) {
 		this.pop_rain = pop_rain;
 	}  
 }
