@@ -1,11 +1,11 @@
 package it.project.weather.model;
 
+import java.util.TimeZone;
+
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import it.project.weather.interfaces.WeatherInterface;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 public class Weather implements WeatherInterface
 {
@@ -17,7 +17,6 @@ public class Weather implements WeatherInterface
 	private double clouds; //nuvolosità %
 	private double wind_speed;
 	private short wind_deg; //gradi
-	private String wind_type;
 	private double rain;
 	private double snow;
 	private short visibility;
@@ -25,7 +24,7 @@ public class Weather implements WeatherInterface
 	private double temp_feelslike;
 	private double pop_rain; // %
 	
-	public Weather(String date, String main_weather, String description, double humidity, double clouds, double wind_speed, short wind_deg, String wind_type, double rain, double snow, short visibility, double temp_current, double temp_feelslike, double pop_rain)
+	public Weather(String date, String main_weather, String description, double humidity, double clouds, double wind_speed, short wind_deg, double rain, double snow, short visibility, double temp_current, double temp_feelslike, double pop_rain)
 	{
 		this.date = date;
 		this.main_weather = main_weather;
@@ -34,7 +33,6 @@ public class Weather implements WeatherInterface
 		this.clouds = clouds; 
 		this.wind_speed = wind_speed;
 		this.wind_deg = wind_deg;
-		this.wind_type = wind_type;
 		this.rain = rain;
 		this.snow = snow;
 		this.visibility = visibility;
@@ -45,41 +43,42 @@ public class Weather implements WeatherInterface
 	
 	public Weather() 
 	{
-		this(null, null, null, 0, 0, 0,(short) 0, null, 0, 0,(short) 0, 0, 0, 0);
+		this(null, null, null, 0, 0, 0,(short) 0, 0, 0,(short) 0, 0, 0, 0);
 	}
 
     @Override
     public void createFromJSON(JSONObject jobj, TimeZone offset) 
     {
-    	Calendar calendar = Calendar.getInstance();
+    	/* Calendar calendar = Calendar.getInstance();
     	calendar.setTimeInMillis(Integer.parseInt((String) jobj.get("dt"))*1000);
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
     	sdf.setTimeZone(offset); 	 
-     	this.date =sdf.format(calendar.getTime());
-     	
-    	String main=(String) jobj.get("main");
+     	this.date =sdf.format(calendar.getTime()); */
+     	jobj = (JSONObject) jobj.get("current");
+
+    	String main=(String) ((JSONObject)((JSONArray) jobj.get("weather")).get(0)).get("main");
     	this.main_weather=main;
-    	String description=(String) jobj.get("description");
+		String description=(String) ((JSONObject)((JSONArray) jobj.get("weather")).get(0)).get("description");
     	this.description=description;
-    	double humidity=(double) jobj.get("humidity");
+    	double humidity=(double) jobj.get("humidity");//Long
     	this.humidity=humidity;
-    	double clouds=(double) jobj.get("clouds");
+    	double clouds=(double) jobj.get("clouds");//Long
     	this.clouds=clouds;
     	double wind_speed=(double) jobj.get("wind_speed");
      	this.wind_speed = wind_speed;
-     	short wind_deg=(short) jobj.get("wind_deg");
+     	short wind_deg=(short) jobj.get("wind_deg");//Long
      	this.wind_deg = wind_deg;   	
-     	double rain=(double) jobj.get("rain");
+     	double rain=(double) jobj.get("rain"); //if not null
      	this.rain = rain;
-     	double snow=(double) jobj.get("snow");
+     	double snow=(double) jobj.get("snow");//if not null
      	this.rain = snow;
-     	short visibility=(short) jobj.get("visibility");
+     	short visibility=(short) jobj.get("visibility");//long
      	this.visibility = visibility;    	
      	double temp=(double) jobj.get("temp");
      	this.temp_current = temp;
      	double temp_feelslike=(double) jobj.get("feels_like");
      	this.temp_feelslike = temp_feelslike;
-     	double pop_rain=(double) jobj.get("pop");
+     	double pop_rain=(double) jobj.get("pop"); //Long if not null
      	this.pop_rain = pop_rain;
     }
     
@@ -95,7 +94,6 @@ public class Weather implements WeatherInterface
     	att.put("cloudiness", this.clouds);
     	att.put("wind speed", this.wind_speed);
     	att.put("wind direction", this.wind_deg);
-    	att.put("wind type", this.wind_type);
     	att.put("precipitation volume", this.rain);
     	att.put("snow volume", this.snow);
     	att.put("visibility", this.visibility);
@@ -161,14 +159,6 @@ public class Weather implements WeatherInterface
 	public void setWind_deg(short wind_deg) {
 		this.wind_deg = wind_deg;
 	}
-
-	public String getWind_type() {
-		return wind_type;
-	}
-	public void setWind_type(String wind_type) {
-		this.wind_type = wind_type;
-	}
-
 	public double getRain() {
 		return rain;
 	}

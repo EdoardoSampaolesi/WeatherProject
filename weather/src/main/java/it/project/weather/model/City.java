@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
+import java.util.Vector;
 
 public class City implements CityInterface
 {
@@ -25,11 +26,17 @@ public class City implements CityInterface
     @Override
     public void createFromJSON(WeatherService wService) throws CityNotFoundException, Exception
     {
+        Vector<String> exclude = new Vector<String>();
+        exclude.add("current");
+        exclude.add("minutely");
+        exclude.add("hourly");
+        exclude.add("daily");
+        exclude.add("alerts");
 		JSONObject obj= wService.geocodingAPI(name);
 		double lat=(double) obj.get("lat");
 		double lon=(double) obj.get("lon");
 		this.coord = new CoordImpl(lat,lon);
-		JSONObject o= wService.geocodingAPI(name);
+		JSONObject o= wService.oneCallAPI(this.coord,exclude);
 		TimeZone offset = TimeZone.getTimeZone((String) o.get("timezone"));
 	    this.offset=offset; 
     }

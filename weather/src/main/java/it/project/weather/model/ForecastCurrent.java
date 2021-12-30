@@ -13,7 +13,7 @@ import it.project.weather.utils.Forecast;
 public class ForecastCurrent extends Forecast 
 {
 	
-	private Vector<String> exclude;
+	private Vector<String> exclude = new Vector<String>();
 	
     public ForecastCurrent(City city) 
     {
