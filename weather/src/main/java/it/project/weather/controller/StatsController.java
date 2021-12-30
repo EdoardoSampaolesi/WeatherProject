@@ -1,5 +1,9 @@
 package it.project.weather.controller;
 
+/**
+ * @author @EdoardoSampaolesi
+ */
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

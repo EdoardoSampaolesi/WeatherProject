@@ -1,5 +1,9 @@
 package it.project.weather.controller;
 
+/**
+ * @author @EdoardoSampaolesi
+ */
+
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +26,12 @@ public class WeatherController
 {
     CitiesManagerImpl manager;
 
+    /** 
+     * This method let users to add cities to a personal city list
+     * 
+     * @param cities list of cities name
+     * @return ResponseEntity<String> status of excecution and, if occurred, an error message in JSON format
+     */
     @GetMapping
     public ResponseEntity<String> addCity(@RequestParam(value="cities") String[] cities)
     {
@@ -42,6 +52,13 @@ public class WeatherController
         return response;
     }
 
+    
+    /** 
+     * Method used to get current weather, it returns a JSONOnject with main weather informations
+     * 
+     * @param cities list of cities for which wheather is required
+     * @return ResponseEntity<String> response data in Json format, it can also return an INTERNAL_SERVER_ERROR HttpStatus if exceptions occurred
+     */
     @GetMapping("/current")
     public ResponseEntity<String> currentWeather(@RequestParam(value="cities") String[] cities)
     {
@@ -56,6 +73,15 @@ public class WeatherController
         }
     }
 
+    
+    /** 
+     * Method used to get hourly weather, it returns a JSONArray with main weather informations.
+     * <p> 
+     * Hourly means we return a list of 24 weather from now to 24 hours forward
+     * 
+     * @param cities list of cities for which wheather is required
+     * @return ResponseEntity<String> response data in Json format, it can also return an INTERNAL_SERVER_ERROR HttpStatus if exceptions occurred
+     */
     @GetMapping("/hourly")
     public ResponseEntity<String> hourlyWeather(@RequestParam(value="cities") String[] cities)
     {
@@ -70,6 +96,15 @@ public class WeatherController
         }    
     }
 
+    
+    /** 
+     * Method used to get daily weather, it returns a JSONOnject with main weather informations
+     * <p> 
+     * Daily means we return a list of 7 weather for each day, from today to 7 days forward
+     * 
+     * @param cities list of cities for which wheather is required
+     * @return ResponseEntity<String> response data in Json format, it can also return an INTERNAL_SERVER_ERROR HttpStatus if exceptions occurred
+     */
     @GetMapping("/daily")
     public ResponseEntity<String> dailyWeather(@RequestParam(value="cities") String[] cities)
     {
@@ -84,6 +119,16 @@ public class WeatherController
         }    
     }
 
+    
+    /** 
+     * Method used to get daily weather, it returns a JSONOnject with main weather informations
+     * <p> 
+     * Daily means we return a list of 4 weather, one for each today's dayslot (night, morning, afternoon and evening), 
+     * so that route provied a summary of today's weather informations grouped by dayslot
+     * 
+     * @param cities list of cities for which wheather is required
+     * @return ResponseEntity<String> response data in Json format, it can also return an INTERNAL_SERVER_ERROR HttpStatus if exceptions occurred
+     */
     @GetMapping("/dayslot")
     public ResponseEntity<String> morningDayEveNightWeather(@RequestParam(value="cities") String[] cities)
     {
@@ -98,6 +143,13 @@ public class WeatherController
         }
     }
 
+    
+    /** 
+     * This method let users to remove cities from the personal city list
+     * 
+     * @param cities list of cities name
+     * @return ResponseEntity<String> status of excecution and, if occurred, an error message in JSON format
+     */
     @DeleteMapping("/{cities}")
     public ResponseEntity<String> deleteCity(@PathVariable(value = "cities") String[] cities)
     {
