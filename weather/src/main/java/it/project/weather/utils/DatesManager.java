@@ -1,5 +1,9 @@
 package it.project.weather.utils;
 
+/**
+ * @author @EdoardoSampaolesi
+ */
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,6 +20,19 @@ import it.project.weather.model.City;
 
 public class DatesManager 
 {
+    
+    /** 
+     * 
+     * A static method used to get an array of right weather informations, filtered by start and end date
+     * 
+     * @param wService WeatherService used to perform needed API
+     * @param city City paramter, used to perform needed API and to convert dates using offset
+     * @param startDate start of range
+     * @param endDate end of range, it also contains end time of each day
+     * @return JSONArray an array with all Json datas for every hour in range
+     * @throws IOException an exception that occurs if something went wrong in an API call, we rethrow it
+     * @throws ParseException an exception that occurs if a date is unparsable, we rethrow it
+     */
     public static JSONArray getHourlyWeatherFilteredByStartAndEndDates(WeatherService wService, City city,Calendar startDate, Calendar endDate) throws IOException, ParseException
     {
         //array which contains all hourly json for creating stats
@@ -158,7 +175,7 @@ public class DatesManager
             }
         }
         
-        //that prints all hours selected by method, we use it to check executions' results
+        //that prints all hours selected by method, we use it to check results of executions
         System.out.println("--weatherEveryHour list--");
         int j;
         for(j=0; j < weatherEveryHour.size(); j++)
