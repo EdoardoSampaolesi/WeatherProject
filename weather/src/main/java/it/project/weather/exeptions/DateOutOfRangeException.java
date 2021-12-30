@@ -1,5 +1,9 @@
 package it.project.weather.exeptions;
 
+/**
+ * @author @EdoardoSampaolesi
+ */
+
 import org.json.simple.JSONObject;
 
 import it.project.weather.interfaces.WeatherException;
@@ -13,12 +17,21 @@ public class DateOutOfRangeException extends Exception implements WeatherExcepti
         super(DateOutOfRangeException.error);
     }
 
+    
+    /** 
+     * @return JSONObject
+     */
     @Override
     public JSONObject getErrorJSONObject()
     {
         return getErrorJSONObject(DateOutOfRangeException.error);
     }
 
+    
+    /** 
+     * @param errorMessage
+     * @return JSONObject
+     */
     @Override
     public JSONObject getErrorJSONObject(String errorMessage)
     {

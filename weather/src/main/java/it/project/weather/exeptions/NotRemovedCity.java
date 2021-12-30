@@ -1,7 +1,14 @@
 package it.project.weather.exeptions;
 
+/**
+ * @author @EdoardoSampaolesi
+ */
+
 import org.json.simple.JSONObject;
 
+/**
+ * That class is a particular case of a CityNotFoundException, we don't remove if we aren't able to find the city
+ */
 public class NotRemovedCity extends CityNotFoundException {
 
     private static final String error = "City not found in personal list of cities";
@@ -17,9 +24,13 @@ public class NotRemovedCity extends CityNotFoundException {
         super.city = cityName;
     }
 
+    /** 
+     * Same method used in CityNotFoundException, this just reuse it
+     * 
+     * @return JSONObject Json containing the error message for this exception and the specified city which is referred to
+     */
     @Override
     public JSONObject getErrorJSONObject() {
         return super.getErrorJSONObject(NotRemovedCity.error);
-    }
-    
+    } 
 }
