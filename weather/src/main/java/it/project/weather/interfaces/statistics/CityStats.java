@@ -6,10 +6,11 @@ import java.util.Calendar;
 
 import org.json.simple.JSONObject;
 
+import it.project.weather.exeptions.DateOutOfRangeException;
 import it.project.weather.interfaces.WeatherService;
 
 public interface CityStats
 {
-    public void createStats(WeatherService wService, Calendar startDate, Calendar endDate) throws IOException, ParseException;
+    public void createStats(WeatherService wService, Calendar startDate, Calendar endDate) throws IOException, ParseException, DateOutOfRangeException;
     public JSONObject toJSON();
 }

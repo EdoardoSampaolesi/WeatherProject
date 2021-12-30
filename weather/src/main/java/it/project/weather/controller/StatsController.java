@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.project.weather.exeptions.DateOutOfRangeException;
 import it.project.weather.services.statistics.StatisticsFilter;
 
 @RestController
@@ -45,6 +46,9 @@ public class StatsController
      * this method will set the startDate as 19/01/2022 17:00:00 and endDate as 21/01/2022 18:00:00;
      * remembering that dates and hours indicated are reffered to the city offset, so the statistics will be
      * generated for every city from 17:00 to 18:00 in the city
+     * <p>
+     * If not specified bthour or btdate parameters, default values are 00:00-23:59 for time, 
+     * today -4 days for startDate and today +1 day for endDate
      * 
      * @param cities the list of cities to exclude from the statistic
      * @param bthour range of hours, written as [HH:mm:ss,HH:mm:ss] where the first hour is start and second is end
@@ -97,11 +101,6 @@ public class StatsController
                 endDate.setTime(new SimpleDateFormat(this.DATEFORMAT + " " +this.HOURFORMAT).parse(dend)); 
                 Calendar today = Calendar.getInstance(); 
                 today.setTime(new Date());
-                if((today.getTimeInMillis() - startDate.getTimeInMillis()) > 363599000) //363599000 corresponds to 5 days 4 hours 59 minutes and 59 seconds
-                    return new ResponseEntity<String>("Time exceeded!",HttpStatus.BAD_REQUEST);   
-                if((endDate.getTimeInMillis() - today.getTimeInMillis()) > 104399000) //104399000 corresponds to 2 days 4 hours 59 minutes and 59 seconds
-                    return new ResponseEntity<String>("Time exceeded!",HttpStatus.BAD_REQUEST);   
-
             }
             else
             {
@@ -132,7 +131,7 @@ public class StatsController
         catch(ParseException e)
         {
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-        }     
+        }   
         catch(Exception e)
         {
             return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -11,6 +11,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
+import it.project.weather.exeptions.DateOutOfRangeException;
 import it.project.weather.interfaces.WeatherService;
 import it.project.weather.interfaces.statistics.CityStats;
 import it.project.weather.interfaces.statistics.Stats;
@@ -38,7 +39,7 @@ public class CityStatsImpl implements CityStats
      * @throws IOException
      */
     @Override
-    public void createStats(WeatherService wService, Calendar startDate, Calendar endDate) throws IOException, ParseException 
+    public void createStats(WeatherService wService, Calendar startDate, Calendar endDate) throws IOException, ParseException, DateOutOfRangeException
     {
         //clear statistics list
         statsList.clear();

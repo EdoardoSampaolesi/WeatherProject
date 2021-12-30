@@ -15,6 +15,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
+import it.project.weather.exeptions.DateOutOfRangeException;
 import it.project.weather.interfaces.WeatherService;
 import it.project.weather.model.City;
 
@@ -22,7 +23,6 @@ public class DatesManager
 {
     
     /** 
-     * 
      * A static method used to get an array of right weather informations, filtered by start and end date
      * 
      * @param wService WeatherService used to perform needed API
@@ -32,8 +32,9 @@ public class DatesManager
      * @return JSONArray an array with all Json datas for every hour in range
      * @throws IOException an exception that occurs if something went wrong in an API call, we rethrow it
      * @throws ParseException an exception that occurs if a date is unparsable, we rethrow it
+     * @throws DateOutOfRangeException an exception that occurs if a date is out of range
      */
-    public static JSONArray getHourlyWeatherFilteredByStartAndEndDates(WeatherService wService, City city,Calendar startDate, Calendar endDate) throws IOException, ParseException
+    public static JSONArray getHourlyWeatherFilteredByStartAndEndDates(WeatherService wService, City city,Calendar startDate, Calendar endDate) throws IOException, ParseException, DateOutOfRangeException
     {
         //array which contains all hourly json for creating stats
         JSONArray weatherEveryHour = new JSONArray();
@@ -64,6 +65,8 @@ public class DatesManager
             while(startDate.before(today) && endHourEveryDay.compareTo(endDate) <= 0)
             {
                 JSONObject jobj = wService.historicalWeatherAPI(city.getCoord(), start.getTime());
+                if(jobj.get("message") != null)
+                    throw new DateOutOfRangeException();
                 JSONArray jarray = (JSONArray) jobj.get("hourly");
                 for(int i = 0; i < jarray.size(); i++)
                 {
@@ -78,6 +81,8 @@ public class DatesManager
                 if(startDate.get(Calendar.HOUR_OF_DAY) == 0)
                 {
                     jobj = wService.historicalWeatherAPI(city.getCoord(), startDate.getTime());
+                    if(jobj.get("message") != null)
+                        throw new DateOutOfRangeException();
                     jarray = (JSONArray) jobj.get("hourly");
                     for(int i = 0; i < jarray.size(); i++)
                     {
@@ -122,6 +127,8 @@ public class DatesManager
             if(start.before(today))
             {
                 JSONObject jobj = wService.historicalWeatherAPI(city.getCoord(), start.getTime());
+                if(jobj.get("message") != null)
+                    throw new DateOutOfRangeException();
                 JSONArray jarray = (JSONArray) jobj.get("hourly");
                 for(int i = 0; i < jarray.size(); i++)
                 {
@@ -174,6 +181,9 @@ public class DatesManager
                 }
             }
         }
+
+        if(endDate.after(weatherDate))
+         throw new DateOutOfRangeException();
         
         //that prints all hours selected by method, we use it to check results of executions
         System.out.println("--weatherEveryHour list--");
