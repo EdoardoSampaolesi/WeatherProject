@@ -1,22 +1,21 @@
 package it.project.weather.model;
 
 import java.io.IOException;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 //import org.json.simple.parser.ParseException;
+import org.json.simple.parser.ParseException;
 
+import it.project.weather.exeptions.DateOutOfRangeException;
 import it.project.weather.interfaces.WeatherService;
-import it.project.weather.utils.Forecast;
 import it.project.weather.utils.DatesManager;
+import it.project.weather.utils.Forecast;
 
 public class ForecastMorDayEveNight extends Forecast
 {
@@ -52,7 +51,7 @@ public class ForecastMorDayEveNight extends Forecast
     	    endDate.set(Calendar.MINUTE, 59);
     	    endDate.set(Calendar.SECOND, 59);
     	    
-    	    obj = getHourlyWeatherFilteredByStartAndEndDates(wService, city, startDate, endDate);
+    	    obj = DatesManager.getHourlyWeatherFilteredByStartAndEndDates(wService, city, startDate, endDate);
     	  
     	    JSONObject o;
     	    weather = new Weather();
@@ -149,6 +148,15 @@ public class ForecastMorDayEveNight extends Forecast
         }
         catch (java.text.ParseException e) 
         {		
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DateOutOfRangeException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
