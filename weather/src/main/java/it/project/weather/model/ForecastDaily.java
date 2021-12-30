@@ -1,7 +1,7 @@
 package it.project.weather.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.Vector;
 
 import org.json.simple.JSONArray;
@@ -27,7 +27,7 @@ public class ForecastDaily extends Forecast
     @Override
     public void createFromJSON(WeatherService wService) 
     {
-    	Weather_complete weather;
+    	WeatherComplete weather;
  	    JSONArray obj;
 	    try 
 	    {
@@ -36,7 +36,7 @@ public class ForecastDaily extends Forecast
 	 	    for(int i=0; i<7;i++)
 	 	    {
 	 		    o = (JSONObject) obj.get(i);
-	 		    weather = new Weather_complete();
+	 		    weather = new WeatherComplete();
 	 		   
 	 		    String main=(String) o.get("main");
 	 		    weather.setMainweather(main);
@@ -49,9 +49,7 @@ public class ForecastDaily extends Forecast
 	 	 	    double wind_speed=(double) o.get("wind_speed");
 	 	 	    weather.setWind_speed(wind_speed);
 	 	 	    short wind_deg=(short) o.get("wind_deg");
-	 	 	    weather.setWind_deg(wind_deg);
-	 	 	    //String wind_type=(String) o.get("wind_deg");
-	 	 	    //weather.setWind_deg(wind_deg);
+	 	 	    weather.setWind_deg(wind_deg); 	 	   
 	 	 	    double rain=(double) o.get("rain");
 	 	 	    weather.setRain(rain);
 	 	 	    double snow=(double) o.get("snow");

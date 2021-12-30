@@ -1,7 +1,6 @@
 package it.project.weather.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Vector;
 
 import org.json.simple.JSONArray;
@@ -49,9 +48,7 @@ public class ForecastHourly extends Forecast
 	 	 	    double wind_speed=(double) o.get("wind_speed");
 	 	 	    weather.setWind_speed(wind_speed);
 	 	 	    short wind_deg=(short) o.get("wind_deg");
-	 	 	    weather.setWind_deg(wind_deg);
-	 	 	    //String wind_type=(String) o.get("wind_deg");
-	 	 	    //weather.setWind_deg(wind_deg);
+	 	 	    weather.setWind_deg(wind_deg); 	 	    
 	 	 	    double rain=(double) o.get("rain");
 	 	 	    weather.setRain(rain);
 	 	 	    double snow=(double) o.get("snow");
@@ -63,7 +60,7 @@ public class ForecastHourly extends Forecast
 	 	 	    double temp_feels=(double) o.get("feels_like");
 	 	 	    weather.setTemp_feelslike(temp_feels);
 	 	 	    double pop_rain=(double) o.get("pop");
-	 	 	    weather.setPop_rain(pop_rain);
+	 	 	    weather.setPop_rain(pop_rain);	 	 	
 	 	 	   
 	 	 	    weatherList.add(weather);
 	 	   }
@@ -71,9 +68,7 @@ public class ForecastHourly extends Forecast
 	   catch (IOException | ParseException e)
 	   {
 			e.printStackTrace();
-	   } 
-		
- 	   
+	   }   
     }
 
     @Override
@@ -85,6 +80,7 @@ public class ForecastHourly extends Forecast
     		arrayobj.add(w.toJSON());
     	}
     	JSONObject obj= new JSONObject();
+    	obj.put("City", city.getNamecity());
         obj.put("Hourly weather", arrayobj);
         return obj;    	        
     }

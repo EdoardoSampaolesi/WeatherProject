@@ -8,38 +8,25 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TimeZone;
 import java.util.Vector;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
+//import org.json.simple.parser.ParseException;
 
 import it.project.weather.interfaces.WeatherService;
 import it.project.weather.utils.Forecast;
-//import it.project.weather.utils.DatesManager;
+import it.project.weather.utils.DatesManager;
 
 public class ForecastMorDayEveNight extends Forecast
 {
-	private Vector<String> exclude;
 	private final int SLOT=6;
 	private final String PERIODS[]= {"Night","Morning","Afternoon","Evening"};
 	
     public ForecastMorDayEveNight(City city) 
     {
-        super(city);
-        exclude.add("current");
-        exclude.add("daily");
-        exclude.add("minutely");
-        exclude.add("alerts");
-    }
-    
-   
-    
-    // da 00:00 a 6:00 è notte
-    // da 6:01 a 12:00 è mattina
-    // da 12:01 a 18:00 è pomeriggio
-    // da 18:01 a 23:59 è sera
+        super(city);  
+    }   
 
     @Override
     public void createFromJSON(WeatherService wService) 
@@ -65,10 +52,7 @@ public class ForecastMorDayEveNight extends Forecast
     	    endDate.set(Calendar.MINUTE, 59);
     	    endDate.set(Calendar.SECOND, 59);
     	    
-            //metodo che ritorna un jsonarray delle informazioni di edo
-    	   
-    	    
-    	    //obj = getHourlyWeatherFilteredByStartAndEndDates(wService, city, startDate, endDate);
+    	    obj = getHourlyWeatherFilteredByStartAndEndDates(wService, city, startDate, endDate);
     	  
     	    JSONObject o;
     	    weather = new Weather();

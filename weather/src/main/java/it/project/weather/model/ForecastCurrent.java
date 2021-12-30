@@ -1,6 +1,5 @@
 package it.project.weather.model;
 
-import java.util.TimeZone;
 import java.util.Vector;
 
 import org.json.simple.JSONArray;
@@ -29,19 +28,17 @@ public class ForecastCurrent extends Forecast
     public void createFromJSON(WeatherService wService) 
     {
     	Weather weather;
-       try 
-	   {
-    	   JSONObject obj= wService.oneCallAPI(city.getCoord(), exclude);
-    	   TimeZone offset = TimeZone.getTimeZone((String) obj.get("timezone"));
-    	   this.city.setOffset(offset); 
-    	   weather = new Weather();
-    	   weather.createFromJSON(obj, offset);
-    	   weatherList.add(weather);
-	   	}
-	   	catch(Exception e) 
-	   	{
+        try 
+	    {
+    	    JSONObject obj= wService.oneCallAPI(city.getCoord(), exclude);  	
+    	    weather = new Weather();
+    	    weather.createFromJSON(obj, city.getOffset());
+    	    weatherList.add(weather);
+	   	 }
+	   	 catch(Exception e) 
+	   	 {
 	   		
-	   	}
+	   	 }
     }
 
     @Override

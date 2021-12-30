@@ -1,8 +1,6 @@
 package it.project.weather.model;
 
-import org.json.simple.JSONObject; 
-
-
+import org.json.simple.JSONObject;
 
 import it.project.weather.interfaces.WeatherInterface;
 import java.text.SimpleDateFormat;
@@ -47,7 +45,7 @@ public class Weather implements WeatherInterface
 	
 	public Weather() 
 	{
-		
+		this(null, null, null, 0, 0, 0,(short) 0, null, 0, 0,(short) 0, 0, 0, 0);
 	}
 
     @Override
@@ -58,6 +56,7 @@ public class Weather implements WeatherInterface
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
     	sdf.setTimeZone(offset); 	 
      	this.date =sdf.format(calendar.getTime());
+     	
     	String main=(String) jobj.get("main");
     	this.main_weather=main;
     	String description=(String) jobj.get("description");
@@ -69,9 +68,7 @@ public class Weather implements WeatherInterface
     	double wind_speed=(double) jobj.get("wind_speed");
      	this.wind_speed = wind_speed;
      	short wind_deg=(short) jobj.get("wind_deg");
-     	this.wind_deg = wind_deg;
-     	//String wind_type=(String) jobj.get("");
-    	//this.wind_type=wind_type;
+     	this.wind_deg = wind_deg;   	
      	double rain=(double) jobj.get("rain");
      	this.rain = rain;
      	double snow=(double) jobj.get("snow");
@@ -139,7 +136,7 @@ public class Weather implements WeatherInterface
     {
 		return humidity;
 	}
-    public void setDescription(double humidity) 
+    public void setHumidity(double humidity) 
     {
 		this.humidity = humidity;
 	}

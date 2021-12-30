@@ -2,15 +2,16 @@ package it.project.weather.utils;
 
 import java.util.Vector;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import it.project.weather.exeptions.CityNotFoundException;
-import it.project.weather.interfaces.WeatherModelEntity;
+import it.project.weather.interfaces.ForecastInterface;
 import it.project.weather.interfaces.WeatherService;
 import it.project.weather.model.City;
 import it.project.weather.model.Weather;
 
-public abstract class Forecast implements WeatherModelEntity 
+public abstract class Forecast implements ForecastInterface
 {
     protected Vector<Weather> weatherList = new Vector<Weather>();
     protected City city = null;

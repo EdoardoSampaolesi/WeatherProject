@@ -2,23 +2,16 @@ package it.project.weather.model;
 
 import org.json.simple.JSONObject;
 
-
-
 import it.project.weather.exeptions.CityNotFoundException;
-
 import it.project.weather.interfaces.CityInterface;
-
-import it.project.weather.interfaces.WeatherModelEntity;
 import it.project.weather.interfaces.WeatherService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
-
-public class City implements WeatherModelEntity
+public class City implements CityInterface
 {
 	private String name;
 	private CoordImpl coord;
@@ -32,27 +25,13 @@ public class City implements WeatherModelEntity
     @Override
     public void createFromJSON(WeatherService wService) throws CityNotFoundException, Exception
     {
-    	try 
-    	{
-    		JSONObject obj= wService.geocodingAPI(name);
-    		double lat=(double) obj.get("lat");
-    		double lon=(double) obj.get("lon");
-    		this.coord = new CoordImpl(lat,lon);
-    		JSONObject o= wService.geocodingAPI(name);
-    		TimeZone offset = TimeZone.getTimeZone((String) o.get("timezone"));
-    	    this.offset=offset; 
-    	    
-    	
-    	}
-    	catch(CityNotFoundException e) 
-    	{
-    		throw e;
-    	}
-    	catch(Exception e) 
-    	{
-    		throw e;
-    	}
-    	//eccezzione superfluea, la gestisce già
+		JSONObject obj= wService.geocodingAPI(name);
+		double lat=(double) obj.get("lat");
+		double lon=(double) obj.get("lon");
+		this.coord = new CoordImpl(lat,lon);
+		JSONObject o= wService.geocodingAPI(name);
+		TimeZone offset = TimeZone.getTimeZone((String) o.get("timezone"));
+	    this.offset=offset; 
     }
 
     @Override
