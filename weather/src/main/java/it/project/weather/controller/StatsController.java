@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import it.project.weather.exeptions.DateOutOfRangeException;
 import it.project.weather.services.statistics.StatisticsFilter;
 
 @RestController

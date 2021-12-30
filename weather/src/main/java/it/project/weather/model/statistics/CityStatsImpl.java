@@ -1,17 +1,17 @@
 package it.project.weather.model.statistics;
 
-import java.io.IOException;
+/**
+ * @author @EdoardoSampaolesi
+ */
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 import java.util.Vector;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 
-import it.project.weather.exeptions.DateOutOfRangeException;
 import it.project.weather.interfaces.WeatherService;
 import it.project.weather.interfaces.statistics.CityStats;
 import it.project.weather.interfaces.statistics.Stats;
@@ -33,16 +33,37 @@ public class CityStatsImpl implements CityStats
         StatisticNames.add("humidity");
     }
 
-    /**
-     * if startDate and endDate are null, the default range for statistics is between 5 days before and 7 days after
-     * @throws ParseException
-     * @throws IOException
+    /** 
+     * Method used to fill the statistics' list
+     * <p>
+     * For getting the datas it uses getHourlyWeatherFilteredByStartAndEndDates method which return a complete array filtered
+     *  containing datas every hour, filtered by dates
+     * 
+     * @param wService needed to perform API call to OpenWeather site
+     * @param startDate indicated as city local time
+     * @param endDate indicated as city local time
+     * @throws Exception every exception is rethrown
      */
     @Override
-    public void createStats(WeatherService wService, Calendar startDate, Calendar endDate) throws IOException, ParseException, DateOutOfRangeException
+    public void createStats(WeatherService wService, Calendar startDate, Calendar endDate) throws Exception
     {
         //clear statistics list
         statsList.clear();
+
+        startDate = city.fromCityOffsetToMyDate(startDate);
+        endDate = city.fromCityOffsetToMyDate(endDate);
+        /* //this will be a method in city class ->
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+		sdf.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
+        parser.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
+        startDate.setTime(
+            sdf.parse( parser.format(startDate.getTime()).toString() )
+            );
+        endDate.setTime(
+            sdf.parse( parser.format(endDate.getTime()).toString() )
+            );
+        // <- */
 
         //main method
         JSONArray weatherEveryHour = DatesManager.getHourlyWeatherFilteredByStartAndEndDates(wService, city, startDate, endDate);
@@ -55,6 +76,12 @@ public class CityStatsImpl implements CityStats
        }
     } 
 
+    
+    /** 
+     * Returns a Json containing all statistics for the specified city inside the class 
+     * 
+     * @return JSONObject
+     */
     @Override
     public JSONObject toJSON() 
     {
