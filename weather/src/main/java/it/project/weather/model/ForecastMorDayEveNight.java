@@ -1,10 +1,13 @@
-   package it.project.weather.model;
+package it.project.weather.model;
 
 import java.io.IOException;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.Vector;
 
@@ -14,10 +17,13 @@ import org.json.simple.parser.ParseException;
 
 import it.project.weather.interfaces.WeatherService;
 import it.project.weather.utils.Forecast;
+//import it.project.weather.utils.DatesManager;
 
 public class ForecastMorDayEveNight extends Forecast
 {
 	private Vector<String> exclude;
+	private final int SLOT=6;
+	private final String PERIODS[]= {"Night","Morning","Afternoon","Evening"};
 	
     public ForecastMorDayEveNight(City city) 
     {
@@ -42,7 +48,6 @@ public class ForecastMorDayEveNight extends Forecast
     	Calendar startDate = Calendar.getInstance();
     	Calendar endDate = Calendar.getInstance();
     	Weather weather;
- 	    Vector<Weather> wlist=new Vector<Weather>();
  	    JSONArray obj = null;
  	    startDate.setTime(now);
  	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
@@ -51,7 +56,7 @@ public class ForecastMorDayEveNight extends Forecast
         //parser.setTimeZone(TimeZone.getTimeZone("GMT"));
         try 
         {
-        	startDate.setTime(sdf.parse( parser.format(startDate.getTime()).toString() )); //parser trasforma la data di chicago in una stringa, poi sdf lo trasforma in una data
+        	startDate.setTime(sdf.parse(parser.format(startDate.getTime()).toString() )); //parser trasforma la data di chicago in una stringa, poi sdf lo trasforma in una data
             startDate.set(Calendar.HOUR_OF_DAY, 0);
      	    startDate.set(Calendar.MINUTE, 0);
      	    startDate.set(Calendar.SECOND, 0);
@@ -61,9 +66,13 @@ public class ForecastMorDayEveNight extends Forecast
     	    endDate.set(Calendar.SECOND, 59);
     	    
             //metodo che ritorna un jsonarray delle informazioni di edo
-     	          
+    	   
+    	    
+    	    //obj = getHourlyWeatherFilteredByStartAndEndDates(wService, city, startDate, endDate);
+    	  
     	    JSONObject o;
     	    weather = new Weather();
+    	    String main[]=new String[SLOT];
     	    double average_humidity=0;
     	    double average_clouds=0;
     	    double average_windS=0;
@@ -77,13 +86,10 @@ public class ForecastMorDayEveNight extends Forecast
     	    
     	    for(int j=0;j<4;j++) 
     	    {   	    
-    	    	for(int i=0; i<6;i++)
+    	    	for(int i=0; i<SLOT;i++)
          	    {   	
-         	    	o = (JSONObject) obj.get(i); 	    	
-         	    	/*
-         	    	String main=(String) o1.get("main");
-    	 		    weather.setMainweather(main); 	
-    	 		    */		    
+         	    	o = (JSONObject) obj.get(i); 	    	         	    	       	  
+         	    	main[i]=(String) o.get("main");      	    	
     	 		    double humidity=(double) o.get("humidity");	 	 	 
     	 	 	    average_humidity+=humidity;	 	 	    
     	 	 	    double cloudiness=(double) o.get("clouds");	 	 	    
@@ -91,9 +97,7 @@ public class ForecastMorDayEveNight extends Forecast
     	 	 	    double wind_speed=(double) o.get("wind_speed");	 	 	    
     	 	 	    average_windS+=wind_speed;	 	 	    
     	 	 	    short wind_deg=(short) o.get("wind_deg");	 	 	    
-    	 	 	    average_windD+=wind_deg;	 	 	    
-    	 	 	    //String wind_type=(String) o.get("wind_deg");
-    	 	 	    //weather.setWind_deg(wind_deg);	 	 	    
+    	 	 	    average_windD+=wind_deg;	 	 	      	 	 	    	 	 	    
     	 	 	    double rain=(double) o.get("rain");	 	 	    
     	 	 	    average_rain+=rain;	 	 	    
     	 	 	    double snow=(double) o.get("snow");	 	 	    
@@ -106,18 +110,45 @@ public class ForecastMorDayEveNight extends Forecast
     	 	 	    average_Tfeels+=temp_feels;	 	 	    	 	 	    
     	 	 	    double pop_rain=(double) o.get("pop");
     	 	 	    average_pop+=pop_rain;
-         	    }     	      	    
-         	    //weather.setMainweather(main);
-         	    average_humidity/=6;
-         	    average_clouds/=6;
-         	    average_windS/=6;
-         	    average_windD/=6;
-         	    average_rain/=6;
-         	    average_snow/=6;
-         	    average_vis/=6;
-         	    average_Tcurrent/=6;
-         	    average_Tfeels/=6;
-         	    average_pop/=6;
+         	    }
+    	    	
+    	    	Map<String, Integer> occurrences = new HashMap<String, Integer>();   	    	
+     	    	for (String Word : main ) 
+     	    	{
+     	    	   Integer oldCount = occurrences.get(Word);
+     	    	   if ( oldCount == null ) 
+     	    	   {
+     	    	      oldCount = 0;
+     	    	   }
+     	    	   occurrences.put(Word, oldCount + 1);
+     	    	}
+     	    	
+     	    	Integer maxCounter=0;
+     	    	String maxWord = null;
+     	    	for (String Word : main ) 
+     	    	{
+     	    		Integer oldCount = occurrences.get(Word);
+     	    		if ( oldCount > maxCounter ) 
+     	    		{
+       	    	      maxCounter=oldCount;
+       	    	      maxWord=Word;
+       	    	    }
+     	    		else if ( oldCount == maxCounter ) 
+     	    		{    	    	    
+       	    	      maxWord=maxWord+"\""+Word;
+       	    	    }
+     	    	}      	    	
+     	    	average_humidity/=SLOT;
+         	    average_clouds/=SLOT;
+         	    average_windS/=SLOT;
+         	    average_windD/=SLOT;
+         	    average_rain/=SLOT;
+         	    average_snow/=SLOT;
+         	    average_vis/=SLOT;
+         	    average_Tcurrent/=SLOT;
+         	    average_Tfeels/=SLOT;
+         	    average_pop/=SLOT;
+         	    weather.setMainweather(maxWord);
          	    weather.setHumidity(average_humidity);
          	    weather.setClouds(average_clouds);
          	    weather.setWind_speed(average_windS);
@@ -128,8 +159,9 @@ public class ForecastMorDayEveNight extends Forecast
          		weather.setTemp_current(average_Tcurrent);
          	    weather.setTemp_feelslike(average_Tfeels);
          	    weather.setPop_rain(average_pop);
-         	    weatherList.add(weather);   	    	
-    	    }    
+         	    weatherList.add(weather);
+     		}
+        
         }
         catch (java.text.ParseException e) 
         {		
@@ -141,7 +173,16 @@ public class ForecastMorDayEveNight extends Forecast
     @Override
     public JSONObject toJSON() 
     {
-        return null;
-    }
-    
+    	JSONArray arrayobj = new JSONArray();
+    	JSONObject obj= new JSONObject();    	
+    	obj.put("City", city.getNamecity());  	
+    	for(short i=0; i<weatherList.size() ;i++ ) 
+    	{
+    		JSONObject obj2= new JSONObject();
+    		obj2.put(PERIODS[i], weatherList.elementAt(i).toJSON());  		
+    		arrayobj.add(obj2);  		
+    	}
+    	obj.put("Night, morning, afternoon, evening weather", arrayobj); 
+        return obj;     
+    }   
 }
