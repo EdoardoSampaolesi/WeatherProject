@@ -19,12 +19,34 @@ public class StatsController
     public static final String DATEFORMAT = "dd/MM/yyyy";
     public static final String HOURFORMAT = "HH:mm:ss";
 
+    /** 
+     * This method return an error messagge if the user try to access to a not existing route
+     * 
+     * @return ResponseEntity<String> the response containing the error message and a NOT FOUND HttpStatus
+     */
     @GetMapping("/error")
     public ResponseEntity<String> errorMessage()
     {
         return new ResponseEntity<String>("Route not found!", HttpStatus.NOT_FOUND);
     }
-
+  
+    /** 
+     * This method manage statistics requests. 
+     * It takes as input an hours range and a dates range, than it returns ( unless error occurred ) 
+     * a list of statistics for every cities in a personal list, already available to the program.
+     * <p>
+     * Statistics include max, min, average and variance for: humidity, cloudiness, temperature and visibility.
+     * <p>
+     * If the user send a request with bthour = [17:00:00,18:00:00] and btdate = [19/01/2022,21/01/2022], 
+     * this method will set the startDate as 19/01/2022 17:00:00 and endDate as 21/01/2022 18:00:00;
+     * remembering that dates and hours indicated are reffered to the city offset, so the statistics will be
+     * generated for every city from 17:00 to 18:00 in the city
+     * 
+     * @param cities the list of cities to exclude from the statistic
+     * @param bthour range of hours, written as [HH:mm:ss,HH:mm:ss] where the first hour is start and second is end
+     * @param btdate range of dates, written as [dd/MM/yyyy,dd/MM/yyyy] where the first hour is start and second is end
+     * @return ResponseEntity<String> the return is a JSON or an error message if an Exception occurred
+     */
     @GetMapping("/stats")
     public ResponseEntity<String> createStats(@RequestParam(value="exclude",required = false) String[] cities,
                                               @RequestParam(value="bthour", required = false) String bthour,
