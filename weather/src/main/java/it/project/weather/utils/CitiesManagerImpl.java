@@ -19,11 +19,25 @@ import it.project.weather.services.WeatherServiceImpl;
 
 public abstract class CitiesManagerImpl implements CitiesManager
 {
+    /**
+     * A list of cities, mostly used for statistics
+     */
     protected static Vector<City> cityList = new Vector<City>();
+    /**
+     * Service used in every other class which requires a service for performing OpenWeather API calls
+     */
     protected WeatherService wService = new WeatherServiceImpl("d6a4e0d799239c1f85eaf82a5088ddfe");
 
+    
+    /** 
+     * Main method for adding a city to the personal list
+     * 
+     * @param citiesNames list of cities to add
+     * @return JSONObject errors formatted as Json
+     * @throws Exception any exception is rethrown
+     */
     @Override
-    public JSONObject add(String[] citiesNames) throws CityNotFoundException, Exception
+    public JSONObject add(String[] citiesNames) throws Exception
     {
         JSONArray response = new JSONArray();
         for (String name : citiesNames)
@@ -39,8 +53,15 @@ public abstract class CitiesManagerImpl implements CitiesManager
         return JSONObject.class.cast(response);
     }
 
+    
+    /** 
+     * Allows to add a single city if not already exists in the list
+     * 
+     * @param city single city to add
+     * @throws Exception any exception is rethrown
+     */
     @Override
-    public void add(String city) throws CityNotFoundException, Exception, CityNotAddedException
+    public void add(String city) throws Exception
     {
         for(City c : cityList)
             if(c.getNamecity().equals(city))
@@ -50,6 +71,14 @@ public abstract class CitiesManagerImpl implements CitiesManager
         cityList.add(tempCity);
     }
 
+    
+    /** 
+     * Return weather informations for every city in cities parameter
+     * 
+     * @param cities a list of cities
+     * @return String JsonString of the weather informations of every city
+     * @throws Exception any Exception is rethrown
+     */
     @Override
     public String getWeather(String[] cities) throws Exception
     {
@@ -78,7 +107,13 @@ public abstract class CitiesManagerImpl implements CitiesManager
     }
 
     protected abstract JSONObject getJSONString(City city) throws Exception;
-
+    
+    /** 
+     * Main method for removing a city to the personal list
+     * 
+     * @param citiesNames list of cities to remove
+     * @return JSONObject errors formatted as Json
+     */
     @Override
     public JSONObject remove(String[] citiesNames)
     {
@@ -97,6 +132,13 @@ public abstract class CitiesManagerImpl implements CitiesManager
         return JSONObject.class.cast(response);
     }
 
+    
+    /** 
+     * Allows to remove a single city if it exists
+     * 
+     * @param city Name of the city to remove
+     * @throws NotRemovedCity This Exception occurs when is not possible removing the city
+     */
     @Override
     public void remove(String city) throws NotRemovedCity
     {

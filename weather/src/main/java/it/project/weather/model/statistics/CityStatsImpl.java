@@ -4,9 +4,7 @@ package it.project.weather.model.statistics;
  * @author @EdoardoSampaolesi
  */
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.TimeZone;
 import java.util.Vector;
 
 import org.json.simple.JSONArray;
@@ -42,7 +40,7 @@ public class CityStatsImpl implements CityStats
      * @param wService needed to perform API call to OpenWeather site
      * @param startDate indicated as city local time
      * @param endDate indicated as city local time
-     * @throws Exception every exception is rethrown
+     * @throws Exception any exception is rethrown
      */
     @Override
     public void createStats(WeatherService wService, Calendar startDate, Calendar endDate) throws Exception
@@ -52,18 +50,6 @@ public class CityStatsImpl implements CityStats
 
         startDate = city.fromCityOffsetToMyDate(startDate);
         endDate = city.fromCityOffsetToMyDate(endDate);
-        /* //this will be a method in city class ->
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-		sdf.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
-        parser.setTimeZone(TimeZone.getTimeZone("Europe/Rome"));
-        startDate.setTime(
-            sdf.parse( parser.format(startDate.getTime()).toString() )
-            );
-        endDate.setTime(
-            sdf.parse( parser.format(endDate.getTime()).toString() )
-            );
-        // <- */
 
         //main method
         JSONArray weatherEveryHour = DatesManager.getHourlyWeatherFilteredByStartAndEndDates(wService, city, startDate, endDate);
@@ -76,7 +62,6 @@ public class CityStatsImpl implements CityStats
        }
     } 
 
-    
     /** 
      * Returns a Json containing all statistics for the specified city inside the class 
      * 

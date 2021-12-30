@@ -1,5 +1,9 @@
 package it.project.weather.model.statistics;
 
+/**
+ * @author @EdoardoSampaolesi
+ */
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -21,7 +25,12 @@ public class StatsImpl implements Stats {
     public StatsImpl(String statName) {
         this(0,0,0,0,statName);
     }
-
+   
+    /** 
+     * this method calculates maximum, minimum, average and variance values for the field specified as statName
+     * 
+     * @param jarray an array containing hourly weather informations
+     */
     @Override
     public void createFromJSON(JSONArray jarray)
     {
@@ -51,6 +60,12 @@ public class StatsImpl implements Stats {
         this.var = sum/jarray.size();
     }
 
+    
+    /** 
+     * Create a Json containing max, min, average and variance values
+     * 
+     * @return JSONObject
+     */
     @Override
     public JSONObject toJSON() {
         JSONObject jobj = new JSONObject();

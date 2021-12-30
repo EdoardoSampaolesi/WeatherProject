@@ -1,5 +1,9 @@
 package it.project.weather.services.statistics;
 
+/**
+ * @author @EdoardoSampaolesi
+ */
+
 import java.util.Calendar;
 import java.util.Vector;
 
@@ -13,8 +17,14 @@ import it.project.weather.model.City;
 import it.project.weather.model.statistics.CityStatsImpl;
 import it.project.weather.utils.CitiesManagerImpl;
 
+/**
+ * That class is the filter, it contains all informations insert as route parameters
+ */
 public class StatisticsFilter extends CitiesManagerImpl
 {
+    /**
+     * This paramter represents the list of cities to exclude in creating statistics
+     */
     Vector<City> citiesToExclude = new Vector<City>();
     Calendar startDate = null,endDate = null;
 
@@ -43,6 +53,13 @@ public class StatisticsFilter extends CitiesManagerImpl
         this.endDate = endDate;
     }
 
+    
+    /** 
+     * Main method used to create statistics
+     * 
+     * @return String the Json response as string
+     * @throws Exception any exception is rethorwn because it is used to send an INTERNAL ERROR HttpStatus to the user
+     */
     public String getWeather() throws Exception
     {
         JSONArray array = new JSONArray();
@@ -52,6 +69,14 @@ public class StatisticsFilter extends CitiesManagerImpl
         return array.toJSONString();
     }
 
+    
+    /** 
+     * Calcultes statistics for a single city
+     * 
+     * @param city
+     * @return JSONObject the Json of the statistic
+     * @throws Exception any exception is rethorwn because it is used to send an INTERNAL ERROR HttpStatus to the user
+     */
     @Override
     protected JSONObject getJSONString(City city) throws Exception 
     {
