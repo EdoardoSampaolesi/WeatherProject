@@ -19,6 +19,12 @@ public class StatsController
     public static final String DATEFORMAT = "dd/MM/yyyy";
     public static final String HOURFORMAT = "HH:mm:ss";
 
+    @GetMapping("/error")
+    public ResponseEntity<String> errorMessage()
+    {
+        return new ResponseEntity<String>("Route not found!", HttpStatus.NOT_FOUND);
+    }
+
     @GetMapping("/stats")
     public ResponseEntity<String> createStats(@RequestParam(value="exclude",required = false) String[] cities,
                                               @RequestParam(value="bthour", required = false) String bthour,
