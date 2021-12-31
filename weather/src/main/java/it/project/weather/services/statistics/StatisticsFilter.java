@@ -63,9 +63,15 @@ public class StatisticsFilter extends CitiesManagerImpl
     public String getWeather() throws Exception
     {
         JSONArray array = new JSONArray();
-        for(City city : cityList) 
-                if(!citiesToExclude.contains(city))
-                    array.add(this.getJSONString(city));     
+        boolean check = false;
+        for(City city : cityList)
+        {
+            for(City cityName : citiesToExclude)
+                if(check = cityName.getNamecity().equals(city.getNamecity()))
+                    break;
+            if(!check)
+                array.add(this.getJSONString(city)); 
+        }    
         return array.toJSONString();
     }
 

@@ -36,6 +36,7 @@ public class City implements CityInterface
 		double lat=(double) obj.get("lat");
 		double lon=(double) obj.get("lon");
 		this.coord = new CoordImpl(lat,lon);
+        this.name = (String) obj.get("name");
 		JSONObject o= wService.oneCallAPI(this.coord,exclude);
 		TimeZone offset = TimeZone.getTimeZone((String) o.get("timezone"));
 	    this.offset=offset; 
@@ -77,6 +78,7 @@ public class City implements CityInterface
     {
 		this.offset = offset;
 	}
+    
     public Calendar fromCityOffsetToMyDate(Calendar date) throws ParseException 
     {
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
