@@ -12,7 +12,7 @@ import it.project.weather.utils.Forecast;
 
 public class ForecastDaily extends Forecast 
 {
-	private Vector<String> exclude;
+	private Vector<String> exclude = new Vector<String>();
 	
     public ForecastDaily(City city) 
     {
@@ -92,7 +92,7 @@ public class ForecastDaily extends Forecast
     		
     	}
     	JSONObject obj= new JSONObject();
-    	obj.put("City", city.getNamecity());
+    	obj.put("City", city.toJSON());
         obj.put("Daily weather", arrayobj);
         return obj;     	
     }

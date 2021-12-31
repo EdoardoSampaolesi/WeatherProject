@@ -175,7 +175,7 @@ public class ForecastMorDayEveNight extends Forecast
     {
     	JSONArray arrayobj = new JSONArray();
     	JSONObject obj= new JSONObject();    	
-    	obj.put("City", city.getNamecity());  	
+    	obj.put("City", city.toJSON());  	
     	for(short i=0; i<weatherList.size() ;i++ ) 
     	{
     		JSONObject obj2= new JSONObject();

@@ -45,13 +45,13 @@ public class ForecastCurrent extends Forecast
     public JSONObject toJSON() 
     {
     	JSONArray arrayobj = new JSONArray();
-    	for(Weather w: weatherList) 
+    	for(Weather w : weatherList) 
     	{
     		arrayobj.add(w.toJSON());
     	}
     	JSONObject obj= new JSONObject();
-        obj.put("City", city.getNamecity());
         obj.put("Current weather", arrayobj);
+        obj.put("City", city.toJSON());
         return obj;
     }
 }

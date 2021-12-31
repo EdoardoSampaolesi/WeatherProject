@@ -23,7 +23,7 @@ public class Weather implements WeatherInterface
 	private long visibility;
 	private double temp_current;
 	private double temp_feelslike;
-	private long pop_rain; // %
+	private double pop_rain; // %
 	
 	public Weather(String date, String main_weather, String description, long humidity, long clouds, double wind_speed, long wind_deg, double rain, double snow, long visibility, double temp_current, double temp_feelslike, long pop_rain)
 	{
@@ -55,40 +55,56 @@ public class Weather implements WeatherInterface
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
     	sdf.setTimeZone(offset); 	 
      	this.date =sdf.format(calendar.getTime());
-    	String main=(String) ((JSONObject)((JSONArray) jobj.get("weather")).get(0)).get("main");
-    	this.main_weather=main;
-		String description=(String) ((JSONObject)((JSONArray) jobj.get("weather")).get(0)).get("description");
-    	this.description=description;
-    	long humidity=(long) jobj.get("humidity");
-    	this.humidity=humidity;
-    	long clouds=(long) jobj.get("clouds");
-    	this.clouds=clouds;
-    	double wind_speed=(double) jobj.get("wind_speed");
-     	this.wind_speed = wind_speed;
-     	long wind_deg=(long) jobj.get("wind_deg");
-     	this.wind_deg = wind_deg;   
-     	if(((JSONObject) jobj.get("rain")).get("1h")!=null) 
-     	{
-     		double rain=(double)((JSONObject) jobj.get("rain")).get("1h"); 
-         	this.rain = rain;
-     	}
-     	if(jobj.get("snow")!=null)
-     	{
-     		double snow=(double) jobj.get("snow");
-         	this.snow = snow;
-     	}
+		this.main_weather = (String) ((JSONObject)((JSONArray) jobj.get("weather")).get(0)).get("main");
+		this.description = (String) ((JSONObject)((JSONArray) jobj.get("weather")).get(0)).get("description");
+    	this.humidity = (long) jobj.get("humidity");
+    	this.clouds=(long) jobj.get("clouds");
+    	this.wind_speed=Double.parseDouble(jobj.get("wind_speed") + "");
+     	this.wind_deg=(long) jobj.get("wind_deg");
+		try
+		{
+			if(((JSONObject) jobj.get("rain")) !=null ) 
+				this.rain=Double.parseDouble(((JSONObject) jobj.get("rain")).get("1h") + "");
+		}
+		catch(ClassCastException e)
+		{
+			if(jobj.get("rain") !=null ) 
+				this.rain=Double.parseDouble(jobj.get("rain") + "");
+		} 
+		try
+		{
+			if(((JSONObject) jobj.get("snow")) !=null ) 
+				this.rain=Double.parseDouble(((JSONObject) jobj.get("snow")).get("1h") + "");
+		}
+		catch(ClassCastException e)
+		{
+			if(jobj.get("snow") !=null ) 
+				this.rain=Double.parseDouble(jobj.get("snow") + "");
+		}
      	if(jobj.get("pop")!=null)
-     	{
-     		long pop_rain=(long) jobj.get("pop");
-         	this.pop_rain = pop_rain;
-     	}
-     	long visibility=(short) jobj.get("visibility");
-     	this.visibility = visibility;    	
-     	double temp=(double) jobj.get("temp");
-     	this.temp_current = temp;
-     	double temp_feelslike=(double) jobj.get("feels_like");
-     	this.temp_feelslike = temp_feelslike;
-     	
+     		this.pop_rain=Double.parseDouble(jobj.get("pop") + "");
+
+		if(jobj.get("visibility") != null)
+     		this.visibility=(long) jobj.get("visibility");
+		else
+			this.visibility = Long.MAX_VALUE;
+
+		try
+		{
+     		this.temp_current=Double.parseDouble(jobj.get("temp") + "");
+		}
+		catch(Exception e)
+		{
+			this.temp_current = Double.MAX_VALUE;
+		}
+		try
+		{
+			this.temp_feelslike=Double.parseDouble(jobj.get("feels_like") + "");
+		}
+		catch(Exception e)
+		{
+			this.temp_current = Double.MAX_VALUE;
+		}
     }
     
 
@@ -105,9 +121,12 @@ public class Weather implements WeatherInterface
     	att.put("wind direction", this.wind_deg);
     	att.put("precipitation volume", this.rain);
     	att.put("snow volume", this.snow);
-    	att.put("visibility", this.visibility);
-    	att.put("current temperature", this.temp_current);
-    	att.put("feels like temperature", this.temp_feelslike);
+		if(this.visibility != Long.MAX_VALUE)
+    		att.put("visibility", this.temp_current);
+		if(this.temp_feelslike != Double.MAX_VALUE)
+    		att.put("current temperature", this.temp_current);
+		if(this.temp_feelslike != Double.MAX_VALUE)
+    		att.put("feels like temperature", this.temp_feelslike);
     	att.put("probability percipitation", this.pop_rain);
         return att;
     }
@@ -204,7 +223,7 @@ public class Weather implements WeatherInterface
 		this.temp_feelslike = temp_feelslike;
 	}
 
-	public long getPop_rain() {
+	public double getPop_rain() {
 		return pop_rain;
 	}
 	public void setPop_rain(long pop_rain) {

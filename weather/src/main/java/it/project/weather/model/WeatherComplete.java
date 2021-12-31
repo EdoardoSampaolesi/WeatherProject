@@ -31,9 +31,9 @@ public class WeatherComplete extends Weather {
 	 public void createFromJSON(JSONObject jobj, TimeZone offset) 
 	 {
 		 super.createFromJSON(jobj, offset);
-		 double temp_max=(double) ((JSONObject) jobj.get("temp")).get("max");
+		 double temp_max=Double.parseDouble(((JSONObject) jobj.get("temp")).get("max") + "");
 	     this.temp_max = temp_max;
-	     double temp_min=(double) ((JSONObject) jobj.get("temp")).get("min");
+	     double temp_min=Double.parseDouble(((JSONObject) jobj.get("temp")).get("min") + "");
 	     this.temp_min = temp_min;
 	 }
 

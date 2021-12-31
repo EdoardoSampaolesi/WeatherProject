@@ -46,8 +46,8 @@ public class City implements CityInterface
     {
     	JSONObject att = new JSONObject();
     	att.put("Name", this.name);
-    	att.put("Latitude and longitude", this.coord);
-    	att.put("Time zone", this.offset);
+    	att.put("Latitude and longitude", this.coord.toString());
+    	att.put("Time zone", this.offset.toZoneId());
         return att;
     }    
     

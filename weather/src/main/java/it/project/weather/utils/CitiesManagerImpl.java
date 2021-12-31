@@ -89,13 +89,19 @@ public abstract class CitiesManagerImpl implements CitiesManager
             check = false;
             try
             {
+                City city = null;
                 for(City c : cityList)
                     if(check = c.getNamecity().equals(name))
+                    {
+                        city = c;
                         break;
-                City city  = new City(name);
-                city.createFromJSON(wService);
+                    }
                 if(!check)
+                {
+                    city  = new City(name);
+                    city.createFromJSON(wService);
                     cityList.add(city);
+                }
                 array.add(getJSONString(city));
             }
             catch(CityNotFoundException e)
@@ -103,6 +109,8 @@ public abstract class CitiesManagerImpl implements CitiesManager
                 array.add(e.getErrorJSONObject().toJSONString());
             }
         }
+        for(City c : cityList)
+            System.out.println(c.getNamecity());
         return array.toJSONString();
     }
 

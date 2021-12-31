@@ -142,8 +142,7 @@ public class WeatherServiceImpl implements WeatherService
     private String createOneCallAPILink(Coord coords,Vector<String> exclusions)
     {
         String link = oneCallAPILink;
-        //link += coords.toString(); //lat={[(-)00.00]}&lon={[(-)00.00]}
-        link += "lat=41.87&lon=-87.62";
+        link += coords.toString(); //lat={[(-)00.00]}&lon={[(-)00.00]}
         link += "&appid=" + apikey;
         if(exclusions.size() > 0)
         {
