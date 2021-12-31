@@ -33,15 +33,28 @@ public class ForecastMorDayEveNight extends Forecast
     	Date now =new Date();
     	Calendar startDate = Calendar.getInstance();
     	Calendar endDate = Calendar.getInstance();
-    	Weather weather;
  	    JSONArray obj = null;
  	    startDate.setTime(now);
  	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
         parser.setTimeZone(city.getOffset());
         //parser.setTimeZone(TimeZone.getTimeZone("GMT"));
+        JSONObject o;
+	    Weather weather = new Weather();
+	    String main[]=new String[SLOT];
+	    long average_humidity=0;
+	    long average_clouds=0;
+	    double average_windS=0;
+	    long average_windD=0;
+	    double average_rain=0;
+	    double average_snow=0;
+	    long average_vis=0;
+	    double average_Tcurrent=0;
+	    double average_Tfeels=0;
+	    long average_pop=0;
         try 
         {
+        	
         	startDate.setTime(sdf.parse(parser.format(startDate.getTime()).toString() )); //parser trasforma la data di chicago in una stringa, poi sdf lo trasforma in una data
             startDate.set(Calendar.HOUR_OF_DAY, 0);
      	    startDate.set(Calendar.MINUTE, 0);
@@ -50,49 +63,45 @@ public class ForecastMorDayEveNight extends Forecast
      	    endDate.set(Calendar.HOUR_OF_DAY, 23);
     	    endDate.set(Calendar.MINUTE, 59);
     	    endDate.set(Calendar.SECOND, 59);
-    	    
     	    obj = DatesManager.getHourlyWeatherFilteredByStartAndEndDates(wService, city, startDate, endDate);
-    	  
-    	    JSONObject o;
-    	    weather = new Weather();
-    	    String main[]=new String[SLOT];
-    	    double average_humidity=0;
-    	    double average_clouds=0;
-    	    double average_windS=0;
-    	    short average_windD=0;
-    	    double average_rain=0;
-    	    double average_snow=0;
-    	    short average_vis=0;
-    	    double average_Tcurrent=0;
-    	    double average_Tfeels=0;
-    	    double average_pop=0;  
-    	    
-    	    for(int j=0;j<4;j++) 
+    	    for(int j=0;j<24/SLOT;j++) 
     	    {   	    
     	    	for(int i=0; i<SLOT;i++)
          	    {   	
          	    	o = (JSONObject) obj.get(i); 	    	         	    	       	  
-         	    	main[i]=(String) o.get("main");      	    	
-    	 		    double humidity=(double) o.get("humidity");	 	 	 
+         	    	main[i]=(String) ((JSONObject)((JSONArray) o.get("weather")).get(0)).get("main");      	    	
+    	 		    long humidity=(long) o.get("humidity");	 	 	 
     	 	 	    average_humidity+=humidity;	 	 	    
-    	 	 	    double cloudiness=(double) o.get("clouds");	 	 	    
+    	 	 	    long cloudiness=(long) o.get("clouds");	 	 	    
     	 	 	    average_clouds+=cloudiness;	 	 	    
     	 	 	    double wind_speed=(double) o.get("wind_speed");	 	 	    
-    	 	 	    average_windS+=wind_speed;	 	 	    
-    	 	 	    short wind_deg=(short) o.get("wind_deg");	 	 	    
-    	 	 	    average_windD+=wind_deg;	 	 	      	 	 	    	 	 	    
-    	 	 	    double rain=(double) o.get("rain");	 	 	    
-    	 	 	    average_rain+=rain;	 	 	    
-    	 	 	    double snow=(double) o.get("snow");	 	 	    
-    	 	 	    average_snow+=snow;	 	 	    
-    	 	 	    short vis=(short) o.get("visibility");	 	 	    
+    	 	 	    average_windS+=wind_speed;   	 	 	
+    	 	 	    long wind_deg=(long) o.get("wind_deg");	 	 	    
+    	 	 	    average_windD+=wind_deg;
+    	 	 	    double rain=0;
+    	 	 	    if(o.get("rain")!=null) 
+  	 	 	    	{
+  	 	 	    	rain=(double) o.get("rain");
+  	 	 	    	average_rain+=rain;
+  	 	 	    	}
+    	 	 	    double snow=0;
+  	 	 	        if(o.get("snow")!=null) 
+  	 	 	        {
+  	 	 	        snow=(double) o.get("snow");	 	 	    
+    	 	 	    average_snow+=snow;	 
+  	 	 	        }	 
+  	 	 	        long pop_rain=0;
+  	 	 	        if(o.get("pop")!=null) 
+  	 	 	        {
+  	 	 	        pop_rain=(long) o.get("pop");
+    	 	 	    average_pop+=pop_rain;
+  	 	 	        }
+    	 	 	    long vis=(long) o.get("visibility");	 	 	    
     	 	 	    average_vis+=vis;	 	 	    
     	 	 	    double temp=(double) o.get("temp");	 	 	    
     	 	 	    average_Tcurrent+=temp;	 	 	    
     	 	 	    double temp_feels=(double) o.get("feels_like");
-    	 	 	    average_Tfeels+=temp_feels;	 	 	    	 	 	    
-    	 	 	    double pop_rain=(double) o.get("pop");
-    	 	 	    average_pop+=pop_rain;
+    	 	 	    average_Tfeels+=temp_feels;	 	 	    	 	 	     	 	 	    
          	    }
     	    	
     	    	Map<String, Integer> occurrences = new HashMap<String, Integer>();   	    	
@@ -104,8 +113,7 @@ public class ForecastMorDayEveNight extends Forecast
      	    	      oldCount = 0;
      	    	   }
      	    	   occurrences.put(Word, oldCount + 1);
-     	    	}
-     	    	
+     	    	}     	    	
      	    	Integer maxCounter=0;
      	    	String maxWord = null;
      	    	for (String Word : main ) 

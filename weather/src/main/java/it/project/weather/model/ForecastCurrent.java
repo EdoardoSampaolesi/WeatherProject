@@ -30,7 +30,7 @@ public class ForecastCurrent extends Forecast
     	Weather weather;
         try 
 	    {
-    	    JSONObject obj= wService.oneCallAPI(city.getCoord(), exclude);  	
+    	    JSONObject obj= (JSONObject) wService.oneCallAPI(city.getCoord(), exclude).get("current");  
     	    weather = new Weather();
     	    weather.createFromJSON(obj, city.getOffset());
     	    weatherList.add(weather);
