@@ -1,6 +1,7 @@
 package it.project.weather.model;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.TimeZone;
 
 import org.json.simple.JSONArray;
@@ -14,9 +15,9 @@ public class Weather implements WeatherInterface
 	private String main_weather;
 	private String description;
 	private long humidity; // %
-	private long clouds; //nuvolosità %
+	private long clouds; //cloudiness %
 	private double wind_speed;
-	private long wind_deg; //gradi
+	private long wind_deg; //degrees
 	private double rain;
 	private double snow;
 	private long visibility;
@@ -49,12 +50,11 @@ public class Weather implements WeatherInterface
     @Override
     public void createFromJSON(JSONObject jobj, TimeZone offset) 
     {
-    	/* Calendar calendar = Calendar.getInstance();
-    	calendar.setTimeInMillis(Integer.parseInt((String) jobj.get("dt"))*1000);
+		Calendar calendar = Calendar.getInstance();
+    	calendar.setTimeInMillis((long)jobj.get("dt")*1000);
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
     	sdf.setTimeZone(offset); 	 
-     	this.date =sdf.format(calendar.getTime()); */
-     	jobj = (JSONObject) jobj.get("current");
+     	this.date =sdf.format(calendar.getTime());
     	String main=(String) ((JSONObject)((JSONArray) jobj.get("weather")).get(0)).get("main");
     	this.main_weather=main;
 		String description=(String) ((JSONObject)((JSONArray) jobj.get("weather")).get(0)).get("description");

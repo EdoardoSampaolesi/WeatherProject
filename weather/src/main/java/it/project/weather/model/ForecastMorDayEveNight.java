@@ -64,7 +64,7 @@ public class ForecastMorDayEveNight extends Forecast
     	    endDate.set(Calendar.MINUTE, 59);
     	    endDate.set(Calendar.SECOND, 59);
     	    obj = DatesManager.getHourlyWeatherFilteredByStartAndEndDates(wService, city, startDate, endDate);
-    	    for(int j=0;j<4;j++) 
+    	    for(int j=0;j<24/SLOT;j++) 
     	    {   	    
     	    	for(int i=0; i<SLOT;i++)
          	    {   	
