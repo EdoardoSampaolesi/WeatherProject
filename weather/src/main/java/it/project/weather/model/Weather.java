@@ -95,15 +95,16 @@ public class Weather implements WeatherInterface
 		}
 		catch(Exception e)
 		{
-			this.temp_current = Double.MAX_VALUE;
+			this.temp_current = 1000; //value never registered on earth 
 		}
+		
 		try
 		{
 			this.temp_feelslike=Double.parseDouble(jobj.get("feels_like") + "");
 		}
 		catch(Exception e)
 		{
-			this.temp_current = Double.MAX_VALUE;
+			this.temp_feelslike = 1000; //value never registered on earth 
 		}
     }
     
@@ -123,9 +124,9 @@ public class Weather implements WeatherInterface
     	att.put("snow volume", this.snow);
 		if(this.visibility != Long.MAX_VALUE)
     		att.put("visibility", this.temp_current);
-		if(this.temp_feelslike != Double.MAX_VALUE)
+		if(this.temp_feelslike < 1000)
     		att.put("current temperature", this.temp_current);
-		if(this.temp_feelslike != Double.MAX_VALUE)
+		if(this.temp_feelslike < 1000)
     		att.put("feels like temperature", this.temp_feelslike);
     	att.put("probability percipitation", this.pop_rain);
         return att;

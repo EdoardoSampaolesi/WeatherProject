@@ -37,6 +37,14 @@ public class WeatherComplete extends Weather {
 	     this.temp_min = temp_min;
 	 }
 
+	 public JSONObject toJSON() 
+	 {
+		 JSONObject att = super.toJSON();
+		 att.put("max temperature", this.temp_max);
+		 att.put("min temperature", this.temp_min);
+		 return att;
+	 }
+
 	public double getTemp_max() 
 	{
 		return temp_max;
