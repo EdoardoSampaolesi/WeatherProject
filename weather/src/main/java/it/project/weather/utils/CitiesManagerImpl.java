@@ -33,24 +33,35 @@ public abstract class CitiesManagerImpl implements CitiesManager
      * Main method for adding a city to the personal list
      * 
      * @param citiesNames list of cities to add
-     * @return JSONObject errors formatted as Json
+     * @return JSONArray errors formatted as Json
      * @throws Exception any exception is rethrown
      */
     @Override
-    public JSONObject add(String[] citiesNames) throws Exception
+    public JSONArray add(String[] citiesNames) throws Exception
     {
         JSONArray response = new JSONArray();
         for (String name : citiesNames)
         {
             try {
+
                 this.add(name);
             } 
             catch (CityNotAddedException e) 
             {
                 response.add(e.getErrorJSONObject());
             }
+            catch (CityNotFoundException e)
+            {
+                response.add(e.getErrorJSONObject());
+            }
         }
-        return JSONObject.class.cast(response);
+        JSONArray o = new JSONArray();
+        for(City c : cityList)
+            o.add(c.toJSON());
+        JSONObject obj = new JSONObject();
+        obj.put("cities", o);
+        response.add(o);
+        return response.size() == 0 ? null : response;
     }
 
     
@@ -63,10 +74,10 @@ public abstract class CitiesManagerImpl implements CitiesManager
     @Override
     public void add(String city) throws Exception
     {
-        for(City c : cityList)
-            if(c.getNamecity().equals(city))
-                throw new CityNotAddedException(city);
         City tempCity = new City(city);
+        for(City c : cityList)
+            if(c.getNamecity().equals(tempCity.getNamecity()))
+                throw new CityNotAddedException(city);
         tempCity.createFromJSON(wService);
         cityList.add(tempCity);
     }
@@ -120,10 +131,10 @@ public abstract class CitiesManagerImpl implements CitiesManager
      * Main method for removing a city to the personal list
      * 
      * @param citiesNames list of cities to remove
-     * @return JSONObject errors formatted as Json
+     * @return JSONArray errors formatted as Json
      */
     @Override
-    public JSONObject remove(String[] citiesNames)
+    public JSONArray remove(String[] citiesNames)
     {
         JSONArray response = new JSONArray();
         for (String name : citiesNames)
@@ -137,7 +148,13 @@ public abstract class CitiesManagerImpl implements CitiesManager
                 response.add(e.getErrorJSONObject());
             }
         }
-        return JSONObject.class.cast(response);
+        JSONArray o = new JSONArray();
+        for(City c : cityList)
+            o.add(c.toJSON());
+        JSONObject obj = new JSONObject();
+        obj.put("cities", o);
+        response.add(o);
+        return response.size() == 0 ? null : response;
     }
 
     
@@ -152,8 +169,14 @@ public abstract class CitiesManagerImpl implements CitiesManager
     {
         try
         {
-            if(!cityList.remove(new City(city)))
-            throw new NotRemovedCity(city);
+            City tempCity = new City(city);
+            for(City c : cityList)
+                if(c.getNamecity().equals(tempCity.getNamecity()))
+                {
+                    cityList.remove(c);
+                    return;
+                }
+            throw new NotRemovedCity(tempCity.getNamecity());
         }
         catch(CityNotFoundException e)
         {

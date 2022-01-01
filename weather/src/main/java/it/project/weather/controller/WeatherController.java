@@ -1,15 +1,9 @@
 package it.project.weather.controller;
 
-/**
- * @author @EdoardoSampaolesi
- */
-
-import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,18 +26,16 @@ public class WeatherController
      * @param cities list of cities name
      * @return ResponseEntity<String> status of excecution and, if occurred, an error message in JSON format
      */
-    @GetMapping
+    @GetMapping("/add")
     public ResponseEntity<String> addCity(@RequestParam(value="cities") String[] cities)
     {
         manager = new CitiesManagerCurrent();
         ResponseEntity<String> response;
         try 
         {
-            JSONObject jObjectAddedError = manager.add(cities);
-            if(jObjectAddedError != null)
-                response = new ResponseEntity<String>(HttpStatus.OK);
-            else
-                response = new ResponseEntity<String>(jObjectAddedError.toJSONString(),HttpStatus.BAD_REQUEST);
+            JSONArray jObjectAddedError = manager.add(cities);
+            response = new ResponseEntity<String>(jObjectAddedError.toJSONString(),HttpStatus.OK);
+
         } 
         catch (Exception e) 
         {
@@ -150,18 +142,15 @@ public class WeatherController
      * @param cities list of cities name
      * @return ResponseEntity<String> status of excecution and, if occurred, an error message in JSON format
      */
-    @DeleteMapping("/{cities}")
-    public ResponseEntity<String> deleteCity(@PathVariable(value = "cities") String[] cities)
+    @GetMapping("/remove")
+    public ResponseEntity<String> deleteCity(@RequestParam(value="cities") String[] cities)
     {
         manager = new CitiesManagerCurrent();
         ResponseEntity<String> response;
         try
         {
-            JSONObject jObjectRemovedError = manager.remove(cities);
-            if(jObjectRemovedError != null)
-                response = new ResponseEntity<String>(HttpStatus.OK);
-            else
-                response = new ResponseEntity<String>(jObjectRemovedError.toJSONString(),HttpStatus.BAD_REQUEST);
+            JSONArray jObjectRemovedError = manager.remove(cities);
+            response = new ResponseEntity<String>(jObjectRemovedError.toJSONString(),HttpStatus.OK);
         }
         catch(Exception e)
         {

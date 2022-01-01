@@ -185,13 +185,13 @@ public class DatesManager
         if(endDate.after(weatherDate))
          throw new DateOutOfRangeException();
         
-        //that prints all hours selected by method, we use it to check results of executions
+        //that prints all hours selected by method, we use it to check results of executions ->
         System.out.println("--weatherEveryHour list--");
         int j;
         for(j=0; j < weatherEveryHour.size(); j++)
         {
             SimpleDateFormat k = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-            k.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
+            k.setTimeZone(city.getOffset());
                 dt = ""+((JSONObject) weatherEveryHour.get(j)).get("dt");
                 weatherDate.setTimeInMillis(Long.parseLong(dt)*1000);
                 System.out.println(
@@ -201,7 +201,9 @@ public class DatesManager
                 );
         }
         System.out.println("--end list--");
-
+        // <-
+        /* if(weatherEveryHour.size() == 0)
+            throw new StatsNotCreated(); */
         return weatherEveryHour;
     }
 }
