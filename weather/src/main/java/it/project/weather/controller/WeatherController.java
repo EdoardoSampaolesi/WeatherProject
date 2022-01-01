@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import it.project.weather.services.CitiesManagerCurrent;
 import it.project.weather.services.CitiesManagerDaily;
 import it.project.weather.services.CitiesManagerHourly;
+import it.project.weather.services.CitiesManagerImpl;
 import it.project.weather.services.CitiesManagerMorDayEveNight;
-import it.project.weather.utils.CitiesManagerImpl;
 
 @RestController
 @RequestMapping("/weather")

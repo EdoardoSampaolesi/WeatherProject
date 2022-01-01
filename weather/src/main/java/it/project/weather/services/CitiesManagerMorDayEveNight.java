@@ -7,9 +7,8 @@ package it.project.weather.services;
 import org.json.simple.JSONObject;
 
 import it.project.weather.model.City;
+import it.project.weather.model.Forecast;
 import it.project.weather.model.ForecastMorDayEveNight;
-import it.project.weather.utils.CitiesManagerImpl;
-import it.project.weather.utils.Forecast;
 
 /**
  * The cities manager specify the method getJSONString for getting daily weather informations grouped in dayslot, so it is used with ForecastDayMorEveNight

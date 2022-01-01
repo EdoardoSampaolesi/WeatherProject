@@ -1,15 +1,9 @@
 package it.project.weather.services;
 
-/**
- * @author @EdoardoSampaolesi
- */
-
-import it.project.weather.utils.CitiesManagerImpl;
-import it.project.weather.utils.Forecast;
-
 import org.json.simple.JSONObject;
 
 import it.project.weather.model.City;
+import it.project.weather.model.Forecast;
 import it.project.weather.model.ForecastCurrent;
 
 /**

@@ -8,7 +8,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import it.project.weather.interfaces.WeatherService;
-import it.project.weather.utils.Forecast;
 
 public class ForecastDaily extends Forecast 
 {

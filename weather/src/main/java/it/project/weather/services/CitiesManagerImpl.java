@@ -1,4 +1,4 @@
-package it.project.weather.utils;
+package it.project.weather.services;
 
 /**
  * @author @EdoardoSampaolesi
@@ -15,7 +15,6 @@ import it.project.weather.exeptions.NotRemovedCity;
 import it.project.weather.interfaces.CitiesManager;
 import it.project.weather.interfaces.WeatherService;
 import it.project.weather.model.City;
-import it.project.weather.services.WeatherServiceImpl;
 
 public abstract class CitiesManagerImpl implements CitiesManager
 {

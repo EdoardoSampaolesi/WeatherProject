@@ -1,4 +1,4 @@
-package it.project.weather.utils;
+package it.project.weather.model;
 
 import java.util.Vector;
 
@@ -8,8 +8,6 @@ import org.json.simple.JSONObject;
 import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.interfaces.ForecastInterface;
 import it.project.weather.interfaces.WeatherService;
-import it.project.weather.model.City;
-import it.project.weather.model.Weather;
 
 public abstract class Forecast implements ForecastInterface
 {

@@ -16,7 +16,7 @@ import it.project.weather.exeptions.StatNotAvailableException;
 import it.project.weather.interfaces.statistics.CityStats;
 import it.project.weather.model.City;
 import it.project.weather.model.statistics.CityStatsImpl;
-import it.project.weather.utils.CitiesManagerImpl;
+import it.project.weather.services.CitiesManagerImpl;
 
 /**
  * That class is the filter, it contains all informations insert as route parameters
