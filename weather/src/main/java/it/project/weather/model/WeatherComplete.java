@@ -40,8 +40,8 @@ public class WeatherComplete extends Weather {
 	 public JSONObject toJSON() 
 	 {
 		 JSONObject att = super.toJSON();
-		 att.put("max temperature", this.temp_max);
-		 att.put("min temperature", this.temp_min);
+		 att.put("max temperature", this.temp_max + " F");
+		 att.put("min temperature", this.temp_min + " F");
 		 return att;
 	 }
 

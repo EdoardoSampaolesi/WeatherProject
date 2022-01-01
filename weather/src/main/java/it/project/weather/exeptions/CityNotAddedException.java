@@ -9,8 +9,8 @@ import org.json.simple.JSONObject;
 /**
  * That class is a particular case of a CityNotFoundException
  */
-public class CityNotAddedException extends CityNotFoundException {
-
+public class CityNotAddedException extends CityNotFoundException 
+{
     private static final String error = "Already exists a city with that name in the list";
 
     public CityNotAddedException() 

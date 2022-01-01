@@ -10,6 +10,7 @@ import java.util.Vector;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import it.project.weather.exeptions.StatNotAvailableException;
 import it.project.weather.interfaces.WeatherService;
 import it.project.weather.interfaces.statistics.CityStats;
 import it.project.weather.interfaces.statistics.Stats;
@@ -53,6 +54,8 @@ public class CityStatsImpl implements CityStats
 
         //main method
         JSONArray weatherEveryHour = DatesManager.getHourlyWeatherFilteredByStartAndEndDates(wService, city, startDate, endDate);
+        if(weatherEveryHour == null)
+            throw new StatNotAvailableException(city.getNamecity());
 
        for(String statName : StatisticNames)
        {

@@ -8,8 +8,8 @@ import org.json.simple.JSONObject;
 
 import it.project.weather.interfaces.WeatherException;
 
-public class DateOutOfRangeException extends Exception implements WeatherException{
-
+public class DateOutOfRangeException extends Exception implements WeatherException
+{
     private static final String error = "Requested time is out of allowed range";
 
     public DateOutOfRangeException() 

@@ -12,6 +12,7 @@ import org.json.simple.JSONObject;
 
 import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.exeptions.DateOutOfRangeException;
+import it.project.weather.exeptions.StatNotAvailableException;
 import it.project.weather.interfaces.statistics.CityStats;
 import it.project.weather.model.City;
 import it.project.weather.model.statistics.CityStatsImpl;
@@ -93,6 +94,12 @@ public class StatisticsFilter extends CitiesManagerImpl
             return stats.toJSON();
         }
         catch(DateOutOfRangeException e)
+        {
+            JSONObject o = e.getErrorJSONObject();
+            o.put("city", city.getNamecity());
+            return o;
+        }
+        catch(StatNotAvailableException e)
         {
             JSONObject o = e.getErrorJSONObject();
             o.put("city", city.getNamecity());

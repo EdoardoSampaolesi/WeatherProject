@@ -1,26 +1,22 @@
 package it.project.weather.exeptions;
 
-/**
- * @author @EdoardoSampaolesi
- */
-
 import org.json.simple.JSONObject;
 
 import it.project.weather.interfaces.WeatherException;
 
-public class CityNotFoundException extends Exception implements WeatherException
+public class StatNotAvailableException extends Exception implements WeatherException
 {
-    private static final String error = "City not found in OpenWeather cities database";
+    private static final String error = "Statistics not available for date or time specified";
     protected String city = null;
 
-    public CityNotFoundException() 
+    public StatNotAvailableException() 
     {
-        super(CityNotFoundException.error);
+        super(StatNotAvailableException.error);
     }
 
-    public CityNotFoundException(String cityName) 
+    public StatNotAvailableException(String cityName) 
     {
-        super(CityNotFoundException.error);
+        super(StatNotAvailableException.error);
         this.city = cityName;
     }
   
@@ -32,7 +28,7 @@ public class CityNotFoundException extends Exception implements WeatherException
     @Override
     public JSONObject getErrorJSONObject()
     {
-        return getErrorJSONObject(CityNotFoundException.error);
+        return getErrorJSONObject(StatNotAvailableException.error);
     }
  
     /** 

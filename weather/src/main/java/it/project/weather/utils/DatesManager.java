@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 import java.util.Vector;
 
 import org.json.simple.JSONArray;
@@ -202,8 +201,8 @@ public class DatesManager
         }
         System.out.println("--end list--");
         // <-
-        /* if(weatherEveryHour.size() == 0)
-            throw new StatsNotCreated(); */
+        if(weatherEveryHour.size() == 0)
+            return null;
         return weatherEveryHour;
     }
 }

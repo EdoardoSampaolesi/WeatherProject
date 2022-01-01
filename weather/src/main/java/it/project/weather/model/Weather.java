@@ -14,16 +14,16 @@ public class Weather implements WeatherInterface
 	private String date;
 	private String main_weather;
 	private String description;
-	private long humidity; // %
-	private long clouds; //cloudiness %
+	private long humidity;
+	private long clouds;
 	private double wind_speed;
-	private long wind_deg; //degrees
+	private long wind_deg;
 	private double rain;
 	private double snow;
 	private long visibility;
 	private double temp_current;
 	private double temp_feelslike;
-	private double pop_rain; // %
+	private double pop_rain;
 	
 	public Weather(String date, String main_weather, String description, long humidity, long clouds, double wind_speed, long wind_deg, double rain, double snow, long visibility, double temp_current, double temp_feelslike, long pop_rain)
 	{
@@ -55,8 +55,14 @@ public class Weather implements WeatherInterface
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
     	sdf.setTimeZone(offset); 	 
      	this.date =sdf.format(calendar.getTime());
-		this.main_weather = (String) ((JSONObject)((JSONArray) jobj.get("weather")).get(0)).get("main");
-		this.description = (String) ((JSONObject)((JSONArray) jobj.get("weather")).get(0)).get("description");
+		JSONArray jsontemp = (JSONArray) jobj.get("weather");
+		this.main_weather = (String) ((JSONObject) jsontemp.get(0)).get("main");
+		this.description = (String) ((JSONObject) jsontemp.get(0)).get("description");
+		for(int i = 1; i < jsontemp.size(); i++)
+		{
+			this.main_weather += " / " + (String) ((JSONObject) jsontemp.get(i)).get("main");
+			this.description += " / " + (String) ((JSONObject) jsontemp.get(i)).get("description");
+		}
     	this.humidity = (long) jobj.get("humidity");
     	this.clouds=(long) jobj.get("clouds");
     	this.wind_speed=Double.parseDouble(jobj.get("wind_speed") + "");
@@ -108,7 +114,6 @@ public class Weather implements WeatherInterface
 		}
     }
     
-
     @Override
     public JSONObject toJSON() 
     {
@@ -116,19 +121,19 @@ public class Weather implements WeatherInterface
     	att.put("date", this.date);
     	att.put("weather", this.main_weather);
     	att.put("weather descritpion", this.description);
-    	att.put("humidity", this.humidity);
-    	att.put("cloudiness", this.clouds);
-    	att.put("wind speed", this.wind_speed);
-    	att.put("wind direction", this.wind_deg);
-    	att.put("precipitation volume", this.rain);
-    	att.put("snow volume", this.snow);
+    	att.put("humidity", this.humidity +  " %");
+    	att.put("cloudiness", this.clouds +  " %");
+    	att.put("wind speed", this.wind_speed + " mi/h");
+    	att.put("wind direction", this.wind_deg + "°");
+    	att.put("precipitation volume", this.rain + " mm");
+    	att.put("snow volume", this.snow + " mm");
 		if(this.visibility != Long.MAX_VALUE)
-    		att.put("visibility", this.temp_current);
+    		att.put("visibility", this.visibility + " ft");
 		if(this.temp_feelslike < 1000)
-    		att.put("current temperature", this.temp_current);
+    		att.put("current temperature", this.temp_current + " F");
 		if(this.temp_feelslike < 1000)
-    		att.put("feels like temperature", this.temp_feelslike);
-    	att.put("probability percipitation", this.pop_rain);
+    		att.put("feels like temperature", this.temp_feelslike + " F");
+    	att.put("probability percipitation", this.pop_rain + " %");
         return att;
     }
     
