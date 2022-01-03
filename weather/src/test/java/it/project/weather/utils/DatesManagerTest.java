@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.json.simple.parser.ParseException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,12 +36,25 @@ public class DatesManagerTest
         endDate = Calendar.getInstance();
         Calendar today = Calendar.getInstance();
         today.setTime(new Date());
-        startDate.set(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH), 10, 0, 0);
-        endDate.set(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH), 11, 0, 0);
+        startDate.set(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+        try 
+        {
+            startDate = city.fromCityOffsetToMyDate(startDate);
+        } 
+        catch (java.text.ParseException e) 
+        {
+            e.printStackTrace();
+        }
+        endDate.set(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH), 23, 59, 59);
+        try 
+        {
+            endDate = city.fromCityOffsetToMyDate(endDate);
+        } 
+        catch (java.text.ParseException e) 
+        {
+            e.printStackTrace();
+        }
     }
-
-    @After
-    public void tearDown() {}
     
     @Test
     public void testNullDateReturn()
