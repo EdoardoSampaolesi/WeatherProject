@@ -54,6 +54,7 @@ public class StatsController
      * @param btdate range of dates, written as [dd/MM/yyyy,dd/MM/yyyy] where the first hour is start and second is end
      * @return ResponseEntity<String> the return is a JSON or an error message if an Exception occurred
      */
+
     @GetMapping("/stats")
     public ResponseEntity<String> createStats(@RequestParam(value="exclude",required = false) String[] cities,
                                               @RequestParam(value="bthour", required = false) String bthour,
