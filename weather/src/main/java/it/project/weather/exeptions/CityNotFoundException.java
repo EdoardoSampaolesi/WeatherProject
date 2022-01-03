@@ -11,7 +11,7 @@ import it.project.weather.interfaces.WeatherException;
 public class CityNotFoundException extends Exception implements WeatherException
 {
     private static final String error = "City not found in OpenWeather cities database";
-    protected String city = null;
+    private String city = null;
 
     public CityNotFoundException() 
     {
@@ -21,6 +21,12 @@ public class CityNotFoundException extends Exception implements WeatherException
     public CityNotFoundException(String cityName) 
     {
         super(CityNotFoundException.error);
+        this.city = cityName;
+    }
+
+    public CityNotFoundException(String cityName, String errorMessage) 
+    {
+        super(errorMessage);
         this.city = cityName;
     }
   

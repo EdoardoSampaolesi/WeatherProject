@@ -15,13 +15,12 @@ public class CityNotAddedException extends CityNotFoundException
 
     public CityNotAddedException() 
     {
-        super(CityNotAddedException.error);
+        super(null,CityNotAddedException.error);
     }
 
     public CityNotAddedException(String cityName) 
     {
-        super(CityNotAddedException.error);
-        super.city = cityName;
+        super(cityName,CityNotAddedException.error);
     }
 
     /** 

@@ -15,13 +15,12 @@ public class NotRemovedCity extends CityNotFoundException
 
     public NotRemovedCity() 
     {
-        super(NotRemovedCity.error);
+        super(null,NotRemovedCity.error);
     }
 
     public NotRemovedCity(String cityName) 
     {
-        super(NotRemovedCity.error);
-        super.city = cityName;
+        super(cityName,NotRemovedCity.error);
     }
 
     /** 

@@ -35,7 +35,6 @@ public class WeatherController
         {
             JSONArray jObjectAddedError = manager.add(cities);
             response = new ResponseEntity<String>(jObjectAddedError.toJSONString(),HttpStatus.OK);
-
         } 
         catch (Exception e) 
         {
