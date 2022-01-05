@@ -1,6 +1,7 @@
 package it.project.weather.services;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.util.Date;
@@ -51,6 +52,8 @@ public class WeatherServiceTests
             assertNotNull(service.geocodingAPI("Chicago"));
         } 
         catch (CityNotFoundException | IOException | ParseException e) {}
+        
+        assertThrows(CityNotFoundException.class, () -> {service.geocodingAPI("dfhasduifhsad");});
     }
 
     @Test
