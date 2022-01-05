@@ -29,7 +29,7 @@ Il centro del programma è un oggetto di tipo ``CitiesManager`` il quale gestisc
 In esso è inserita una lista di città chiamata ``cityList`` la quale contiene tutte le città per il quale l'utente ha richiesto le informazioni meteo nel corso del tempo. 
 Sono poi disponibili metodi per aggiungere e rimuovere elementi dalla lista.</br>
 Ogni qual volta un utente richiede informazioni meteo per una o più città, esse vengono inserite all'interno della lista e rimangono disponibili fino a quanto non vengono rimosse volontriamente dall'utente.</br>
-La lista è un elemento molto importante perchè viene utilizzata nella generazione delle statistiche. Abbiamo ritenuto che fosse interesse dell'utente generare statistiche per le città di suo interesse e risulta ovvio che queste sono quelle per le quali sono state richieste, in passato, le previsioni meteorologiche. Qualora un utente sia interessato a conoscere le statistiche solo per una parte delle città presenti nella lista, è stato messo a disposizione un campo ``exclude`` nella [rotta delle statistiche](#mycosa "rotta delle statistiche") che consente di escludere tali città nella generazione delle statistiche.
+La lista è un elemento molto importante perchè viene utilizzata nella generazione delle statistiche. Abbiamo ritenuto che fosse interesse dell'utente generare statistiche per le città di suo interesse e risulta ovvio che queste sono quelle per le quali sono state richieste, in passato, le previsioni meteorologiche. Qualora un utente sia interessato a conoscere le statistiche solo per una parte delle città presenti nella lista, è stato messo a disposizione un campo ``exclude`` nella [rotta delle statistiche](#stat "rotta delle statistiche") che consente di escludere tali città nella generazione delle statistiche.
 
 ## Rotte
 Si evidenziano di seguito le rotte disponibili e le loro funzionalità:</br>
@@ -59,6 +59,7 @@ Ogni altra rotta è gestita mediante ``@GetMapping("/error")``, ad esso è assoc
 ## Statistiche
 | Tipo  | Indirizzo  | Campi  | Descrizione |
 | ------------ | ------------ | ------------ | ------------ |
+#stat
 | ``GET`` | ``\stats`` | ``exlcude`` ``bthour`` ``btdate`` | Consente di generare le statistiche per le città presenti in ``cityList`` |
 
 Nessuno dei campi è obbligatorio, in caso di mancati inserimenti dei parametri richiesti vengono inseriti valore di default 
