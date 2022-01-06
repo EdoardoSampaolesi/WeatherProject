@@ -3,8 +3,12 @@ L'applicativo sviluppato consente di ottenere informazioni meteorologiche sulle 
 Consente inoltre la visualizzazione di statistiche rigurdardanti particolari dati meteo, descritti in seguito, con possiblità di filtraggio per data ed ora.
 
 ### Indice
-- [myd fsadfsad]
-  - [fdsdfsdf]
+- [Installazione](#Installazione)
+- [Configurazione](#Configurazione)
+- [Descrizione](#Descrizione)
+  - [Funzionalità](#Funzionalità)
+- [Rotte](#Rotte)
+- [Statistiche](#Statistiche) 
 
 ## Installazione
 WeatherProject è installabile dal Prompt dei Comandi digitando:
