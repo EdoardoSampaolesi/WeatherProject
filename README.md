@@ -56,10 +56,10 @@ Come si evince da sopra, i caratteri speciali necessitano di essere codificati, 
 
 Ogni altra rotta è gestita mediante ``@GetMapping("/error")``, ad esso è associato un metodo che ritorna un semplice messaggio di errore **non in formato JSON**
 
-## Statistiche
+[## Statistiche](#stat)
 | Tipo  | Indirizzo  | Campi  | Descrizione |
 | ------------ | ------------ | ------------ | ------------ |
-#stat
+
 | ``GET`` | ``\stats`` | ``exlcude`` ``bthour`` ``btdate`` | Consente di generare le statistiche per le città presenti in ``cityList`` |
 
 Nessuno dei campi è obbligatorio, in caso di mancati inserimenti dei parametri richiesti vengono inseriti valore di default 
