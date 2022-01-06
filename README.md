@@ -15,7 +15,7 @@ Consente inoltre la visualizzazione di statistiche rigurdardanti particolari dat
   - [Daily]
   - [Dayslot]
 - [Statistiche](#Statistiche)
-  - [Esempio di chiamata](#Esempio di chiamata alle statistiche)
+  - [Esempio di chiamata](#Esempio-di-chiamata-alle-statistiche)
 - [Eccezioni]
 - [Documentazione e Test]
 
@@ -55,19 +55,19 @@ Si evidenziano di seguito le rotte disponibili e le loro funzionalità:</br>
 | ``GET`` | ``\weather\daily`` | ``cities`` | Fornisce le principali informazioni meteo giornaliere per 7 giorni da oggi per le città definite nel campo ``cities``, si ricorda che le città devono essere necessariamente statunitensi |
 | ``GET`` | ``\weather\dayslot`` | ``cities`` | Fornisce le principali informazioni meteo odierne raggruppate per momenti della giornata per le città definite nel campo ``cities``, si ricorda che le città devono essere necessariamente statunitensi |
 
-**I momenti della giornata sono così definiti:**
-- Notte, dalle 00:00 alle 05:59
-- Mattino, dalle 06:00 alle 11:59 
-- Pomeriggio dalle 12:00 alle 17:59
-- Notte dalle 18:00 alle 23:59
+> **I momenti della giornata sono così definiti:**
+> - Notte, dalle 00:00 alle 05:59
+> - Mattino, dalle 06:00 alle 11:59 
+> - Pomeriggio dalle 12:00 alle 17:59
+> - Notte dalle 18:00 alle 23:59
+
+Ogni altra rotta è gestita mediante ``@GetMapping("/error")``, ad esso è associato un metodo che ritorna un semplice messaggio di errore **non in formato JSON**
 
 Per gestire più città contemporaneamente basta semplicemente inserire i vari nomi separati da virgola come di seguito:
 ```
 localhost:8080/weather/add?cities=New%20York,Chicago,Los%20Angeles
 ```
 Come si evince da sopra, i caratteri speciali necessitano di essere codificati, esistono strumenti appositi all'interno di servizi quali Postman, che consentono di farlo in automatico. ( Le virgole **non** devono essere codificate, esse servono per definire che gli elementi separati dalla virgola stessa sono due o più elementi diversi )
-
-Ogni altra rotta è gestita mediante ``@GetMapping("/error")``, ad esso è associato un metodo che ritorna un semplice messaggio di errore **non in formato JSON**
 
 ## Statistiche
 Le statistiche fanno riferimento ai valori di: *Pressione, Umidità, Nuvolosità e Temperatura*.</br>
@@ -84,7 +84,7 @@ Il parametro ``btdate`` rappresenta l'intervallo di giorni per cui si vogliono o
  > *Va tenuto in cosiderazione che attraverso una Api Key gratuita di OpenWeather è possibile richiede informazioni meteo fino ad un massimo di 7 giorni passati da giorno corrente e fino ad un massimo di 2 giorni in avanti* </br>
 > **Gli orari e i giorni inseriti nei rispettivi parametri vengono valutati in base al *fuso orario delle città prese in considerazione***
 
-#### Esempio di chiamata alle statistiche
+#### Esempio-di-chiamata-alle-statistiche
 Prima di tutto andiamo ad aggiungere un città alla nostra lista personale, attraverso il comando:
 ```
 localhost:8080/weather/add?cities=Chicago
