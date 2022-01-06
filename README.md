@@ -8,7 +8,16 @@ Consente inoltre la visualizzazione di statistiche rigurdardanti particolari dat
 - [Descrizione](#Descrizione)
   - [Funzionalità](#Funzionalità)
 - [Rotte](#Rotte)
-- [Statistiche](#Statistiche) 
+  - [Add]
+  - [Remove]
+  - [Current]
+  - [Hourly]
+  - [Daily]
+  - [Dayslot]
+- [Statistiche](#Statistiche)
+  - [Esempio di chiamata](#Esempio di chiamata alle statistiche)
+- [Eccezioni]
+- [Documentazione e Test]
 
 ## Installazione
 WeatherProject è installabile dal Prompt dei Comandi digitando:
@@ -61,11 +70,89 @@ Come si evince da sopra, i caratteri speciali necessitano di essere codificati, 
 Ogni altra rotta è gestita mediante ``@GetMapping("/error")``, ad esso è associato un metodo che ritorna un semplice messaggio di errore **non in formato JSON**
 
 ## Statistiche
+Le statistiche fanno riferimento ai valori di: *Pressione, Umidità, Nuvolosità e Temperatura*.</br>
+Per ognuno di essi vengono calcolati i valori: *Massimo, Minimo, Medio e la Varianza*.
+
 | Tipo  | Indirizzo  | Campi  | Descrizione |
 | ------------ | ------------ | ------------ | ------------ |
-
 | ``GET`` | ``\stats`` | ``exlcude`` ``bthour`` ``btdate`` | Consente di generare le statistiche per le città presenti in ``cityList`` |
 
-Nessuno dei campi è obbligatorio, in caso di mancati inserimenti dei parametri richiesti vengono inseriti valore di default 
+Nessuno dei parametri è obbligatorio.</br>
+Il parametro ``exlcude`` è un lista dei nomi di città che l'utente vuole escludere dalla generazione delle statistiche. In caso venga inserito un nome **non** presente in ``cityList``, esso verrà semplicemente ignorato.</br>
+Il parametro ``bthour`` rappresenta l'intervallo di orario per cui si vogliono ottenere le statistiche. In esso va specificata univocamente l'ora iniziale e quella finale, qualora non venga inserito viene preso come *default* l'intervallo ``00:00 - 23:59``.</br>
+Il parametro ``btdate`` rappresenta l'intervallo di giorni per cui si vogliono ottenere le statistiche. In esso va specificato univocamente il giorno iniziale e quello finale, qualora non venga inserito viene preso come *default* l'intervallo che va da 4 giorni prima del giorno della richiesta al giorno successivo al giorno della richiesta.</br>
+ > *Va tenuto in cosiderazione che attraverso una Api Key gratuita di OpenWeather è possibile richiede informazioni meteo fino ad un massimo di 7 giorni passati da giorno corrente e fino ad un massimo di 2 giorni in avanti* </br>
+> **Gli orari e i giorni inseriti nei rispettivi parametri vengono valutati in base al *fuso orario delle città prese in considerazione***
 
+#### Esempio di chiamata alle statistiche
+Prima di tutto andiamo ad aggiungere un città alla nostra lista personale, attraverso il comando:
+```
+localhost:8080/weather/add?cities=Chicago
+```
+Esso restituirà un JSON contente le informazioni delle città presenti attualmente in ``cityList``.
+```
+[
+    [
+        {
+            "Time zone":America/Chicago,
+            "Latitude and longitude": "lat=41.8755616&lon=-87.6244212",
+            "Name": "Chicago"
+        }
+    ]
+]
+```
+Andiamo ora ad richiedere le statistiche per gli orari *dalle 14 alle 20*, nei giorni *5/1/2022, 6/1/2022, 7/1/2022*:
+> La richiesta è stata fatta il giorno 6/1/2022
+```
+localhost:8080/stats?btdate=[05/01/2022,07/01/2022]&bthour=[14:00:00,20:00:00]
+```
+In tal caso verrà restituito un errore di Bad Request perchè è necessario prima effettuare un Encode. La richiesta diventa quindi:
+```
+localhost:8080/stats?btdate=%5B05%2F01%2F2022%2C07%2F01%2F2022%5D&bthour=%5B14%3A00%3A00%2C20%3A00%3A00%5D
+```
+Il JSON restituito è il seguente:
+```
+[
+    {
+        "city": "Chicago",
+        "statistics": [
+            {
+                "temp": {
+                    "average": 13.82,
+                    "min": 11.46,
+                    "max": 17.01,
+                    "variance": 3.21
+                }
+            },
+            {
+                "clouds": {
+                    "average": 95.62,
+                    "min": 66.0,
+                    "max": 100.0,
+                    "variance": 81.19
+                }
+            },
+            {
+                "pressure": {
+                    "average": 1020.33,
+                    "min": 1009.0,
+                    "max": 1030.0,
+                    "variance": 50.79
+                }
+            },
+            {
+                "humidity": {
+                    "average": 79.48,
+                    "min": 71.0,
+                    "max": 90.0,
+                    "variance": 47.87
+                }
+            }
+        ]
+    }
+]
+```
 
+> I valori di temperatura sono riportati in Fahrenheit</br>
+> I valori di umidità e nuvolosità sono descritti in %</br>
+> La pressione è descritta in Pascal</br>
