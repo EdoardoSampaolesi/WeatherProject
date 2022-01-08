@@ -8,16 +8,16 @@ Consente inoltre la visualizzazione di statistiche rigurdardanti particolari dat
 - [Descrizione](#Descrizione)
   - [Funzionalità](#Funzionalità)
 - [Rotte](#Rotte)
-  - [Add]
-  - [Remove]
-  - [Current]
-  - [Hourly]
-  - [Daily]
-  - [Dayslot]
+  - [Add](#Add)
+  - [Remove](#Remove)
+  - [Current](#Current)
+  - [Hourly](#Hourly)
+  - [Daily](#Daily)
+  - [Dayslot](#Dayslot)
 - [Statistiche](#Statistiche)
   - [Esempio di chiamata](#Esempio-di-chiamata-alle-statistiche)
-- [Eccezioni]
-- [Documentazione e Test]
+- [Eccezioni](#Eccezioni)
+- [Documentazione e Test](#Documentazione-e-Test)
 
 ## Installazione
 WeatherProject è installabile dal Prompt dei Comandi digitando:
@@ -63,11 +63,31 @@ Si evidenziano di seguito le rotte disponibili e le loro funzionalità:</br>
 
 Ogni altra rotta è gestita mediante ``@GetMapping("/error")``, ad esso è associato un metodo che ritorna un semplice messaggio di errore **non in formato JSON**
 
-Per gestire più città contemporaneamente basta semplicemente inserire i vari nomi separati da virgola come di seguito:
+### Add
+Come già definito sulla tabella, questa rotta permette di aggiungere una o più città alla lista personale delle città.</br>
+Una volta inserito il nome, o i nomi separati da virgola, la rotta restituirà la lista completa in **formato JSON** delle città ed eventuali messaggi di errore, per questi si rimanda alle [eccezioni](#Eccezioni).</br>
+Andiamo ora a fare un esempio di chiamata, aggiungendo le seguenti città: New York, Chicago e Los Angeles, alla lista personale:
 ```
 localhost:8080/weather/add?cities=New%20York,Chicago,Los%20Angeles
 ```
-Come si evince da sopra, i caratteri speciali necessitano di essere codificati, esistono strumenti appositi all'interno di servizi quali Postman, che consentono di farlo in automatico. ( Le virgole **non** devono essere codificate, esse servono per definire che gli elementi separati dalla virgola stessa sono due o più elementi diversi )
+ > Come si evince da sopra, i caratteri speciali necessitano di essere codificati, esistono strumenti appositi all'interno di servizi quali Postman, che consentono di farlo in automatico. ( Le virgole **non** devono essere codificate, esse servono per definire che gli elementi separati dalla virgola stessa sono due o più elementi diversi )
+Il programma produrrà il seguente output:
+
+### Remove
+Come già definito sulla tabella, questa rotta permette di rimuovere una o più città dalla lista personale delle città.</br>
+Una volta inserito il nome, o i nomi separati da virgola, la rotta restituirà la lista completa in **formato JSON** delle città ed eventuali messaggi di errore, per questi si rimanda alle [eccezioni](#Eccezioni).</br>
+Andiamo ora a fare un esempio di chiamata, rimuovendo le seguenti città: Chicago e New York, dalla lista personale:
+```
+localhost:8080/weather/add?cities=Chicago,New%20York
+```
+ > Come si evince da sopra, i caratteri speciali necessitano di essere codificati, esistono strumenti appositi all'interno di servizi quali Postman, che consentono di farlo in automatico. ( Le virgole **non** devono essere codificate, esse servono per definire che gli elementi separati dalla virgola stessa sono due o più elementi diversi )
+Il programma produrrà il seguente output:
+
+### Current
+La seguente rotta permette di ottene in output
+### Huorly
+### Daily
+### Dayslot
 
 ## Statistiche
 Le statistiche fanno riferimento ai valori di: *Pressione, Umidità, Nuvolosità e Temperatura*.</br>
@@ -156,3 +176,7 @@ Il JSON restituito è il seguente:
 > I valori di temperatura sono riportati in Fahrenheit</br>
 > I valori di umidità e nuvolosità sono descritti in %</br>
 > La pressione è descritta in Pascal</br>
+
+## Eccezioni
+
+## Documentazione-e-Test
