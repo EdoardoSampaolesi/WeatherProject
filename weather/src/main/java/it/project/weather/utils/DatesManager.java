@@ -38,6 +38,7 @@ public class DatesManager
         //array which contains all hourly json for creating stats
         JSONArray weatherEveryHour = new JSONArray();
 
+        JSONObject jobj;
         //Useful variables
         String dt = null;
         boolean doesEndHourEveryDayExceed = false;
@@ -63,9 +64,17 @@ public class DatesManager
             //before today
             while(startDate.before(today) && endHourEveryDay.compareTo(endDate) <= 0)
             {
-                JSONObject jobj = wService.historicalWeatherAPI(city.getCoord(), start.getTime());
-                if(jobj.get("message") != null)
+                try
+                {
+                    jobj = wService.historicalWeatherAPI(city.getCoord(), start.getTime());
+                }
+                catch(IOException e)
+                {
                     throw new DateOutOfRangeException();
+                }
+                /* if(jobj.get("message") != null)
+                        throw new DateOutOfRangeException(); */
+                    
                 JSONArray jarray = (JSONArray) jobj.get("hourly");
                 for(int i = 0; i < jarray.size(); i++)
                 {
@@ -79,9 +88,16 @@ public class DatesManager
                 }
                 if(startDate.get(Calendar.HOUR_OF_DAY) == 0)
                 {
-                    jobj = wService.historicalWeatherAPI(city.getCoord(), startDate.getTime());
-                    if(jobj.get("message") != null)
+                    try
+                    {
+                        jobj = wService.historicalWeatherAPI(city.getCoord(), startDate.getTime());
+                    }
+                    catch(IOException e)
+                    {
                         throw new DateOutOfRangeException();
+                    }
+                    /* if(jobj.get("message") != null)
+                        throw new DateOutOfRangeException(); */
                     jarray = (JSONArray) jobj.get("hourly");
                     for(int i = 0; i < jarray.size(); i++)
                     {
@@ -101,7 +117,7 @@ public class DatesManager
             //after today
             if(endHourEveryDay.compareTo(endDate) <= 0)
             {
-                JSONObject jobj = wService.oneCallAPI(city.getCoord(), exclude);
+                jobj = wService.oneCallAPI(city.getCoord(), exclude);
                 JSONArray jarray = (JSONArray) jobj.get("hourly");
                 int i=0;
                 while(endHourEveryDay.compareTo(endDate) <= 0)
@@ -125,9 +141,16 @@ public class DatesManager
             //before today
             if(start.before(today))
             {
-                JSONObject jobj = wService.historicalWeatherAPI(city.getCoord(), start.getTime());
-                if(jobj.get("message") != null)
+                try
+                {
+                    jobj = wService.historicalWeatherAPI(city.getCoord(), start.getTime());
+                }
+                catch(IOException e)
+                {
                     throw new DateOutOfRangeException();
+                }
+                /* if(jobj.get("message") != null)
+                    throw new DateOutOfRangeException(); */
                 JSONArray jarray = (JSONArray) jobj.get("hourly");
                 for(int i = 0; i < jarray.size(); i++)
                 {
@@ -142,7 +165,7 @@ public class DatesManager
             System.out.println("----");
             while(start.before(today) && endHourEveryDay.compareTo(endDate) <= 0)
             {
-                JSONObject jobj = wService.historicalWeatherAPI(city.getCoord(), start.getTime());
+                jobj = wService.historicalWeatherAPI(city.getCoord(), start.getTime());
                 JSONArray jarray = (JSONArray) jobj.get("hourly");
                 for(int i = 0; i < jarray.size(); i++)
                 {
@@ -159,7 +182,7 @@ public class DatesManager
             startDate.add(Calendar.DAY_OF_MONTH, -1); //that is done because we still are in the same day
             if(endHourEveryDay.compareTo(endDate) <= 0)
             {
-                JSONObject jobj = wService.oneCallAPI(city.getCoord(), exclude);
+                jobj = wService.oneCallAPI(city.getCoord(), exclude);
                 JSONArray jarray = (JSONArray) jobj.get("hourly");
                 int i=0;
                 while(endHourEveryDay.compareTo(endDate) <= 0)

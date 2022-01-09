@@ -116,7 +116,7 @@ public abstract class CitiesManagerImpl implements CitiesManager
             }
             catch(CityNotFoundException e)
             {
-                array.add(e.getErrorJSONObject().toJSONString());
+                array.add(e.getErrorJSONObject());
             }
         }
         for(City c : cityList)
