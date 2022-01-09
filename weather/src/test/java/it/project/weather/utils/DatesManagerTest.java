@@ -22,6 +22,9 @@ public class DatesManagerTest
     private Calendar startDate,endDate;
 
 
+    /**
+     * setUp method, used to set variables used during the test
+     */
     @Before
     public void setUp()
     {
@@ -56,6 +59,9 @@ public class DatesManagerTest
         }
     }
     
+    /**
+     * test method used to verify that list of hourly weather conditions used for statistics isn't null
+     */
     @Test
     public void testNullDateReturn()
     {

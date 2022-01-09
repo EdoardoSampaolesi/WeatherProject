@@ -23,6 +23,9 @@ public class WeatherServiceTests
     private Vector<String> exclude = new Vector<String>();
 
 
+    /**
+     * setUp method, used to define variables needed for tests
+     */
     @Before
     public void setUp()
     {
@@ -34,6 +37,9 @@ public class WeatherServiceTests
         exclude.add("alerts");
     }
     
+    /**
+     * Test method for OneCallApi, we verify that it returns something different from null if we insert correct informations
+     */
     @Test
     public void testOneCallAPI()
     {
@@ -44,6 +50,9 @@ public class WeatherServiceTests
         catch (IOException | ParseException e) {}
     }
 
+    /**
+     * Test method for GeocodingAPI, we verify that it returns something different from null if we insert correct informations
+     */
     @Test
     public void testGeocodingAPI()
     {
@@ -56,6 +65,9 @@ public class WeatherServiceTests
         assertThrows(CityNotFoundException.class, () -> {service.geocodingAPI("dfhasduifhsad");});
     }
 
+    /**
+     * Test method for HistoricalAPI, we verify that it returns something different from null if we insert correct informations
+     */
     @Test
     public void testHistoricalAPI()
     {

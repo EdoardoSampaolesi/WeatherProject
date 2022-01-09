@@ -28,6 +28,11 @@ public class ControllerTests
     @Autowired
     private MockMvc mockMvc;
 
+    
+    /** 
+     * Method used to test an error occurs if we set end before start date
+     * @throws Exception
+     */
     @Test
     public void statsRouteTest() throws Exception
     {
@@ -47,6 +52,11 @@ public class ControllerTests
         );
     }
 
+    
+    /** 
+     * Method used to test CityNotFoundExceotion in Add route
+     * @throws Exception
+     */
     @Test
     public void addRouteTests() throws Exception
     {
@@ -59,6 +69,11 @@ public class ControllerTests
         );
     }
 
+    
+    /** 
+     * Method used to test NotRemovedCity in Add route
+     * @throws Exception
+     */
     @Test
     public void removeTests() throws Exception
     {
