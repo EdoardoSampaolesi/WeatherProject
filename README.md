@@ -774,7 +774,7 @@ Il JSON restituito è il seguente:
 
 ## Eccezioni
 Durante lo sviluppo abbiamo riscontrato degli errori che abbiamo gestito mediante eccezioni personalizzate:
-##### - CityNotFoundException
+##### CityNotFoundException
 Questa eccezione viene generata qualora venga inserito il nome di una città che non esiste.</br>
 In tal caso verrà restituito un errore in formato JSON:
 ```
@@ -786,7 +786,7 @@ In tal caso verrà restituito un errore in formato JSON:
 ]
 ```
 
-##### - CityNotAddedException
+##### CityNotAddedException
 Questa eccezione viene generata qualora non sia possibile aggiungere un città alla lista personale perchè è gia presenta una città con lo stesso nome.</br>
 In tal caso verrà restituito un errore in formato JSON:
 ```
@@ -796,7 +796,7 @@ In tal caso verrà restituito un errore in formato JSON:
 }
 ```
 
-##### - NotRemovedCity
+##### NotRemovedCity
 Questa eccezione viene generata qualora non sia possibile rimuovere un città alla lista personale perchè non è presente nella lista.</br>
 In tal caso verrà restituito un errore in formato JSON:
 ```
@@ -806,7 +806,7 @@ In tal caso verrà restituito un errore in formato JSON:
 }
 ```
 
-##### - DateOutOfRangeException
+##### DateOutOfRangeException
 Questa eccezione viene generata qualora non sia possibile generare delle statistiche per i giorni o gli orari specificati.</br>
 In tal caso verrà restituito un errore in formato JSON:
 ```
@@ -818,7 +818,7 @@ In tal caso verrà restituito un errore in formato JSON:
 ]
 ```
 
-##### - StatNotAvailableException
+##### StatNotAvailableException
 Questa eccezione viene generata qualora non sia possibile generare delle statistiche per i giorni o gli orari specificati.</br>
 In tal caso verrà restituito un errore in formato JSON:
 ```
