@@ -773,5 +773,65 @@ Il JSON restituito è il seguente:
 > La pressione è descritta in Pascal</br>
 
 ## Eccezioni
+Durante lo sviluppo abbiamo riscontrato degli errori che abbiamo gestito mediante eccezioni personalizzate:
+##### - CityNotFoundException
+Questa eccezione viene generata qualora venga inserito il nome di una città che non esiste.</br>
+In tal caso verrà restituito un errore in formato JSON:
+```
+[
+    {
+        "city": "NotExistingCity",
+        "error": "City not found in OpenWeather cities database"
+    }
+]
+```
+
+##### - CityNotAddedException
+Questa eccezione viene generata qualora non sia possibile aggiungere un città alla lista personale perchè è gia presenta una città con lo stesso nome.</br>
+In tal caso verrà restituito un errore in formato JSON:
+```
+{
+    "city": "Chicago",
+    "error": "Already exists a city with that name in the list"
+}
+```
+
+##### - NotRemovedCity
+Questa eccezione viene generata qualora non sia possibile rimuovere un città alla lista personale perchè non è presente nella lista.</br>
+In tal caso verrà restituito un errore in formato JSON:
+```
+{
+    "city": "Chicago",
+    "error": "City not found in personal list of cities"
+}
+```
+
+##### - DateOutOfRangeException
+Questa eccezione viene generata qualora non sia possibile generare delle statistiche per i giorni o gli orari specificati.</br>
+In tal caso verrà restituito un errore in formato JSON:
+```
+[
+    {
+        "city": "Chicago",
+        "error": "Requested time is out of allowed range"
+    }
+]
+```
+
+##### - StatNotAvailableException
+Questa eccezione viene generata qualora non sia possibile generare delle statistiche per i giorni o gli orari specificati.</br>
+In tal caso verrà restituito un errore in formato JSON:
+```
+[
+    {
+        "city": "Chicago",
+        "error": "Statistics not available for date or time specified"
+    }
+]
+```
 
 ## Documentazione-e-Test
+Al seguente [link](https:///openweathermap.org/ "link") forniamo la documentazione JavaDoc del codice.
+
+Abbiamo provveduto a scrivere alcuni Test per verificare il corretto funzionamento delle rotte e di altre funzionalità tra le quali la gestione delle date per le statistiche.
+Tutti i Test sono documentati e disponibili alla consultazione.
