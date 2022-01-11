@@ -1,5 +1,9 @@
 package it.project.weather.model;
 
+/**
+ * @author @MatteoSeresi
+ */
+
 import java.util.TimeZone;
 
 import org.json.simple.JSONObject;
@@ -9,6 +13,12 @@ public class WeatherComplete extends Weather {
 	private double temp_max;
 	private double temp_min;
 	
+	/**
+	 * Constructor WeateherComplete that extends Weather.
+	 * 
+	 * @param temp_max, max temperature
+	 * @param temp_min, min temperature
+	 */
 	public WeatherComplete(double temp_max, double temp_min, String date, String main_weather, String description, long humidity, long clouds, double wind_speed, long wind_deg, double rain, double snow, long visibility, double temp_current, double temp_feelslike, long pop_rain) 
 	{
 		super(date, main_weather, description, humidity, clouds, wind_speed, wind_deg, rain, snow, visibility, temp_current, temp_feelslike, pop_rain);
@@ -28,6 +38,12 @@ public class WeatherComplete extends Weather {
 		this(0,0);
 	}
 	
+	/**
+	 * This method set max and minimum temperature. 
+	 * 
+	 * @param jobj JSONObject to store the attributes.
+	 * @param offset TimeZone, the time offset of the city. 
+	 */
 	 public void createFromJSON(JSONObject jobj, TimeZone offset) 
 	 {
 		 super.createFromJSON(jobj, offset);
@@ -37,6 +53,11 @@ public class WeatherComplete extends Weather {
 	     this.temp_min = temp_min;
 	 }
 
+	 /**
+		 * This method returns a JSON containing the max and minimum temperature. 
+		 * 
+		 * @return JSONObject
+		 */
 	 public JSONObject toJSON() 
 	 {
 		 JSONObject att = super.toJSON();
