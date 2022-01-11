@@ -1,6 +1,11 @@
 package it.project.weather.model;
 
+/**
+ * @author @MatteoSeresi
+ */
+
 import java.io.IOException;
+
 import java.util.Vector;
 
 import org.json.simple.JSONArray;
@@ -13,6 +18,11 @@ public class ForecastDaily extends Forecast
 {
 	private Vector<String> exclude = new Vector<String>();
 	
+	/**
+	 * Constructor of the daily forecast.
+	 * 
+	 * @param city City parameter, used to perform needed API and to convert dates using offset
+	 */
     public ForecastDaily(City city) 
     {
         super(city);
@@ -22,6 +32,11 @@ public class ForecastDaily extends Forecast
         exclude.add("alerts");
     }
 
+    /**
+	 * This method call the oneCallAPI from WeatherService class and createFromJSON method from the Weather class to store the daily weather attributes. 
+	 * 
+	 * @param wService WeatherService used to perform needed API
+	 */
     @Override
     public void createFromJSON(WeatherService wService) 
     {
@@ -80,6 +95,11 @@ public class ForecastDaily extends Forecast
         
     }
 
+    /**
+   	 * This method returns a JSON containing the city and all the daily weather attributes. 
+   	 * 
+   	 * @return JSONObject
+   	 */
     @Override
     public JSONObject toJSON() 
     {
