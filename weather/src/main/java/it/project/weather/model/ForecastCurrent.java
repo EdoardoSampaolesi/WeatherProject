@@ -1,12 +1,15 @@
 package it.project.weather.model;
 
+/**
+ * @author @MatteoSeresi
+ */
+
 import java.util.Vector;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-
-
+import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.interfaces.WeatherService;
 
 public class ForecastCurrent extends Forecast 
@@ -14,6 +17,11 @@ public class ForecastCurrent extends Forecast
 	
 	private Vector<String> exclude = new Vector<String>();
 	
+	/**
+	 * Constructor of the current forecast.
+	 * 
+	 * @param city City parameter, used to perform needed API and to convert dates using offset
+	 */
     public ForecastCurrent(City city) 
     {
         super(city);
@@ -23,6 +31,11 @@ public class ForecastCurrent extends Forecast
         exclude.add("alerts");
     }
 
+    /**
+	 * This method call the createFromJSON method from the Weather class for the current forecast. 
+	 * 
+	 * @param wService WeatherService used to perform needed API
+	 */
     @Override
     public void createFromJSON(WeatherService wService) 
     {
@@ -40,6 +53,11 @@ public class ForecastCurrent extends Forecast
 	   	 }
     }
 
+    /**
+	 * This method returns a JSON containing the city and all the current weather attributes. 
+	 * 
+	 * @return JSONObject
+	 */
     @Override
     public JSONObject toJSON() 
     {
@@ -49,8 +67,8 @@ public class ForecastCurrent extends Forecast
     		arrayobj.add(w.toJSON());
     	}
     	JSONObject obj= new JSONObject();
+    	obj.put("City", city.toJSON());
         obj.put("Current weather", arrayobj);
-        obj.put("City", city.toJSON());
         return obj;
     }
 }
