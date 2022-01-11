@@ -1,18 +1,33 @@
 package it.project.weather.model;
 
+/**
+ * @author @MatteoSeresi
+ */
+
 import it.project.weather.interfaces.Coord;
 
-public class CoordImpl implements Coord {
-	
+public class CoordImpl implements Coord 
+{
 	private double lat;
 	private double lon;
 	
+	/**
+	 * Constructor CoordImpl, it implements the coordinates.
+	 * 
+	 * @param latitude
+	 * @param longitude
+	 */
 	public CoordImpl(double lat, double lon)
 	{
 		this.lat=lat;
 		this.lon=lon;
 	}
 	
+	/**
+	 * This method returns the latitude and longitude attributes. 
+	 * 
+	 * @return string that contains the latitude and longitude
+	 */
 	public String toString() {
 		return "lat="+lat+"&lon="+lon;
 	}
@@ -34,5 +49,4 @@ public class CoordImpl implements Coord {
 	{
 		this.lon = lon;
 	}
-	
 }
