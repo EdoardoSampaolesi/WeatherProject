@@ -6,7 +6,6 @@ package it.project.weather.model;
 
 import org.json.simple.JSONObject;
 
-
 import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.interfaces.CityInterface;
 import it.project.weather.interfaces.WeatherService;
@@ -34,9 +33,11 @@ public class City implements CityInterface
     }
 
 	/**
-	 * This method attribuisce al nome della città le proprie coordinate, 
+	 * This method the name of the city its own coordinates and time zone. 
 	 * 
-	 * @param 
+	 * @param wService WeatherService used to perform needed API
+	 * @throws CityNotFoundException 
+	 * @throws Exception any exception is rethrown
 	 */
     @Override
     public void createFromJSON(WeatherService wService) throws CityNotFoundException, Exception
@@ -57,6 +58,11 @@ public class City implements CityInterface
 	    this.offset=offset; 
     }
 
+    /**
+	 * This method returns a Json containing all the city attributes: name, latitude, longitude and time zone. 
+	 * 
+	 * @return JSONObject
+	 */
     @Override
     public JSONObject toJSON() 
     {
@@ -94,6 +100,13 @@ public class City implements CityInterface
 		this.offset = offset;
 	}
     
+    /**
+	 * This method takes the current date and time of the chosen city and returns the date from where we make the call. 
+	 * 
+	 * @param date of the chosen city at the beginning
+	 * @return date from where we make the call
+	 * @throws ParseException
+	 */
     public Calendar fromCityOffsetToMyDate(Calendar date) throws ParseException 
     {
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
@@ -103,5 +116,4 @@ public class City implements CityInterface
         mydate.setTime(sdf.parse( parser.format(date.getTime()).toString() ));
         return mydate;
     }
-   
 }
