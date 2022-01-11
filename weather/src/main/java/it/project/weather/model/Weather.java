@@ -1,12 +1,18 @@
 package it.project.weather.model;
 
+/**
+ * @author @MatteoSeresi
+ */
+
 import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
 import java.util.TimeZone;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+//import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.interfaces.WeatherInterface;
 
 public class Weather implements WeatherInterface
@@ -25,6 +31,23 @@ public class Weather implements WeatherInterface
 	private double temp_feelslike;
 	private double pop_rain;
 	
+	/**
+	 * Constructor of the weather.
+	 * 
+	 * @param date of the city
+	 * @param main_weather, a word to describe the weather
+	 * @param a description of the weather
+	 * @param humidity
+	 * @param clouds, cloudiness
+	 * @param wind speed
+	 * @param wind degrees
+	 * @param rain volume
+	 * @param snow volume
+	 * @param visibility
+	 * @param temp_current, current temperature
+	 * @param temp_feelslike, temperature parameter for the human perception of weather
+	 * @param pop_rain, probaility of precipitation
+	 */
 	public Weather(String date, String main_weather, String description, long humidity, long clouds, double wind_speed, long wind_deg, double rain, double snow, long visibility, double temp_current, double temp_feelslike, long pop_rain)
 	{
 		this.date = date;
@@ -47,6 +70,12 @@ public class Weather implements WeatherInterface
 		this(null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 
+	/**
+	 * This method set the date of its own city and the other weather attributes. 
+	 * 
+	 * @param jobj JSONObject to store the attributes.
+	 * @param offset TimeZone, the time offset of the city. 
+	 */
     @Override
     public void createFromJSON(JSONObject jobj, TimeZone offset) 
     {
@@ -114,6 +143,11 @@ public class Weather implements WeatherInterface
 		}
     }
     
+    /**
+	 * This method returns a JSON containing all the weather attributes. 
+	 * 
+	 * @return JSONObject
+	 */
     @Override
     public JSONObject toJSON() 
     {
