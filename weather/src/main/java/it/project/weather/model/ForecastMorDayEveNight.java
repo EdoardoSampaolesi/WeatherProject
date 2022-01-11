@@ -1,6 +1,11 @@
 package it.project.weather.model;
 
+/**
+ * @author @MatteoSeresi
+ */
+
 import java.io.IOException;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,11 +26,21 @@ public class ForecastMorDayEveNight extends Forecast
 	private final int SLOT=6;
 	private final String PERIODS[]= {"Night","Morning","Afternoon","Evening"};
 	
+	/**
+	 * Constructor of the night, morning, afternoon and evening forecast.
+	 * 
+	 * @param city City parameter, used to perform needed API and to convert dates using offset
+	 */
     public ForecastMorDayEveNight(City city) 
     {
         super(city);  
     }   
 
+    /**
+	 * This method store the weather attributes in the main 4 parts of the day. 
+	 * 
+	 * @param wService WeatherService used to perform needed API
+	 */
     @Override
     public void createFromJSON(WeatherService wService) 
     {
@@ -168,6 +183,11 @@ public class ForecastMorDayEveNight extends Forecast
 
     }
 
+    /**
+	 * This method returns a JSON containing the weather attributes in the main 4 parts of the day. 
+	 * 
+	 * @return JSONObject
+	 */
     @Override
     public JSONObject toJSON() 
     {
