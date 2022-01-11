@@ -34,8 +34,7 @@ public class ForecastDaily extends Forecast
 	 	    for(int i=0; i<7;i++)
 	 	    {
 	 		    o = (JSONObject) obj.get(i);
-	 		    weather = new WeatherComplete();
-	 		   
+	 		    weather = new WeatherComplete();	 		   
 	 		    /* String main=(String) ((JSONObject)((JSONArray) o.get("weather")).get(0)).get("main");
 	 		    weather.setMainweather(main);
 	 		    String description=(String) ((JSONObject)((JSONArray) o.get("weather")).get(0)).get("description");

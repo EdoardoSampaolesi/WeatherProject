@@ -14,7 +14,6 @@ public class CoordImpl implements Coord {
 	}
 	
 	public String toString() {
-		//lat={[(-)00.00]}&lon={[(-)00.00]}
 		return "lat="+lat+"&lon="+lon;
 	}
 

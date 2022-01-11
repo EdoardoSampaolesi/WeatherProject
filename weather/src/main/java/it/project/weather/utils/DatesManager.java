@@ -180,10 +180,10 @@ public class DatesManager
                 }
             }
         }
-
+        /*
         if(endDate.after(weatherDate))
          throw new DateOutOfRangeException();
-        
+        */
         //that prints all hours selected by method, we use it to check results of executions ->
         System.out.println("--weatherEveryHour list--");
         int j;

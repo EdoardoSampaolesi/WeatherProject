@@ -31,11 +31,12 @@ public class ForecastMorDayEveNight extends Forecast
     {
     	Date now =new Date();
     	Calendar startDate = Calendar.getInstance();
+    	startDate.setTime(now);
     	Calendar endDate = Calendar.getInstance();
+    	endDate.setTime(now);
  	    JSONArray obj = null;
- 	    startDate.setTime(now);
  	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
         parser.setTimeZone(city.getOffset());
         //parser.setTimeZone(TimeZone.getTimeZone("GMT"));
         JSONObject o;
@@ -51,18 +52,16 @@ public class ForecastMorDayEveNight extends Forecast
 	    double average_Tcurrent=0;
 	    double average_Tfeels=0;
 	    long average_pop=0;
+	    double rain=0;
+	    double snow=0;
+	    long pop_rain=0;
         try 
-        {
-        	
-        	startDate.setTime(sdf.parse(parser.format(startDate.getTime()).toString() )); //parser trasforma la data di chicago in una stringa, poi sdf lo trasforma in una data
-            startDate.set(Calendar.HOUR_OF_DAY, 0);
-     	    startDate.set(Calendar.MINUTE, 0);
-     	    startDate.set(Calendar.SECOND, 0);
-     	    endDate=(Calendar) startDate.clone();
-     	    endDate.set(Calendar.HOUR_OF_DAY, 23);
-    	    endDate.set(Calendar.MINUTE, 59);
-    	    endDate.set(Calendar.SECOND, 59);
-    	    obj = DatesManager.getHourlyWeatherFilteredByStartAndEndDates(wService, city, startDate, endDate);
+        {      	
+        	startDate.setTime(sdf.parse(parser.format(startDate.getTime()).toString()+" 00:00:00")); //parser trasforma la data di chicago in una stringa, poi sdf lo trasforma in una data   
+     	    endDate.setTime(sdf.parse(parser.format(startDate.getTime()).toString()+" 23:59:59"));
+     	    startDate=city.fromCityOffsetToMyDate(startDate);
+     	    endDate=city.fromCityOffsetToMyDate(endDate);    	 
+    	    obj = DatesManager.getHourlyWeatherFilteredByStartAndEndDates(wService, city, startDate, endDate); 
     	    for(int j=0;j<24/SLOT;j++) 
     	    {   	    
     	    	for(int i=0; i<SLOT;i++)
@@ -73,27 +72,27 @@ public class ForecastMorDayEveNight extends Forecast
     	 	 	    average_humidity+=humidity;	 	 	    
     	 	 	    long cloudiness=(long) o.get("clouds");	 	 	    
     	 	 	    average_clouds+=cloudiness;	 	 	    
-    	 	 	    double wind_speed=(double) o.get("wind_speed");	 	 	    
-    	 	 	    average_windS+=wind_speed;   	 	 	
+    	 	 	    //double wind_speed=(double) o.get("wind_speed");	 	// lancia un eccezione 	    
+    	 	 	    //average_windS+=wind_speed;   	 	 	
     	 	 	    long wind_deg=(long) o.get("wind_deg");	 	 	    
     	 	 	    average_windD+=wind_deg;
-    	 	 	    double rain=0;
+    	 	 	    
     	 	 	    if(o.get("rain")!=null) 
   	 	 	    	{
-  	 	 	    	rain=(double) o.get("rain");
-  	 	 	    	average_rain+=rain;
+	  	 	 	    	rain=(double) o.get("rain");
+	  	 	 	    	average_rain+=rain;
   	 	 	    	}
-    	 	 	    double snow=0;
+    	 	 	    
   	 	 	        if(o.get("snow")!=null) 
   	 	 	        {
-  	 	 	        snow=(double) o.get("snow");	 	 	    
-    	 	 	    average_snow+=snow;	 
+	  	 	 	        snow=(double) o.get("snow");	 	 	    
+	    	 	 	    average_snow+=snow;	 
   	 	 	        }	 
-  	 	 	        long pop_rain=0;
+  	 	 	        
   	 	 	        if(o.get("pop")!=null) 
   	 	 	        {
-  	 	 	        pop_rain=(long) o.get("pop");
-    	 	 	    average_pop+=pop_rain;
+	  	 	 	        pop_rain=(long) o.get("pop");
+	    	 	 	    average_pop+=pop_rain;
   	 	 	        }
     	 	 	    long vis=(long) o.get("visibility");	 	 	    
     	 	 	    average_vis+=vis;	 	 	    

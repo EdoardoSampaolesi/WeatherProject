@@ -1,6 +1,11 @@
 package it.project.weather.model;
 
+/**
+ * @author @MatteoSeresi
+ */
+
 import org.json.simple.JSONObject;
+
 
 import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.interfaces.CityInterface;
@@ -18,11 +23,21 @@ public class City implements CityInterface
 	private CoordImpl coord;
 	private TimeZone offset;
 	
+	/**
+	 * Constructor of a city
+	 * 
+	 * @param name of the city
+	 */
 	public City(String name)
     {
         this.name=name;
     }
 
+	/**
+	 * This method attribuisce al nome della città le proprie coordinate, 
+	 * 
+	 * @param 
+	 */
     @Override
     public void createFromJSON(WeatherService wService) throws CityNotFoundException, Exception
     {
@@ -84,7 +99,6 @@ public class City implements CityInterface
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
         sdf.setTimeZone(this.offset);
-        //parser.setTimeZone(TimeZone.getTimeZone("GMT"));
         Calendar mydate = Calendar.getInstance();
         mydate.setTime(sdf.parse( parser.format(date.getTime()).toString() ));
         return mydate;
