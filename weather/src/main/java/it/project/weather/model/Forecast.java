@@ -18,9 +18,9 @@ public abstract class Forecast implements ForecastInterface
     protected City city = null;
 
     /**
-	 * Constructor of forecast.
+	 * Constructor of Forecast.
 	 * 
-	 * @param city City paramter, used to perform needed API and to convert dates using offset
+	 * @param city City parameter, used to perform needed API and to convert dates using offset
 	 */
     public Forecast(City city)
     {

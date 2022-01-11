@@ -23,7 +23,7 @@ public class City implements CityInterface
 	private TimeZone offset;
 	
 	/**
-	 * Constructor of a city
+	 * Constructor of a city.
 	 * 
 	 * @param name of the city
 	 */
@@ -33,7 +33,7 @@ public class City implements CityInterface
     }
 
 	/**
-	 * This method the name of the city its own coordinates and time zone. 
+	 * This method gives the name of the city, its own coordinates and time zone. 
 	 * 
 	 * @param wService WeatherService used to perform needed API
 	 * @throws CityNotFoundException 
@@ -59,7 +59,7 @@ public class City implements CityInterface
     }
 
     /**
-	 * This method returns a Json containing all the city attributes: name, latitude, longitude and time zone. 
+	 * This method returns a JSON containing all the city attributes: name, latitude, longitude and time zone. 
 	 * 
 	 * @return JSONObject
 	 */

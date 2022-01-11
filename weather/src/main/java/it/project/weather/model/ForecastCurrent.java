@@ -9,7 +9,7 @@ import java.util.Vector;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import it.project.weather.exeptions.CityNotFoundException;
+//import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.interfaces.WeatherService;
 
 public class ForecastCurrent extends Forecast 
@@ -32,7 +32,7 @@ public class ForecastCurrent extends Forecast
     }
 
     /**
-	 * This method call the createFromJSON method from the Weather class for the current forecast. 
+	 * This method call the oneCallAPI from WeatherService class and createFromJSON method from the Weather class to store the current weather attributes. 
 	 * 
 	 * @param wService WeatherService used to perform needed API
 	 */
