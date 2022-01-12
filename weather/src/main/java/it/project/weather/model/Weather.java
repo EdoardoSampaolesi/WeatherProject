@@ -148,26 +148,28 @@ public class Weather implements WeatherInterface
 	 * 
 	 * @return JSONObject
 	 */
-    @Override
+	@Override
     public JSONObject toJSON() 
     {
     	JSONObject att = new JSONObject();
-    	att.put("date", this.date);
+		if(this.date != null)
+    		att.put("date", this.date);
     	att.put("weather", this.main_weather);
-    	att.put("weather descritpion", this.description);
+		if(this.description != null)
+    		att.put("weather descritpion", this.description);
     	att.put("humidity", this.humidity +  " %");
     	att.put("cloudiness", this.clouds +  " %");
-    	att.put("wind speed", this.wind_speed + " mi/h");
+    	att.put("wind speed", Math.round(this.wind_speed*100.0)/100.0  + " mi/h");
     	att.put("wind direction", this.wind_deg + "°");
-    	att.put("precipitation volume", this.rain + " mm");
-    	att.put("snow volume", this.snow + " mm");
+    	att.put("precipitation volume", Math.round(this.rain*100.0)/100.0  + " mm");
+    	att.put("snow volume", Math.round(this.snow*100.0)/100.0  + " mm");
 		if(this.visibility != Long.MAX_VALUE)
     		att.put("visibility", this.visibility + " ft");
 		if(this.temp_feelslike < 1000)
-    		att.put("current temperature", this.temp_current + " F");
+    		att.put("current temperature", Math.round(this.temp_current*100.0)/100.0 + " F");
 		if(this.temp_feelslike < 1000)
-    		att.put("feels like temperature", this.temp_feelslike + " F");
-    	att.put("probability percipitation", this.pop_rain + " %");
+    		att.put("feels like temperature", Math.round(this.temp_feelslike*100.0)/100.0 + " F");
+    	att.put("probability percipitation", this.pop_rain*100 + " %");
         return att;
     }
     
