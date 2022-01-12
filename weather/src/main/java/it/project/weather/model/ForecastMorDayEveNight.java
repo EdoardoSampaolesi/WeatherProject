@@ -1,6 +1,5 @@
 package it.project.weather.model;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,10 +8,7 @@ import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-//import org.json.simple.parser.ParseException;
-import org.json.simple.parser.ParseException;
 
-import it.project.weather.exeptions.DateOutOfRangeException;
 import it.project.weather.interfaces.WeatherService;
 import it.project.weather.utils.DatesManager;
 
@@ -21,97 +17,94 @@ public class ForecastMorDayEveNight extends Forecast
 	private final int SLOT=6;
 	private final String PERIODS[]= {"Night","Morning","Afternoon","Evening"};
 	
+	/**
+	 * Constructor of the night, morning, afternoon and evening forecast.
+	 * 
+	 * @param city City parameter, used to perform needed API and to convert dates using offset
+	 */
     public ForecastMorDayEveNight(City city) 
     {
         super(city);  
     }   
 
+    /**
+	 * This method store the weather attributes in the main 4 parts of the day. 
+	 * 
+	 * @param wService WeatherService used to perform needed API
+	 */
     @Override
     public void createFromJSON(WeatherService wService) 
     {
     	Date now =new Date();
     	Calendar startDate = Calendar.getInstance();
+    	startDate.setTime(now);
     	Calendar endDate = Calendar.getInstance();
+    	endDate.setTime(now);
  	    JSONArray obj = null;
- 	    startDate.setTime(now);
  	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-        parser.setTimeZone(city.getOffset());
-        //parser.setTimeZone(TimeZone.getTimeZone("GMT"));
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
         JSONObject o;
-	    Weather weather = new Weather();
-	    String main[]=new String[SLOT];
-	    long average_humidity=0;
-	    long average_clouds=0;
-	    double average_windS=0;
-	    long average_windD=0;
-	    double average_rain=0;
-	    double average_snow=0;
-	    long average_vis=0;
-	    double average_Tcurrent=0;
-	    double average_Tfeels=0;
-	    long average_pop=0;
         try 
-        {
-        	
-        	startDate.setTime(sdf.parse(parser.format(startDate.getTime()).toString() )); //parser trasforma la data di chicago in una stringa, poi sdf lo trasforma in una data
-            startDate.set(Calendar.HOUR_OF_DAY, 0);
-     	    startDate.set(Calendar.MINUTE, 0);
-     	    startDate.set(Calendar.SECOND, 0);
-     	    endDate=(Calendar) startDate.clone();
-     	    endDate.set(Calendar.HOUR_OF_DAY, 23);
-    	    endDate.set(Calendar.MINUTE, 59);
-    	    endDate.set(Calendar.SECOND, 59);
-    	    obj = DatesManager.getHourlyWeatherFilteredByStartAndEndDates(wService, city, startDate, endDate);
+        {      	
+        	startDate.setTime(sdf.parse(parser.format(startDate.getTime()).toString()+" 00:00:00"));  
+     	    endDate.setTime(sdf.parse(parser.format(startDate.getTime()).toString()+" 23:59:59"));
+     	    startDate=city.fromCityOffsetToMyDate(startDate);
+     	    endDate=city.fromCityOffsetToMyDate(endDate);    	 
+    	    obj = DatesManager.getHourlyWeatherFilteredByStartAndEndDates(wService, city, startDate, endDate); 
     	    for(int j=0;j<24/SLOT;j++) 
-    	    {   	    
+    	    {   
+				Weather weather = new Weather();
+				String main[]=new String[SLOT];
+				long average_humidity=0;
+				long average_clouds=0;
+				double average_windS=0;
+				long average_windD=0;
+				double average_rain=0;
+				double average_snow=0;
+				long average_vis=0;
+				double average_Tcurrent=0;
+				double average_Tfeels=0;
+				long average_pop=0;	    
     	    	for(int i=0; i<SLOT;i++)
          	    {   	
-         	    	o = (JSONObject) obj.get(i); 	    	         	    	       	  
-         	    	main[i]=(String) ((JSONObject)((JSONArray) o.get("weather")).get(0)).get("main");      	    	
-    	 		    long humidity=(long) o.get("humidity");	 	 	 
-    	 	 	    average_humidity+=humidity;	 	 	    
-    	 	 	    long cloudiness=(long) o.get("clouds");	 	 	    
-    	 	 	    average_clouds+=cloudiness;	 	 	    
-    	 	 	    double wind_speed=(double) o.get("wind_speed");	 	 	    
-    	 	 	    average_windS+=wind_speed;   	 	 	
-    	 	 	    long wind_deg=(long) o.get("wind_deg");	 	 	    
-    	 	 	    average_windD+=wind_deg;
-    	 	 	    double rain=0;
+         	    	o = (JSONObject) obj.get(j*SLOT + i);
+					JSONArray jsontemp = (JSONArray) o.get("weather");
+					String main_weather = (String) ((JSONObject) jsontemp.get(0)).get("main");
+					for(int k = 1; k < jsontemp.size(); k++)
+						main_weather += " / " + (String) ((JSONObject) jsontemp.get(k)).get("main");    	         	    	       	  
+         	    	main[i]= main_weather;    	    	
+    	 	 	    average_humidity+=(long) o.get("humidity");;	 	 	    
+    	 	 	    average_clouds+=(long) o.get("clouds");;	 	 	    
+    	 	 	    average_windS+=Double.parseDouble(o.get("wind_speed") + "");   	 	 	
+    	 	 	    average_windD+=(long) o.get("wind_deg");    
     	 	 	    if(o.get("rain")!=null) 
   	 	 	    	{
-  	 	 	    	rain=(double) o.get("rain");
-  	 	 	    	average_rain+=rain;
+	  	 	 	    	average_rain+=Double.parseDouble(o.get("rain") + "");
   	 	 	    	}
-    	 	 	    double snow=0;
+    	 	 	    
   	 	 	        if(o.get("snow")!=null) 
   	 	 	        {
-  	 	 	        snow=(double) o.get("snow");	 	 	    
-    	 	 	    average_snow+=snow;	 
+	    	 	 	    average_snow+=Double.parseDouble(o.get("snow") + "");	 
   	 	 	        }	 
-  	 	 	        long pop_rain=0;
+  	 	 	        
   	 	 	        if(o.get("pop")!=null) 
   	 	 	        {
-  	 	 	        pop_rain=(long) o.get("pop");
-    	 	 	    average_pop+=pop_rain;
+	    	 	 	    average_pop+=Double.parseDouble(o.get("pop") + "");
   	 	 	        }
-    	 	 	    long vis=(long) o.get("visibility");	 	 	    
-    	 	 	    average_vis+=vis;	 	 	    
-    	 	 	    double temp=(double) o.get("temp");	 	 	    
-    	 	 	    average_Tcurrent+=temp;	 	 	    
-    	 	 	    double temp_feels=(double) o.get("feels_like");
-    	 	 	    average_Tfeels+=temp_feels;	 	 	    	 	 	     	 	 	    
+    	 	 	    average_vis+=(long) o.get("visibility");	 	 	    
+    	 	 	    average_Tcurrent+=Double.parseDouble(o.get("temp") + "");	 	 	    
+    	 	 	    average_Tfeels+=Double.parseDouble(o.get("feels_like") + "");    	 	 	     	 	 	    
          	    }
     	    	
+				//used to get the most repeated main word
     	    	Map<String, Integer> occurrences = new HashMap<String, Integer>();   	    	
      	    	for (String Word : main ) 
      	    	{
      	    	   Integer oldCount = occurrences.get(Word);
      	    	   if ( oldCount == null ) 
-     	    	   {
-     	    	      oldCount = 0;
-     	    	   }
-     	    	   occurrences.put(Word, oldCount + 1);
+				   		occurrences.put(Word, 1);
+     	    	   else
+						occurrences.replace(Word, oldCount + 1);
      	    	}     	    	
      	    	Integer maxCounter=0;
      	    	String maxWord = null;
@@ -123,7 +116,7 @@ public class ForecastMorDayEveNight extends Forecast
        	    	      maxCounter=oldCount;
        	    	      maxWord=Word;
        	    	    }
-     	    		else if ( oldCount == maxCounter ) 
+     	    		else if ( oldCount == maxCounter && !maxWord.contains(Word) ) 
      	    		{    	    	    
        	    	      maxWord=maxWord+"\""+Word;
        	    	    }
@@ -145,30 +138,21 @@ public class ForecastMorDayEveNight extends Forecast
          	    weather.setWind_deg(average_windD);
          	    weather.setRain(average_rain);
          	    weather.setSnow(average_snow);
-         	    weather.setWind_deg(average_vis);
+         	    weather.setVisibility(average_vis);
          		weather.setTemp_current(average_Tcurrent);
          	    weather.setTemp_feelslike(average_Tfeels);
          	    weather.setPop_rain(average_pop);
          	    weatherList.add(weather);
      		}
-        
         }
-        catch (java.text.ParseException e) 
-        {		
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DateOutOfRangeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+        catch (Exception e) {}
     }
 
+    /**
+	 * This method returns a JSON containing the weather attributes in the main 4 parts of the day. 
+	 * 
+	 * @return JSONObject
+	 */
     @Override
     public JSONObject toJSON() 
     {
