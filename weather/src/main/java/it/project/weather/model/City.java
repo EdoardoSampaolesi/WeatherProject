@@ -1,5 +1,9 @@
 package it.project.weather.model;
 
+/**
+ * @author @MatteoSeresi
+ */
+
 import org.json.simple.JSONObject;
 
 import it.project.weather.exeptions.CityNotFoundException;
@@ -18,11 +22,23 @@ public class City implements CityInterface
 	private CoordImpl coord;
 	private TimeZone offset;
 	
+	/**
+	 * Constructor of a city.
+	 * 
+	 * @param name of the city
+	 */
 	public City(String name)
     {
         this.name=name;
     }
 
+	/**
+	 * This method gives the name of the city, its own coordinates and time zone. 
+	 * 
+	 * @param wService WeatherService used to perform needed API
+	 * @throws CityNotFoundException 
+	 * @throws Exception any exception is rethrown
+	 */
     @Override
     public void createFromJSON(WeatherService wService) throws CityNotFoundException, Exception
     {
@@ -42,6 +58,11 @@ public class City implements CityInterface
 	    this.offset=offset; 
     }
 
+    /**
+	 * This method returns a JSON containing all the city attributes: name, latitude, longitude and time zone. 
+	 * 
+	 * @return JSONObject
+	 */
     @Override
     public JSONObject toJSON() 
     {
@@ -79,15 +100,20 @@ public class City implements CityInterface
 		this.offset = offset;
 	}
     
+    /**
+	 * This method takes the current date and time of the chosen city and returns the date from where we make the call. 
+	 * 
+	 * @param date of the chosen city at the beginning
+	 * @return date from where we make the call
+	 * @throws ParseException
+	 */
     public Calendar fromCityOffsetToMyDate(Calendar date) throws ParseException 
     {
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
         SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
         sdf.setTimeZone(this.offset);
-        //parser.setTimeZone(TimeZone.getTimeZone("GMT"));
         Calendar mydate = Calendar.getInstance();
         mydate.setTime(sdf.parse( parser.format(date.getTime()).toString() ));
         return mydate;
     }
-   
 }

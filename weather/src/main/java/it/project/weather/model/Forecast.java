@@ -1,8 +1,11 @@
 package it.project.weather.model;
 
+/**
+ * @author @MatteoSeresi
+ */
+
 import java.util.Vector;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import it.project.weather.exeptions.CityNotFoundException;
@@ -14,6 +17,11 @@ public abstract class Forecast implements ForecastInterface
     protected Vector<Weather> weatherList = new Vector<Weather>();
     protected City city = null;
 
+    /**
+	 * Constructor of Forecast.
+	 * 
+	 * @param city City parameter, used to perform needed API and to convert dates using offset
+	 */
     public Forecast(City city)
     {
         this.city = city;

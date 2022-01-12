@@ -25,7 +25,7 @@ public abstract class CitiesManagerImpl implements CitiesManager
     /**
      * Service used in every other class which requires a service for performing OpenWeather API calls
      */
-    protected WeatherService wService = new WeatherServiceImpl("d6a4e0d799239c1f85eaf82a5088ddfe");
+    protected WeatherService wService = new WeatherServiceImpl("bde8b3084f24b7a55e3e50d9d30ce257");
 
     
     /** 

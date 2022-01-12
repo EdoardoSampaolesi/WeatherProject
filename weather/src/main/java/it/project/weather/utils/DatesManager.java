@@ -203,7 +203,7 @@ public class DatesManager
                 }
             }
         }
-
+        
         if(endDate.after(weatherDate))
          throw new DateOutOfRangeException();
         
