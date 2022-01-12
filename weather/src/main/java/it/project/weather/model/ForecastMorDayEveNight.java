@@ -64,7 +64,7 @@ public class ForecastMorDayEveNight extends Forecast
 				long average_vis=0;
 				double average_Tcurrent=0;
 				double average_Tfeels=0;
-				long average_pop=0;	    
+				double average_pop=0;	    
     	    	for(int i=0; i<SLOT;i++)
          	    {   	
          	    	o = (JSONObject) obj.get(j*SLOT + i);
@@ -79,12 +79,12 @@ public class ForecastMorDayEveNight extends Forecast
     	 	 	    average_windD+=(long) o.get("wind_deg");    
     	 	 	    if(o.get("rain")!=null) 
   	 	 	    	{
-	  	 	 	    	average_rain+=Double.parseDouble(o.get("rain") + "");
+	  	 	 	    	average_rain+=Double.parseDouble(((JSONObject) o.get("rain")).get("1h") + "");
   	 	 	    	}
     	 	 	    
   	 	 	        if(o.get("snow")!=null) 
   	 	 	        {
-	    	 	 	    average_snow+=Double.parseDouble(o.get("snow") + "");	 
+	    	 	 	    average_snow+=Double.parseDouble(((JSONObject) o.get("snow")).get("1h") + "");
   	 	 	        }	 
   	 	 	        
   	 	 	        if(o.get("pop")!=null) 

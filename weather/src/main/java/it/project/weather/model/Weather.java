@@ -48,7 +48,7 @@ public class Weather implements WeatherInterface
 	 * @param temp_feelslike, temperature parameter for the human perception of weather
 	 * @param pop_rain, probaility of precipitation
 	 */
-	public Weather(String date, String main_weather, String description, long humidity, long clouds, double wind_speed, long wind_deg, double rain, double snow, long visibility, double temp_current, double temp_feelslike, long pop_rain)
+	public Weather(String date, String main_weather, String description, long humidity, long clouds, double wind_speed, long wind_deg, double rain, double snow, long visibility, double temp_current, double temp_feelslike, double pop_rain)
 	{
 		this.date = date;
 		this.main_weather = main_weather;
@@ -169,7 +169,7 @@ public class Weather implements WeatherInterface
     		att.put("current temperature", Math.round(this.temp_current*100.0)/100.0 + " F");
 		if(this.temp_feelslike < 1000)
     		att.put("feels like temperature", Math.round(this.temp_feelslike*100.0)/100.0 + " F");
-    	att.put("probability percipitation", this.pop_rain*100 + " %");
+    	att.put("probability percipitation", Math.round(this.pop_rain*100.0) + " %");
         return att;
     }
     
@@ -268,7 +268,7 @@ public class Weather implements WeatherInterface
 	public double getPop_rain() {
 		return pop_rain;
 	}
-	public void setPop_rain(long pop_rain) {
+	public void setPop_rain(double pop_rain) {
 		this.pop_rain = pop_rain;
 	}  
 }
