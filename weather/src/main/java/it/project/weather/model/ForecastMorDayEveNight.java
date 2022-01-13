@@ -1,5 +1,9 @@
 package it.project.weather.model;
 
+/**
+ * @author @MatteoSeresi
+ */
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
