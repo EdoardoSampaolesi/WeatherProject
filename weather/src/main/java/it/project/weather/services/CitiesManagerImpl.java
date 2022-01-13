@@ -97,11 +97,11 @@ public abstract class CitiesManagerImpl implements CitiesManager
         for(String name : cities) 
         {
             check = false;
-            City temp = new City(name);
-            temp.createFromJSON(wService);
-            name = temp.getNamecity();
             try
             {
+                City temp = new City(name);
+                temp.createFromJSON(wService);
+                name = temp.getNamecity();
                 City city = null;
                 for(City c : cityList)
                     if(check = c.getNamecity().equals(name))
