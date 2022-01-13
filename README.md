@@ -675,14 +675,84 @@ Il *JSON* resituito sarà il seguente:
 ]
 ```
 ### Dayslot
-La seguente rotta permette di ottene in output il meteo giornaliero raggruppato in parti della giornata ( notte, mattina, pomeriggio, sera )per le città specificate nel campo ``cities``.
+La seguente rotta permette di ottene in output il meteo giornaliero raggruppato in parti della giornata ( notte, mattina, pomeriggio, sera ) per le città specificate nel campo ``cities``.
 Andiamo ora a fare un esempio di chiamata, richiediamo il meteo per la città di Chicago (per richiedere più città basta scrivere i nomi separati da virgola, come negli esempi sopra):
 ```
 localhost:8080/weather/dayslot?cities=Chicago
 ```
 Il *JSON* resituito sarà il seguente:
 ```
-da finire
+[
+    {
+        "Night, morning, afternoon, evening weather": [
+            {
+                "Night": {
+                    "feels like temperature": "32.1 F",
+                    "precipitation volume": "0.0 mm",
+                    "snow volume": "0.0 mm",
+                    "visibility": "10000 ft",
+                    "wind speed": "2.64 mi/h",
+                    "weather": "Clouds",
+                    "wind direction": "69°",
+                    "probability percipitation": "0 %",
+                    "humidity": "87 %",
+                    "current temperature": "33.69 F",
+                    "cloudiness": "75 %"
+                }
+            },
+            {
+                "Morning": {
+                    "feels like temperature": "27.3 F",
+                    "precipitation volume": "0.0 mm",
+                    "snow volume": "0.0 mm",
+                    "visibility": "10000 ft",
+                    "wind speed": "8.66 mi/h",
+                    "weather": "Clouds",
+                    "wind direction": "178°",
+                    "probability percipitation": "0 %",
+                    "humidity": "87 %",
+                    "current temperature": "34.32 F",
+                    "cloudiness": "87 %"
+                }
+            },
+            {
+                "Afternoon": {
+                    "feels like temperature": "29.0 F",
+                    "precipitation volume": "0.0 mm",
+                    "snow volume": "0.0 mm",
+                    "visibility": "10000 ft",
+                    "wind speed": "7.88 mi/h",
+                    "weather": "Clouds",
+                    "wind direction": "339°",
+                    "probability percipitation": "0 %",
+                    "humidity": "80 %",
+                    "current temperature": "35.35 F",
+                    "cloudiness": "96 %"
+                }
+            },
+            {
+                "Evening": {
+                    "feels like temperature": "27.25 F",
+                    "precipitation volume": "0.0 mm",
+                    "snow volume": "0.0 mm",
+                    "visibility": "10000 ft",
+                    "wind speed": "7.68 mi/h",
+                    "weather": "Clouds",
+                    "wind direction": "336°",
+                    "probability percipitation": "0 %",
+                    "humidity": "83 %",
+                    "current temperature": "33.79 F",
+                    "cloudiness": "99 %"
+                }
+            }
+        ],
+        "City": {
+            "Time zone":America/Chicago,
+            "Latitude and longitude": "lat=41.8755616&lon=-87.6244212",
+            "Name": "Chicago"
+        }
+    }
+]
 ```
 ## Statistiche
 Le statistiche fanno riferimento ai valori di: *Pressione, Umidità, Nuvolosità e Temperatura*.</br>
