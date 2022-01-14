@@ -14,6 +14,9 @@ public class CoordTest {
     private Coord coord;
     private String s;
     
+    /**
+     * setUp method set the coordinates used during the test
+     */
     @Before
     public void setUp()
     {    
