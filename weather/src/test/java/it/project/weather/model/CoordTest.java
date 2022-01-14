@@ -23,6 +23,9 @@ public class CoordTest {
         coord = new CoordImpl(40.71,-74.00); //new york    
     }
     
+    /**
+     * Test method to verify that the coordinates are correct 
+     */
     @Test
     public void testCoordinates()
     {
