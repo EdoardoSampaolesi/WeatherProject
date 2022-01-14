@@ -10,14 +10,20 @@ import org.junit.Test;
 
 public class ForecastTest 
 {
-	 private City city;
+	private City city;
 
+	/**
+     * setUp method set the city name used during the forecast test
+     */
     @Before
     public void setUp()
     {
     	 city = new City("Chicago");     
     }
 
+    /**
+     * Test method for ForecastHourly, we verify that it returns something different from null 
+     */
     @Test
     public void testHourly()
     {
@@ -25,6 +31,9 @@ public class ForecastTest
     	assertNotNull(hourly.toJSON());
     }
     
+    /**
+     * Test method for ForecastDaily, we verify that it returns something different from null 
+     */
     @Test
     public void testDaily()
     {
@@ -32,6 +41,9 @@ public class ForecastTest
     	assertNotNull(day.toJSON());
     }
     
+    /**
+     * Test method for ForecastCurrent, we verify that it returns something different from null 
+     */
     @Test
     public void testCurrent()
     {
@@ -39,6 +51,9 @@ public class ForecastTest
     	assertNotNull(current.toJSON());
     }
     
+    /**
+     * Test method for ForecastDaySlot, we verify that it returns something different from null 
+     */
     @Test
     public void testDaySlot()
     {
