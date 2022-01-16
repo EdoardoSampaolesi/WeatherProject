@@ -38,8 +38,8 @@ public class Weather implements WeatherInterface
 	 * @param description a description of the weather
 	 * @param humidity
 	 * @param clouds, cloudiness
-	 * @param wind speed
-	 * @param wind degrees
+	 * @param wind_speed
+	 * @param wind_deg wind degrees
 	 * @param rain volume
 	 * @param snow volume
 	 * @param visibility
