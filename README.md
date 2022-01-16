@@ -901,7 +901,7 @@ In tal caso verrà restituito un errore in formato JSON:
 ```
 
 ## Documentazione-e-Test
-Al seguente [link](https:///openweathermap.org/ "link") forniamo la documentazione JavaDoc del codice.
+Al seguente [link](https://github.com/EdoardoSampaolesi/WeatherProject/tree/main/weather/doc "link") forniamo la documentazione JavaDoc del codice.
 
 Abbiamo provveduto a scrivere alcuni Test per verificare il corretto funzionamento delle rotte e di altre funzionalità tra le quali la gestione delle date per le statistiche.
 Tutti i Test sono documentati e disponibili alla consultazione.
