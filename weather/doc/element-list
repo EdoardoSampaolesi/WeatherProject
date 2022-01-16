@@ -1,0 +1,10 @@
+it.project.weather
+it.project.weather.controller
+it.project.weather.exeptions
+it.project.weather.interfaces
+it.project.weather.interfaces.statistics
+it.project.weather.model
+it.project.weather.model.statistics
+it.project.weather.services
+it.project.weather.services.statistics
+it.project.weather.utils
