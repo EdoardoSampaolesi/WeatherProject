@@ -29,7 +29,7 @@ public class CoordTest {
     @Test
     public void testCoordinates()
     {
-    	s="lat=40.71&lon=-74.00";
+    	s="lat=40.71&lon=-74.0";
     	assertEquals(s,coord.toString());
     }
 
