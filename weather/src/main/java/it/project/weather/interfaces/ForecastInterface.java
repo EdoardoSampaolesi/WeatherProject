@@ -1,7 +1,5 @@
 package it.project.weather.interfaces;
 
-import org.json.simple.JSONArray;
-
 import org.json.simple.JSONObject;
 
 import it.project.weather.exeptions.CityNotFoundException;

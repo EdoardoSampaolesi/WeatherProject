@@ -20,8 +20,8 @@ import it.project.weather.services.statistics.StatisticsFilter;
 @RestController
 public class StatsController 
 {
-    public static final String DATEFORMAT = "dd/MM/yyyy";
-    public static final String HOURFORMAT = "HH:mm:ss";
+    private final String DATEFORMAT = "dd/MM/yyyy";
+    private final String HOURFORMAT = "HH:mm:ss";
 
     /** 
      * This method return an error messagge if the user try to access to a not existing route
@@ -57,33 +57,28 @@ public class StatsController
 
     @GetMapping("/stats")
     public ResponseEntity<String> createStats(@RequestParam(value="exclude",required = false) String[] cities,
-                                              @RequestParam(value="bthour", required = false) String bthour,
+                                              @RequestParam(value="bthour", required = false, defaultValue = "[00:00:00,23:59:59]") String bthour,
                                               @RequestParam(value="btdate", required = false) String btdate)
     {
         Calendar startDate = Calendar.getInstance(),endDate = Calendar.getInstance();
         try
         { 
             String dstart=null,dend = null, tstart = null, tend = null;
-            if(bthour != null)
-            {
-                bthour.replaceAll(" ", "");
-                tstart = bthour.substring(
-                    bthour.indexOf("[") + 1
-                    ,bthour.indexOf(",")
-                    );
-                tend = bthour.substring(
-                    bthour.indexOf(",") + 1
-                    ,bthour.indexOf("]")
-                    );
-                if(tend.equals(tstart))
-                return new ResponseEntity<String>("Start time must be different from end time!",HttpStatus.BAD_REQUEST);
-            }
-            else
-            {
-                tstart = "00:00:00";
-                tend = "23:59:59";
-            }
 
+            //hours
+            bthour.replaceAll(" ", "");
+            tstart = bthour.substring(
+                bthour.indexOf("[") + 1
+                ,bthour.indexOf(",")
+                );
+            tend = bthour.substring(
+                bthour.indexOf(",") + 1
+                ,bthour.indexOf("]")
+                );
+            if(tend.equals(tstart))
+            return new ResponseEntity<String>("Start time must be different from end time!",HttpStatus.BAD_REQUEST);
+
+            //date
             if(btdate!=null)
             {
                 btdate.replaceAll(" ", "");

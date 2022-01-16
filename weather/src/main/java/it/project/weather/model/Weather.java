@@ -12,7 +12,6 @@ import java.util.TimeZone;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-//import it.project.weather.exeptions.CityNotFoundException;
 import it.project.weather.interfaces.WeatherInterface;
 
 public class Weather implements WeatherInterface
