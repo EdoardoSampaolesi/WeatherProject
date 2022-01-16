@@ -12,7 +12,7 @@
  */
 
 body {
-    background-color:#ffffff;
+    background-color:#dae2ff;
     color:#353833;
     font-family:'DejaVu Sans', Arial, Helvetica, sans-serif;
     font-size:14px;
@@ -35,7 +35,7 @@ a:link, a:visited {
 }
 a[href]:hover, a[href]:focus {
     text-decoration:none;
-    color:#bb7a2a;
+    color:#724c1c;
 }
 a[name] {
     color:#353833;
@@ -387,7 +387,7 @@ ul.see-list-long li:not(:last-child):after {
     padding-bottom:7px;
     display:inline-block;
     float:left;
-    background-color:#F8981D;
+    background-color:#f4f81d;
     border: none;
     height:16px;
 }
