@@ -889,7 +889,7 @@ In tal caso verrà restituito un errore in formato JSON:
 ```
 
 ##### StatNotAvailableException
-Questa eccezione viene generata qualora non sia possibile generare delle statistiche per i giorni o gli orari specificati.</br>
+Questa eccezione viene generata qualora non sia possibile generare delle statistiche per i giorni o gli orari specificati, in quanto non sono presenti dati in quel range temporale.</br>
 In tal caso verrà restituito un errore in formato JSON:
 ```
 [
