@@ -23,7 +23,7 @@ public class City implements CityInterface
 	private TimeZone offset;
 	
 	/**
-	 * Constructor of a city.
+	 * Constructor of city class, set the name of the city like 'name' parameter
 	 * 
 	 * @param name of the city
 	 */
