@@ -169,7 +169,7 @@ public class ForecastMorDayEveNight extends Forecast
     		obj2.put(PERIODS[i], weatherList.elementAt(i).toJSON());  		
     		arrayobj.add(obj2);  		
     	}
-    	obj.put("Night, morning, afternoon, evening weather", arrayobj); 
+    	obj.put("Dayslot weather", arrayobj); 
         return obj;     
     }   
 }

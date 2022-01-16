@@ -60,7 +60,7 @@ public class StatsController
                                               @RequestParam(value="bthour", required = false, defaultValue = "[00:00:00,23:59:59]") String bthour,
                                               @RequestParam(value="btdate", required = false) String btdate)
     {
-        Calendar startDate = Calendar.getInstance(),endDate = Calendar.getInstance();
+        Calendar startDate = Calendar.getInstance(),endDate = Calendar.getInstance(), temp = Calendar.getInstance();
         try
         { 
             String dstart=null,dend = null, tstart = null, tend = null;
@@ -81,6 +81,7 @@ public class StatsController
             //date
             if(btdate!=null)
             {
+                String today_end;
                 btdate.replaceAll(" ", "");
                 dstart = btdate.substring(
                      btdate.indexOf("[") + 1
@@ -89,13 +90,14 @@ public class StatsController
                 dend = btdate.substring(
                     btdate.indexOf(",") + 1
                     ,btdate.indexOf("]")
-                    );   
+                    );  
+                //order is very important!!! 
+                today_end = dstart + " " + tend;
                 dstart = dstart + " " + tstart;
                 dend = dend + " " + tend;
                 startDate.setTime(new SimpleDateFormat(this.DATEFORMAT + " " +this.HOURFORMAT).parse(dstart));   
                 endDate.setTime(new SimpleDateFormat(this.DATEFORMAT + " " +this.HOURFORMAT).parse(dend)); 
-                Calendar today = Calendar.getInstance(); 
-                today.setTime(new Date());
+                temp.setTime(new SimpleDateFormat(this.DATEFORMAT + " " +this.HOURFORMAT).parse(today_end));
             }
             else
             {
@@ -110,7 +112,8 @@ public class StatsController
                     );
                 endDate.add(Calendar.DAY_OF_MONTH, +1);
             }
-            if(startDate.before(endDate))
+
+            if( startDate.before(endDate) && startDate.before(temp) )
             {
                 StatisticsFilter filter;
                 if(cities != null)

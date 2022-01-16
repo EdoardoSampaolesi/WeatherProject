@@ -74,10 +74,10 @@ public abstract class CitiesManagerImpl implements CitiesManager
     public void add(String city) throws Exception
     {
         City tempCity = new City(city);
+        tempCity.createFromJSON(wService);
         for(City c : cityList)
             if(c.getNamecity().equals(tempCity.getNamecity()))
                 throw new CityNotAddedException(city);
-        tempCity.createFromJSON(wService);
         cityList.add(tempCity);
     }
 
@@ -172,6 +172,11 @@ public abstract class CitiesManagerImpl implements CitiesManager
         try
         {
             City tempCity = new City(city);
+            try 
+            {
+                tempCity.createFromJSON(wService);
+            } 
+            catch (Exception e) {}
             for(City c : cityList)
                 if(c.getNamecity().equals(tempCity.getNamecity()))
                 {

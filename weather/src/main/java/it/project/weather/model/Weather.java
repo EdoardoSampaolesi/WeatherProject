@@ -108,12 +108,12 @@ public class Weather implements WeatherInterface
 		try
 		{
 			if(((JSONObject) jobj.get("snow")) !=null ) 
-				this.rain=Double.parseDouble(((JSONObject) jobj.get("snow")).get("1h") + "");
+				this.snow=Double.parseDouble(((JSONObject) jobj.get("snow")).get("1h") + "");
 		}
 		catch(ClassCastException e)
 		{
 			if(jobj.get("snow") !=null ) 
-				this.rain=Double.parseDouble(jobj.get("snow") + "");
+				this.snow=Double.parseDouble(jobj.get("snow") + "");
 		}
      	if(jobj.get("pop")!=null)
      		this.pop_rain=Double.parseDouble(jobj.get("pop") + "");
