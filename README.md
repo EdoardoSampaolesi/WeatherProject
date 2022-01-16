@@ -59,7 +59,7 @@ Si evidenziano di seguito le rotte disponibili e le loro funzionalità:</br>
 > - Notte, dalle 00:00 alle 05:59
 > - Mattino, dalle 06:00 alle 11:59 
 > - Pomeriggio dalle 12:00 alle 17:59
-> - Notte dalle 18:00 alle 23:59
+> - Sera dalle 18:00 alle 23:59
 
 Ogni altra rotta è gestita mediante ``@GetMapping("/error")``, ad esso è associato un metodo che ritorna un semplice messaggio di errore **non in formato JSON**
 
