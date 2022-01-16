@@ -14,8 +14,8 @@ public class CoordImpl implements Coord
 	/**
 	 * Constructor CoordImpl, it implements the coordinates.
 	 * 
-	 * @param latitude
-	 * @param longitude
+	 * @param lat latitude
+	 * @param long longitude
 	 */
 	public CoordImpl(double lat, double lon)
 	{
