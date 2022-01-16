@@ -20,7 +20,7 @@ Consente inoltre la visualizzazione di statistiche rigurdardanti particolari dat
 - [Documentazione e Test](#Documentazione-e-Test)
 
 ## Installazione
-WeatherProject è installabile dal Prompt dei Comandi digitando:
+WeatherProject è installabile al seguente indirizzo:
 ```
 https://github.com/EdoardoSampaolesi/WeatherProject.git
 ```
